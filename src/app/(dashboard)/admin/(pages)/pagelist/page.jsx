@@ -1,12 +1,14 @@
+"use client"
 import Image from "next/image"
 import Link from "next/link";
+import DataTable from "./pageTable";
 
 const page = () => {
 
     return (
         <>
             <section className="w-full justify-center">
-                <nav className='flex w-[98%] justify-between items-center mt-3 mx-3 px-4 py-2 shadow-md bg-white rounded'>
+                <header className='w-full h-14 bg-slate-100 flex justify-between items-center py-3 pr-4 sticky top-0'>
                     <ul>
                         <h2 className='text-2xl'>Page</h2>
                     </ul>
@@ -16,9 +18,8 @@ const page = () => {
                             <p>Create Page</p>
                         </Link>
                     </ul>
-                </nav>
-                <main>
-                </main>
+                </header>
+                <DataTable />
             </section>
         </>
     )

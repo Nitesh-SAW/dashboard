@@ -17,8 +17,8 @@ const CustomCss = () => {
     const [isscriptcode, setIsScriptCode] = useState(false);
 
     return (
-        <section className='w-[98%] bg-white rounded-sm mx-3 mt-3'>
-            <main className='w-full grid grid-cols-2 gap-8 p-3'>
+        <section className='w-[98%] bg-white rounded-sm mt-3 mx-3'>
+            <main className='w-full grid grid-cols-2 gap-8 p-5'>
                 <div className='w-full gap-1.5 flex flex-col justify-start items-start'>
                     <Label htmlFor="textarea">CustomCss</Label>
                     <Textarea id='textarea' />

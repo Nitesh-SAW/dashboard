@@ -1,16 +1,18 @@
-import React from 'react'
-
+'use client'
+import { Label } from "../ui/label"
+import { Textarea } from "../ui/textarea"
 const ScriptCode = ({isscriptcode}) => {
   return (
     <>
     {
         isscriptcode && 
-        <div className='w-full mt-6 p-3'>
+        <div className='w-full p-3'>
             <hr />
-            <h2 className='text-xl'>Script Code</h2>
+            <h4 className='font-normal my-4 pl-3'>Script Code</h4>
             <hr />
-            <div>
-
+            <div className="pl-3">
+                <Label htmlfor="script">Script code</Label>
+                <Textarea id="script" classNamew="w-full h-[30%]"/>
             </div>
         </div>
     }

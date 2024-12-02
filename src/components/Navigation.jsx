@@ -107,15 +107,15 @@ const navItems = [
               { icon: "/dashboard.png", label: "Add URL", href: "" }
             ]
         },
-        { 
-          icon: "/dashboard.png", 
-          label: "User Management", 
-          href: "" ,
-          additionalItem: 
-          [
-            {icon: "/dashboard.png", label: "Users", href: ""},
-            {icon: "/dashboard.png", label: "Groups", href: ""}
-          ]
+        {
+          icon: "/dashboard.png",
+          label: "User Management",
+          href: "",
+          additionalItem:
+            [
+              { icon: "/dashboard.png", label: "Users", href: "" },
+              { icon: "/dashboard.png", label: "Groups", href: "" }
+            ]
         },
         { icon: "/dashboard.png", label: "Settings", href: "" },
       ]

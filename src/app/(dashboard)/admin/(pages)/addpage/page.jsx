@@ -29,12 +29,11 @@ const page = () => {
       </header >
 
 
-      <main className=''>
+      <main className='pb-20'>
         <Createpage />
         <SelectedImage />
         <CustomCss />
       </main>
-      {/* <Footer /> */}
     </section >
   )
 }
