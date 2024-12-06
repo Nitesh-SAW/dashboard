@@ -5,6 +5,7 @@ import Selector from '@/components/Selector'
 import SelectComponent from "./SelectComponent";
 import React,{useState} from 'react'
 import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
 
 
 const createpage = () => {
@@ -24,15 +25,17 @@ const createpage = () => {
 
     return (
         <>
-            <section className='w-[98%] mt-3 bg-white mx-3 py-3'>
+            <section className='w-[98%] rounded-sm mt-3 bg-white mx-3 py-3'>
                 <div className='flex justify-start items-center gap-6 rounded-sm px-5 py-2'>
                     <div className='w-[25%] flex flex-col'>
                         <label htmlFor="Title">Title</label>
-                        <input type="text" className='rounded ring-[1px] ring-slate-400 px-6 py-1 mt-1' />
+                        {/* <input type="text" className='rounded ring-[1px] ring-slate-400 px-6 py-1 mt-1' /> */}
+                        <Input id="Title" className="rounded-sm h-8"/>
                     </div>
                     <div className='w-[25%] flex flex-col'>
-                        <label htmlFor="">https://mainitsol.com/</label>
-                        <input type="text" className='rounded ring-[1px] ring-slate-400 px-6 py-1 mt-1' />
+                        <label htmlFor="mainitsol">https://mainitsol.com/</label>
+                        {/* <input type="text" className='rounded ring-[1px] ring-slate-400 px-6 py-1 mt-1' /> */}
+                        <Input id="mainitsol" className="rounded-sm h-8"/>
                     </div>
                     <div className='w-[25%] flex flex-col'>
                         <label htmlFor="">Parent</label>

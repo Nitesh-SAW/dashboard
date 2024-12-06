@@ -4,7 +4,7 @@ import React from 'react'
 const Admin = () => {
   return (
     <>
-      <section className='bg-red-500'>
+      <section className='bg-muted/50 shadow-none'>
         Hello Admin
       </section>
     </>

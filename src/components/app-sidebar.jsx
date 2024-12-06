@@ -37,8 +37,8 @@ const data = [
   {
     title: "Navigation",
     items: [
-      { icon: MdDashboard, label: "Dashboard", href: "#" },
-      { icon: MdOutlineApps, label: "Sliders", href: "#" },
+      { icon: MdDashboard, label: "Dashboard", href: "/admin/home" },
+      { icon: MdOutlineApps, label: "Sliders", href: "/admin/slider" },
       {
         icon: GrServices,
         label: "Services",
@@ -54,7 +54,7 @@ const data = [
         label: "Album",
         href: "#",
         additionalItem: [
-          { label: "Album List", href: "#" },
+          { label: "Album List", href: "/admin/albums" },
           { label: "Add Album", href: "#" }
         ]
       },
@@ -69,9 +69,9 @@ const data = [
         label: "Pages",
         href: "#",
         additionalItem: [
-          { label: "Pages List", href: "#" },
-          { label: "Add Page", href: "#" },
-          { label: "Logs", href: "#" }
+          { label: "Pages List", href: "/admin/pagelist" },
+          { label: "Add Page", href: "/admin/addpage" },
+          { label: "Logs", href: "/admin/log" }
         ]
       },
 
@@ -171,36 +171,6 @@ const data = [
   }
 ]
 
-// export function AppSidebar({...props}) {
-//   return (
-//     (<Sidebar {...props} >
-//       <SidebarHeader>
-//         <SearchForm />
-//       </SidebarHeader>
-//       <SidebarContent>
-//         {/* We create a SidebarGroup for each parent. */}
-//         {data.map((item) => (
-//           <SidebarGroup key={item.title}>
-//             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-//             <SidebarGroupContent>
-//               <SidebarMenu>
-//                 {item.items.map((item) => (
-//                   <SidebarMenuItem key={item.label}>
-//                     <SidebarMenuButton asChild isActive={item.isActive}>
-//                       <a href={item.href}>{item.label}</a>
-//                     </SidebarMenuButton>
-//                   </SidebarMenuItem>
-//                 ))}
-//               </SidebarMenu>
-//             </SidebarGroupContent>
-//           </SidebarGroup>
-//         ))}
-//       </SidebarContent>
-//       <SidebarRail />
-//     </Sidebar>)
-//   );
-// }
-
 const AppSidebar = ({ ...props }) => {
 
   const [activeGroup, setActiveGroup] = React.useState("");
@@ -211,47 +181,59 @@ const AppSidebar = ({ ...props }) => {
 
   return (
     (<Sidebar {...props}>
-      <div className="w-full relative">
-      <SidebarTrigger classNamem=""/>
-      </div>
-      <SidebarContent>
+      <SidebarContent className="bg-slate-900 text-white">
+        <SidebarHeader>
+          Santosh Yadav
+        </SidebarHeader>
         {data.map((group) => (
           <SidebarGroup key={group.title}>
-            <SidebarGroupLabel className="text-lg px-4 py-2">
+            <SidebarGroupLabel className="uppercase text-lg py-6 text-slate-50">
               {group.title}
             </SidebarGroupLabel>
             <SidebarGroupContent>
               {
                 group.items.map((item) => (
                   item.additionalItem ? (
-                    <Collapsible className="group/collapsible">
+                    <Collapsible
+                      className="group/collapsible"
+                      open={activeGroup === item.label}
+                      onOpenChange={() => toggleGroup(item.label)}
+                      key={item.label}
+                    >
 
-                      <CollapsibleTrigger asChild key={item.href}>
-                        <SidebarMenuButton>
-                          <item.icon />
-                          {item.label}
+                      <CollapsibleTrigger asChild >
+                        <SidebarMenuButton className="flex justify-between items-center rounded-none px-3 py-5">
+                          <Link href={item.href} className="flex justify-center items-center gap-2 text-[5] pl-3 text-md">
+                            <item.icon />
+                            {item.label}
+                          </Link>
+                          <ChevronRight className={`transition-transform duration-300 ${activeGroup === item.label ? "rotate-90" : "rotate-0"
+                            }`} />
                         </SidebarMenuButton>
                       </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        {item.additionalItem.map((subItem) => (
-                          <SidebarMenuSub key={subItem.href}>
-                            <SidebarMenuSubItem>
-                              {subItem.label}
-                            </SidebarMenuSubItem>
-                          </SidebarMenuSub>
-                        ))}
-                      </CollapsibleContent>
-
+                      <div className="cursor-pointer bg-white text-black">
+                        <CollapsibleContent className="space-y-2 pl-5 py-2">
+                          {item.additionalItem.map((subItem) => (
+                            <SidebarMenuSub key={subItem.label}>
+                              <SidebarMenuSubItem>
+                                <Link href={subItem.href} className="text-md">
+                                {subItem.label}
+                                </Link>
+                              </SidebarMenuSubItem>
+                            </SidebarMenuSub>
+                          ))}
+                        </CollapsibleContent>
+                      </div>
                     </Collapsible>
                   ) : (
                     <div
-                      key={item.href}
+                      key={item.label}
                     >
-                      <SidebarMenuButton>
-                        <div className="flex justify-start items-center gap-2">
+                      <SidebarMenuButton className="rounded-none px-3 py-5">
+                        <Link href={item.href} className="flex justify-start items-center gap-2 pl-3 text-[5]">
                           <item.icon />
                           {item.label}
-                        </div>
+                        </Link>
                       </SidebarMenuButton>
                     </div>
                   )
@@ -261,8 +243,6 @@ const AppSidebar = ({ ...props }) => {
           </SidebarGroup>
         ))}
       </SidebarContent>
-
-      <SidebarRail />
     </Sidebar>)
   );
 

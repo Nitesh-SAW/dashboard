@@ -7,8 +7,8 @@ const page = () => {
 
     return (
         <>
-            <section className="w-full justify-center">
-                <header className='w-full h-14 bg-slate-100 flex justify-between items-center py-3 pr-4 sticky top-0'>
+            <section className="w-full justify-center relative">
+                <header className='w-full max-w-[1280px] h-14 flex justify-between items-center py-3 px-4 fixed bg-muted/100 top-0 right-0 z-50'>
                     <ul>
                         <h2 className='text-2xl'>Page</h2>
                     </ul>
