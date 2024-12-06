@@ -9,7 +9,7 @@ import CustomCss from './CustomCss';
 const page = () => {
   return (
     <section className="w-full h-screen justify-center items-center relative">
-      <header className="w-full h-14 bg-slate-100 flex justify-between items-center py-3 pr-4 sticky top-0 z-40">
+      <header className="w-full max-w-[1280px] h-14 flex justify-between items-center py-3 px-4 fixed bg-muted/100 top-0 right-0 z-50">
 
         <div className="pl-2">
           <h1 className="text-2xl">Create New Page</h1>
@@ -29,7 +29,7 @@ const page = () => {
       </header >
 
 
-      <main className='pb-20'>
+      <main className='mt-20 pb-20'>
         <Createpage />
         <SelectedImage />
         <CustomCss />

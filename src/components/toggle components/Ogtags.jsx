@@ -1,7 +1,7 @@
 'use client'
 import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
-// import { Button } from "../ui/button"
+import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 const Ogtags = ({ isogtags }) => {
     return (
@@ -20,9 +20,9 @@ const Ogtags = ({ isogtags }) => {
                         <Input id='Type' />
                     </div>
                     <div>
-                        <Label htmlFor="picture">Image</Label>
-                        <Input id="picture" type="file" />
-
+                        <Label htmlFor="picture">Image
+                            <Input type="file" id="picture"/>
+                        </Label>
                         <Label htmlFor="description">Description</Label>
                         <Textarea id='description' />
                     </div>

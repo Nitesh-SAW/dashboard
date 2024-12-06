@@ -37,8 +37,8 @@ const data = [
   {
     title: "Navigation",
     items: [
-      { icon: MdDashboard, label: "Dashboard", href: "#" },
-      { icon: MdOutlineApps, label: "Sliders", href: "#" },
+      { icon: MdDashboard, label: "Dashboard", href: "/admin/home" },
+      { icon: MdOutlineApps, label: "Sliders", href: "/admin/slider" },
       {
         icon: GrServices,
         label: "Services",
@@ -54,7 +54,7 @@ const data = [
         label: "Album",
         href: "#",
         additionalItem: [
-          { label: "Album List", href: "#" },
+          { label: "Album List", href: "/admin/albums" },
           { label: "Add Album", href: "#" }
         ]
       },
@@ -69,9 +69,9 @@ const data = [
         label: "Pages",
         href: "#",
         additionalItem: [
-          { label: "Pages List", href: "#" },
-          { label: "Add Page", href: "#" },
-          { label: "Logs", href: "#" }
+          { label: "Pages List", href: "/admin/pagelist" },
+          { label: "Add Page", href: "/admin/addpage" },
+          { label: "Logs", href: "/admin/log" }
         ]
       },
 
@@ -202,8 +202,8 @@ const AppSidebar = ({ ...props }) => {
                     >
 
                       <CollapsibleTrigger asChild >
-                        <SidebarMenuButton className="flex justify-between items-center rounded-none px-3 py-5 hover:bg-white">
-                          <Link href={item.href} className="flex justify-center items-center gap-2 text-[5] pl-3">
+                        <SidebarMenuButton className="flex justify-between items-center rounded-none px-3 py-5">
+                          <Link href={item.href} className="flex justify-center items-center gap-2 text-[5] pl-3 text-md">
                             <item.icon />
                             {item.label}
                           </Link>
@@ -216,7 +216,9 @@ const AppSidebar = ({ ...props }) => {
                           {item.additionalItem.map((subItem) => (
                             <SidebarMenuSub key={subItem.label}>
                               <SidebarMenuSubItem>
+                                <Link href={subItem.href} className="text-md">
                                 {subItem.label}
+                                </Link>
                               </SidebarMenuSubItem>
                             </SidebarMenuSub>
                           ))}

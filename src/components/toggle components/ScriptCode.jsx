@@ -11,8 +11,8 @@ const ScriptCode = ({isscriptcode}) => {
             <h4 className='font-normal my-4 pl-3'>Script Code</h4>
             <hr />
             <div className="pl-3">
-                <Label htmlfor="script">Script code</Label>
-                <Textarea id="script" classNamew="w-full h-[30%]"/>
+                <Label htmlFor="script">Script code</Label>
+                <Textarea id="script" className="w-full h-[30%]"/>
             </div>
         </div>
     }
