@@ -44,8 +44,8 @@ const data = [
         label: "Services",
         href: "#",
         additionalItem: [
-          { label: "Service List", href: "#" },
-          { label: "Add Service", href: "#" }
+          { label: "Service List", href: "/admin/services" },
+          { label: "Add Service", href: "/admin/services/create" }
         ]
       },
 
@@ -202,8 +202,8 @@ const AppSidebar = ({ ...props }) => {
                     >
 
                       <CollapsibleTrigger asChild >
-                        <SidebarMenuButton className="flex justify-between items-center rounded-none px-3 py-5">
-                          <Link href={item.href} className="flex justify-center items-center gap-2 text-[5] pl-3 text-md">
+                        <SidebarMenuButton className="flex justify-between items-center rounded-none pl-5 py-5">
+                          <Link href={item.href} className="flex justify-center items-center gap-2 text-[5] text-md">
                             <item.icon />
                             {item.label}
                           </Link>
@@ -215,11 +215,11 @@ const AppSidebar = ({ ...props }) => {
                         <CollapsibleContent className="space-y-2 pl-5 py-2">
                           {item.additionalItem.map((subItem) => (
                             <SidebarMenuSub key={subItem.label}>
-                              <SidebarMenuSubItem>
-                                <Link href={subItem.href} className="text-md">
-                                {subItem.label}
-                                </Link>
-                              </SidebarMenuSubItem>
+                              <Link href={subItem.href} className="text-md">
+                                <SidebarMenuSubItem>
+                                  {subItem.label}
+                                </SidebarMenuSubItem>
+                              </Link>
                             </SidebarMenuSub>
                           ))}
                         </CollapsibleContent>
@@ -229,12 +229,13 @@ const AppSidebar = ({ ...props }) => {
                     <div
                       key={item.label}
                     >
-                      <SidebarMenuButton className="rounded-none px-3 py-5">
-                        <Link href={item.href} className="flex justify-start items-center gap-2 pl-3 text-[5]">
+                      <Link href={item.href}>
+                        <SidebarMenuButton className="flex justify-start items-center gap-2 rounded-none pl-5 py-5 text-[5]">
                           <item.icon />
                           {item.label}
-                        </Link>
-                      </SidebarMenuButton>
+                        </SidebarMenuButton>
+                      </Link>
+
                     </div>
                   )
                 ))

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { GrAdd } from "react-icons/gr"
+import Slidertable from "./Slidertable"
 const Slider = () => {
     return (
         <>
@@ -11,6 +12,7 @@ const Slider = () => {
                         Add Slider
                     </Button>
                 </header>
+                <Slidertable />
             </section>
         </>
     )

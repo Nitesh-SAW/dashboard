@@ -10,8 +10,8 @@ const FilteredImages = () => {
 
 
 
-    const hanleClickImage = (image) => {
-        dispatch(setSelectedImage(image))
+    const hanleClickImage = (image, id) => {
+        dispatch(setSelectedImage({ image, id }))
     }
 
     return (
@@ -30,7 +30,7 @@ const FilteredImages = () => {
                                     alt='Image'
                                     width={1080}
                                     height={720}
-                                    onClick={() => hanleClickImage(item.image)} />
+                                    onClick={() => hanleClickImage(item.image, item.id)} />
                             </div>
                         ))
                     }

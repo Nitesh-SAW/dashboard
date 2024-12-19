@@ -1,7 +1,16 @@
-
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 const page = () => {
   return (
-    <div>Landing Page</div>
+    <>
+      <div className="h-screen flex justify-center items-center gap-4">
+        <h2>Landing Page :-</h2>
+        <Button>
+          <Link href={"/admin/home"}>Go to the Dashboard</Link>
+        </Button>
+      </div>
+    </>
+
   )
 }
 
