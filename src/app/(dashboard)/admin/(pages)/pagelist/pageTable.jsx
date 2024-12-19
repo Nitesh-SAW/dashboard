@@ -3,6 +3,7 @@ import * as React from "react"
 import {
     flexRender,
     getCoreRowModel,
+    ColumnFiltersState,
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
@@ -12,7 +13,6 @@ import { SquarePen, ChevronDown, AlignJustify, X, Filter, Search, Trash2, Eye } 
 import { FaRegEye } from "react-icons/fa";
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Toast, ToastAction, ToastProvider } from "@/components/ui/toast";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -30,8 +30,7 @@ import {
     TableHead,
     TableHeader,
     TableRow
-} from "@/components/ui/table"
-import { Toaster } from "@/components/ui/toaster";
+} from "@/components/ui/table";
 
 const data = [
     {
@@ -73,7 +72,23 @@ const data = [
         Url: "carmella@hotmail.com",
         CreatedAt: "qwerty",
         action: ""
-    }
+    },
+    {
+        id: "bhqehg4p",
+        active: 721,
+        PageTitle: "Refund Policy",
+        Url: "carmella@hotmail.com",
+        CreatedAt: "qwerty",
+        action: ""
+    },
+    {
+        id: "bhquyj4p",
+        active: 721,
+        PageTitle: "Refund Policy",
+        Url: "carmella@hotmail.com",
+        CreatedAt: "qwerty",
+        action: ""
+    },
 ]
 
 const columns = [
@@ -109,12 +124,13 @@ const columns = [
     {
         accessorKey: "Url",
         header: () => <div className="">Url</div>,
-        cell: ({ row }) => <section className="flex">
-            <div className="lowercase">
-                {row.getValue("Url")}
-            </div>
-            <FaRegEye width={20} height={20} />
-        </section>
+        cell: ({ row }) =>
+            <section className="flex">
+                <div className="flex justify-center items-center gap-1 lowercase">
+                    {row.getValue("Url")}
+                    <FaRegEye width={20} height={20} />
+                </div>
+            </section>
     },
     {
         accessorKey: "CreatedAt",
@@ -173,11 +189,12 @@ function DataTable() {
         getSortedRowModel: getSortedRowModel(),
 
         onColumnFiltersChange: setColumnFilters,            //Filter Column state function
+        getFilteredRowModel: getFilteredRowModel(),         // this config enables filtering
 
         getCoreRowModel: getCoreRowModel(),                 // this config enables mapping rows values
-        
+
         getPaginationRowModel: getPaginationRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),         // this config enables filtering
+
         onColumnVisibilityChange: setColumnVisibility,      // visibility column state function
         onRowSelectionChange: setRowSelection,              // selecting Rows state function
         state: {
@@ -192,32 +209,34 @@ function DataTable() {
     console.log(table.getRowModel().rows.length);
     console.log(table.getFilteredSelectedRowModel())
 
-    const handleClear = () => {
-        setFilterValue(" ");
-        table.getColumn("PageTitle")?.setFilterValue(" ");
-    }
+    // const handleClear = () => {
+    //     setFilterValue("");
+    // }
 
     return (
         <div className="w-full mt-20 bg-white">
-            <div className="flex items-center p-4 mr-auto relative">
+            <div className="flex justify-between items-center p-4 relative">
                 <div className="flex justify-center items-center gap-1">
                     <Trash2 />
                     <p>({table.getFilteredSelectedRowModel().rows.length})</p>
                 </div>
-
-                <Input
-                    placeholder="Filter Title..."
-                    value={table.getColumn("PageTitle")?.getFilterValue() ?? ""}
-                    onChange={event =>
-                        table.getColumn("PageTitle")?.setFilterValue(event.target.value)
-                    }
-                    className="max-w-sm ml-auto"
-                />
-                <div className="flex justify-center items-center absolute gap-4 right-4 w-[10%] cursor-pointer">
-                    <X className="cursor-pointer" onClick={handleClear} />
-                    <Filter className="" />
-                    <Search className="text-slate-50 bg-black w-2/6 h-8" />
+                <div className="w-[25%] h-98 flex relative">
+                    <span className="absolute -top-3 left-3 bg-white px-1 z-10">Search By</span>
+                    <Input
+                        placeholder="Filter Title..."
+                        value={table.getColumn("PageTitle")?.getFilterValue() ?? ""}
+                        onChange={event =>
+                            table.getColumn("PageTitle")?.setFilterValue(event.target.value)
+                        }
+                        className="rounded-none"
+                    />
+                    <div className="flex justify-center items-center absolute right-0">
+                        <X size={20} onClick={() => table.getColumn("PageTitle")?.setFilterValue('')} />
+                        <Button variant="Secondary"><Filter /></Button>
+                        <Button className="rounded-none"><Search /></Button>
+                    </div>
                 </div>
+
             </div>
             <div className="rounded-md">
                 <Table>
@@ -263,7 +282,7 @@ function DataTable() {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex items-center justify-end space-x-2 py-4 px-2">
                 <div className="flex-1 text-sm text-muted-foreground">
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
                     {table.getFilteredRowModel().rows.length} row(s) selected.
@@ -273,7 +292,6 @@ function DataTable() {
                         variant="outline"
                         size="sm"
                         onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
                     >
                         Previous
                     </Button>
@@ -281,7 +299,6 @@ function DataTable() {
                         variant="outline"
                         size="sm"
                         onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
                     >
                         Next
                     </Button>

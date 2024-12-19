@@ -29,39 +29,53 @@ const initialState = {
         },
         {
             id: 2,
-            name: "About",
-            items: [
-                { id: 203, image: "/home1.png" },
-                { id: 204, image: "/testimonial.png" },
-            ]
+            name: "About us",
+            items: []
         },
         {
             id: 3,
-            name: "Contact",
+            name: "Services",
             items: [
-                { id: 301, image: "/Home.png" },
-                { id: 302, image: "/homeslider.png" },
-                { id: 303, image: "/home1.png" },
+                //Social media advertising
+                { id: 301, image: "/services/Banner.png" },
+                { id: 302, image: "/services/ResultsDrivenSocial.png" },
+                { id: 303, image: "/services/AdvertisingonSocialMedia.png" },
+                { id: 304, image: "/services/PaidSocialMedia.png" },
+                { id: 305, image: "/services/WhyYourBusinessNeeds.png" },
+                { id: 306, image: "/services/PPCAgencyThat.png" },
+                { id: 307, image: "/services/SocialMediaPlatforms.png" },
+                { id: 308, image: "/services/SocialMediaPlatformsforBusiness.png" },
+                { id: 309, image: "/services/HowMuchDoesSocial.png" },
+                { id: 310, image: "/services/SMAServices.png" },
+                { id: 311, image: "/services/WhyChoose.png" },
+                { id: 312, image: "/services/LetsConnect.png" }
+                //PayPerClick(PPC)Marketing
+                
             ]
         },
         {
             id: 4,
-            name: "Album",
-            items: [
-                { id: 401, image: "/Home.png" },
-                { id: 402, image: "/homeslider.png" },
-            ]
+            name: "Our work",
+            items: []
         },
         {
             id: 5,
-            name: "Search",
+            name: "Carriers",
             items: [
-                { id: 501, image: "/Home.png" },
+                { id: 501, image: "/Carriers/AvailableJobsChoose.png" },
+                { id: 502, image: "/Carriers/WhyBreezeEnd.png" },
+                { id: 503, image: "/Carriers/OurCulture.png" },
+                { id: 504, image: "/Carriers/WhoArethe.png" },
+                { id: 505, image: "/Carriers/MakeTheRight.png" },
+                { id: 506, image: "/Carriers/DedicatedTeam.png" },
+                { id: 507, image: "/Carriers/OurCandidateExperience.png" },
+                { id: 508, image: "/Carriers/BreezeEndTechnologySignificant.png" },
+                { id: 509, image: "/Carriers/JoinOurGlobalTeam.png" }
             ]
         },
     ],
     filteredItems: [],
-    selectedImage: []
+    selectedImage: [],
 }
 
 const filterSlice = createSlice({
@@ -80,8 +94,8 @@ const filterSlice = createSlice({
         },
 
         setSelectedImage: (state, action) => {
-            const image = action.payload
-            state.selectedImage.push(image);
+            const { image, id } = action.payload
+            state.selectedImage.push({ image, id });
         },
 
         reorderImages: (state, action) => {
@@ -94,15 +108,14 @@ const filterSlice = createSlice({
         removeSelectedImage: (state, action) => {
 
             const newArray = action.payload
-            console.log(newArray);
+            console.log(newArray)
 
             const filterIndex = state.selectedImage.filter(
-                (_, index) =>
-                    index !== newArray
+                (_, i) =>
+                    i !== newArray
             );
             state.selectedImage = filterIndex
         }
-
 
     }
 
