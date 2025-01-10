@@ -17,11 +17,11 @@ const page = () => {
         </span>
       </div>
 
-      <div className="flex justify-between p-5 ">
-        <UserCard title={"Product"} />
-        <UserCard title={"Projects"} />
-        <UserCard title={"Pending Applications"} />
-        <UserCard title={"Blogs"} />
+      <div className="flex justify-between">
+        <UserCard title={"Product"} count={0} />
+        <UserCard title={"Projects"} count={0} />
+        <UserCard title={"Pending Applications"} count={0} />
+        <UserCard title={"Blogs"} count={70} />
       </div>
     </div>
   );

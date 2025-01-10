@@ -1,5 +1,24 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Toggle } from "@/components/ui/toggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import { ImEye, ImEyeBlocked, ImBin } from "react-icons/im";
+import { AlignJustify, SquarePen, X, Filter, Search } from "lucide-react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -19,24 +38,20 @@ import {
   TableCell,
 } from "@/components/ui/table";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectTrigger,
-  SelectItem,
-  SelectValue,
-} from "@/components/ui/select";
-import { ImEye, ImEyeBlocked, ImBin } from "react-icons/im";
-import { Input } from "@/components/ui/input";
-import { AlignJustify, SquarePen, X, Filter, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Toggle } from "@/components/ui/toggle";
-import { Checkbox } from "@/components/ui/checkbox";
+// const page = () => {
+//   return (
+//     <section className="w-full">
+//       <header className="w-full flex justify-between mt-5">
+//         <div>Categories List</div>
+//         <Link href="/admin/blogs/categoryList/create" passHref>
+//           <Button>Add Category</Button>
+//         </Link>
+//       </header>
+//     </section>
+//   );
+// };
+
+// export default page;
 
 const data = [
   {
@@ -211,7 +226,7 @@ const columns = [
   },
 ];
 
-const ServicesTable = () => {
+const CategoryTable = () => {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
 
   const table = useReactTable({
@@ -233,7 +248,13 @@ const ServicesTable = () => {
   };
 
   return (
-    <section className="w-full mt-20 bg-white">
+    <section className="w-full mt-5 bg-white">
+      <header className="w-full flex justify-between mt-5">
+        <div>Categories List</div>
+        <Link href="/admin/blogs/categoryList/create" passHref>
+          <Button>Add Category</Button>
+        </Link>
+      </header>
       {/* Filter options*/}
       <div className="w-full h-20 flex justify-between items-center px-2 py-2">
         <div className="flex justify-center items-center gap-4">
@@ -347,4 +368,4 @@ const ServicesTable = () => {
   );
 };
 
-export default ServicesTable;
+export default CategoryTable;

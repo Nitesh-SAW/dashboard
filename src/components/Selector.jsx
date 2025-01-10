@@ -44,46 +44,46 @@ const Selector = () => {
 
     return (
         <>
-                <section className="w-full mx-auto" ref={dropdownRef}>
-                    <div className="relative" >
+            <section className="w-full mx-auto" ref={dropdownRef}>
+                <div className="relative" >
 
-                        <button
-                            className=" flex justify-between items-center w-full text-left rounded text-black ring-[1px] ring-slate-300 focus:ring-slate-800 py-1 px-3 duration-200"
-                            onClick={() => setIsOpen(!isOpen)}
+                    <button
+                        className=" flex justify-between items-center w-full text-left rounded text-black ring-[1px] ring-slate-300 focus:ring-slate-800 py-1 px-3 duration-200"
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        {selectOption}
+                        <BiChevronDown
+                            className={`transition-transform duration-400 ${isOpen ? "rotate-180" : "rotate-0"}`}
+                        />
+                    </button>
+
+                    {/* Options List */}
+                    {isOpen && (
+                        <div
+                            className="absolute w-full max-h-60 overflow-y-auto mt-1 bg-white border border-slate-300 rounded shadow-lg"
+                            style={{ zIndex: 100 }}
                         >
-                            {selectOption}
-                            <BiChevronDown
-                                className={`transition-transform duration-400 ${isOpen ? "rotate-180" : "rotate-0"}`}
+                            <input
+                                type='text'
+                                value={searchQuery}
+                                placeholder='Search...'
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className='w-[95%] ring-[1px] ring-slate-200 mx-2 mt-1 px-1 py-1 text-sm'
                             />
-                        </button>
 
-                        {/* Options List */}
-                        {isOpen && (
-                            <div
-                                className="absolute w-full max-h-60 overflow-y-auto mt-1 bg-white border border-slate-300 rounded shadow-lg"
-                                style={{ zIndex: 100 }}
-                            >
-                                <input
-                                    type='text'
-                                    value={searchQuery}
-                                    placeholder='Search...'
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className='w-[95%] ring-[1px] ring-slate-200 mx-2 mt-1 px-1 py-1 text-sm'
-                                />
-
-                                {filterOptions.map((option) => (
-                                    <div
-                                        key={option.key}
-                                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                                        onClick={() => handleChange(option.Option)}
-                                    >
-                                        {option.Option}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </section>
+                            {filterOptions.map((option) => (
+                                <div
+                                    key={option.key}
+                                    className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                                    onClick={() => handleChange(option.Option)}
+                                >
+                                    {option.Option}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </section>
         </>
     )
 }

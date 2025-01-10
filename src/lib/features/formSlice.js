@@ -175,7 +175,7 @@ const initialState = {
             { name: "Image", type: "file", required: false },
             { name: "Text", type: "text", required: false }
         ],
-        509:[
+        509: [
             { name: "Title", type: "text", required: false },
             { name: "Description", type: "text", required: false },
             { name: "Image", type: "file", required: false },
