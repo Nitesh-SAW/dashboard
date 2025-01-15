@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const fisherYatesAlgo = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -7,6 +7,35 @@ const fisherYatesAlgo = (array) => {
     }
     return array
 }
+
+export const fetchComponentsBySlug = createAsyncThunk(
+    'filter/fetchFilters', async (slug, { rejectWithValue }) => {
+        try {
+            const response = await fetch(
+                "https://breezend-backend-2.onrender.com/api/get-page",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ slug }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch filters");
+            }
+
+            const data = await response.json();
+            console.log(data.page);
+
+            return data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.message)
+        }
+    }
+)
 
 const initialState = {
     selectedItems: [
@@ -29,11 +58,16 @@ const initialState = {
         },
         {
             id: 2,
-            name: "About us",
+            name: "About",
             items: []
         },
         {
             id: 3,
+            name: "Contact Us",
+            items: []
+        },
+        {
+            id: 4,
             name: "Services",
             items: [
                 //Social media advertising
@@ -50,16 +84,16 @@ const initialState = {
                 { id: 311, image: "/services/WhyChoose.png" },
                 { id: 312, image: "/services/LetsConnect.png" }
                 //PayPerClick(PPC)Marketing
-                
+
             ]
         },
         {
-            id: 4,
+            id: 5,
             name: "Our work",
             items: []
         },
         {
-            id: 5,
+            id: 6,
             name: "Carriers",
             items: [
                 { id: 501, image: "/Carriers/AvailableJobsChoose.png" },
@@ -117,8 +151,21 @@ const filterSlice = createSlice({
             state.selectedImage = filterIndex
         }
 
-    }
-
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchComponentsBySlug.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(fetchComponentsBySlug.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.components = action.payload;
+            })
+            .addCase(fetchComponentsBySlug.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload;
+            });
+    },
 })
 
 export const { filterByName, setSelectedImage, reorderImages, removeSelectedImage } = filterSlice.actions;

@@ -1,3 +1,4 @@
+import UserCard from "@/components/UserCard";
 import React from "react";
 
 const page = () => {
@@ -16,31 +17,11 @@ const page = () => {
         </span>
       </div>
 
-      <div className="flex justify-between p-5 ">
-        <div className="bg-white text-black p-6 rounded-sm border shadow-lg w-[23%]  ">
-          <h1 className=" ">Products</h1>
-          <p>
-            <span className="text-2xl text-red-800">0</span>
-          </p>
-        </div>
-        <div className="bg-white text-black p-6 rounded-sm border shadow-lg w-[23%] ">
-          <h1 className=" ">Projects</h1>
-          <p>
-            <span className="text-2xl text-red-800">0</span>
-          </p>
-        </div>
-        <div className="bg-white text-black p-6 rounded-sm border shadow-lg w-[23%] ">
-          <h1 className=" ">Pending Applications</h1>
-          <p>
-            <span className="text-2xl text-red-800">0</span>
-          </p>
-        </div>
-        <div className="bg-white text-black p-6 rounded-sm border shadow-lg  w-[23%] ">
-          <h1 className=" ">Blogs</h1>
-          <p>
-            <span className="text-2xl text-red-800">0</span>
-          </p>
-        </div>
+      <div className="flex justify-between">
+        <UserCard title={"Product"} count={0} />
+        <UserCard title={"Projects"} count={0} />
+        <UserCard title={"Pending Applications"} count={0} />
+        <UserCard title={"Blogs"} count={70} />
       </div>
     </div>
   );
