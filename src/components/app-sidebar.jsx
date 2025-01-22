@@ -1,252 +1,225 @@
-'use client'
-import * as React from "react"
-import Link from "next/link"
-import { ChevronRight } from "lucide-react"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import { VersionSwitcher } from "@/components/version-switcher"
-import { GrServices } from "react-icons/gr"
+"use client";
+import * as React from "react";
+import NavMain from "./nav-main";
+import { GrServices } from "react-icons/gr";
 import { IoMdSettings } from "react-icons/io";
 import { ImArrowRight } from "react-icons/im";
-import { MdOutlineApps, MdMoveToInbox, MdDashboard } from "react-icons/md"
-import { FaClipboardCheck, FaUsers, FaUserFriends, FaHashtag } from "react-icons/fa";
+import { RiQuestionnaireLine } from "react-icons/ri";
+import { MdOutlineApps, MdMoveToInbox, MdDashboard } from "react-icons/md";
+import {
+  FaClipboardCheck,
+  FaUsers,
+  FaUserFriends,
+  FaHashtag,
+  FaCalendarDay,
+  FaEnvelopeOpen
+} from "react-icons/fa";
 import { LuBraces } from "react-icons/lu";
 
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuSub,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent
-} from '@/components/ui/collapsible'
 // This is sample data.
-const data = [
-  {
-    title: "Navigation",
-    items: [
-      { icon: MdDashboard, label: "Dashboard", href: "/admin/home" },
-      { icon: MdOutlineApps, label: "Sliders", href: "/admin/slider" },
-      {
-        icon: GrServices,
-        label: "Services",
-        href: "#",
-        additionalItem: [
-          { label: "Service List", href: "/admin/services" },
-          { label: "Add Service", href: "/admin/services/create" }
-        ]
-      },
 
-      {
-        icon: FaClipboardCheck,
-        label: "Album",
-        href: "#",
-        additionalItem: [
-          { label: "Album List", href: "/admin/albums" },
-          { label: "Add Album", href: "#" }
-        ]
-      },
-    ]
+const data = {
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
   },
+  navMain: [
+    {
+      title: "Navigation",
+      items: [
+        { icon: MdDashboard, label: "Dashboard", link: "/admin/home" },
+        { icon: MdOutlineApps, label: "Sliders", link: "/admin/slider" },
+        {
+          icon: GrServices,
+          label: "Services",
+          link: "#",
+          additionalItem: [
+            { label: "Service List", link: "/admin/services" },
+            { label: "Add Service", link: "/admin/services/create" },
+          ],
+        },
 
-  {
-    title: "CMS",
-    items: [
-      {
-        icon: FaClipboardCheck,
-        label: "Pages",
-        href: "#",
-        additionalItem: [
-          { label: "Pages List", href: "/admin/pagelist" },
-          { label: "Add Page", href: "/admin/addpage" },
-          { label: "Logs", href: "/admin/log" }
-        ]
-      },
+        {
+          icon: FaClipboardCheck,
+          label: "Album",
+          link: "#",
+          additionalItem: [
+            { label: "Album List", link: "/admin/albums" },
+            { label: "Add Album", link: "#" },
+          ],
+        },
+      ],
+    },
 
-      {
-        icon: FaClipboardCheck,
-        label: "Events, News & Blogs",
-        href: "#",
-        additionalItem:
-          [
-            { label: "Category List", href: "#" },
-            { label: "Listing", href: "#" },
-            { label: "Add New", href: "#" }
-          ]
-      },
+    {
+      title: "CMS",
+      items: [
+        {
+          icon: FaClipboardCheck,
+          label: "Pages",
+          link: "#",
+          additionalItem: [
+            { label: "Pages List", link: "/admin/pagelist" },
+            { label: "Add Page", link: "/admin/addpage" },
+            { label: "Logs", link: "/admin/log" },
+          ],
+        },
 
-      { icon: FaUsers, label: "Testimonials", href: "#" },
+        {
+          icon: FaClipboardCheck,
+          label: "Blogs",
+          link: "#",
+          additionalItem: [
+            { label: "Category List", link: "/admin/blogs/categoryList" },
+            { label: "Listing", link: "#" },
+            { label: "Add New", link: "#" },
+          ],
+        },
 
-      {
-        icon: GrServices,
-        label: "Forms",
-        href: "#",
-        additionalItem:
-          [
-            { label: "Form List", href: "#" },
-            { label: "Add Form", href: "#" }
-          ]
-      },
+        { icon: FaUsers, label: "Testimonials", link: "#" },
 
-    ]
-  }
-  , {
-    title: "SEO",
-    items:
-      [
+        {
+          icon: GrServices,
+          label: "Forms",
+          link: "#",
+          additionalItem: [
+            { label: "Form List", link: "#" },
+            { label: "Add Form", link: "#" },
+          ],
+        },
+      ],
+    },
+    {
+      title: "SEO",
+      items: [
         {
           icon: LuBraces,
           label: "Schema",
-          href: "schema",
-          additionalItem:
-            [
-              { label: "Schema List", href: "#" },
-              { label: "Add Schema", href: "#" }
-            ]
+          link: "schema",
+          additionalItem: [
+            { label: "Schema List", link: "#" },
+            { label: "Add Schema", link: "#" },
+          ],
         },
 
         {
           icon: FaHashtag,
           label: "Seo Meta",
-          href: "#",
-          additionalItem:
-            [
-              { label: "SEO List", href: "#" },
-              { label: "Add SEO Mata", href: "#" }
-            ]
+          link: "#",
+          additionalItem: [
+            { label: "SEO List", link: "#" },
+            { label: "Add SEO Mata", link: "#" },
+          ],
         },
         {
           icon: ImArrowRight,
           label: "URL Redirection",
-          href: "#",
-          additionalItem:
-            [
-              { label: "Redirection List", href: "#" },
-              { label: "Add URL", href: "#" }
-            ]
+          link: "#",
+          additionalItem: [
+            { label: "Redirection List", link: "#" },
+            { label: "Add URL", link: "#" },
+          ],
         },
         {
           icon: FaUserFriends,
           label: "User Management",
-          href: "#",
-          additionalItem:
-            [
-              { label: "Users", href: "#" },
-              { label: "Groups", href: "#" }
-            ]
+          link: "#",
+          additionalItem: [
+            { label: "Users", link: "#" },
+            { label: "Groups", link: "#" },
+          ],
         },
-        { icon: IoMdSettings, label: "Settings", href: "#" },
+        { icon: IoMdSettings, label: "Settings", link: "#" },
+      ],
+    },
+    {
+      title: "Careers/Recruitment",
+      items: [
+        {
+          icon: FaUserFriends,
+          label: "Jobs",
+          link: "#",
+          additionalItem: [
+            { label: "Job List", link: "/admin/career/jobs" },
+            { label: "Add Jobs", link: "/admin/career/jobs/create" },
+            { label: "Skills", link: "#" },
+            { label: "Department", link: "#" },
+            { label: "Question", link: "#" }
+          ]
+        },
+        {
+          icon: FaUserFriends,
+          label: "Job Applications",
+          link: "#"
+        },
+        {
+          icon: FaCalendarDay,
+          label: "Interview Schedules",
+          link: "#"
+        },
+        {
+          icon: FaUserFriends,
+          label: "Candidate Database",
+          link: "#"
+        }
       ]
-  }
-  , {
-    title: "Additionals",
-    items:
-      [
+    },
+    {
+      title: "Additionals",
+      items: [
         {
           icon: MdMoveToInbox,
           label: "Inbox",
-          href: "#",
-          additionalItem:
-            [
-              { label: "Contact", href: "#" },
-              { label: "Subscribe", href: "#" }
-            ]
+          link: "#",
+          additionalItem: [
+            { label: "Contact", link: "#" },
+            { label: "Subscribe", link: "#" },
+          ],
         },
-
-        { icon: MdOutlineApps, label: "Menu", href: "#" },
-        { icon: GrServices, label: "Footer", href: "#" }
-      ]
-  }
-]
-
-const AppSidebar = ({ ...props }) => {
-
-  const [activeGroup, setActiveGroup] = React.useState("");
-
-  const toggleGroup = (label) => {
-    setActiveGroup(activeGroup === label ? "" : label);
-  };
-
-  return (
-    (<Sidebar {...props}>
-      <SidebarContent className="bg-slate-900 text-white">
-        <SidebarHeader>
-          Santosh Yadav
-        </SidebarHeader>
-        {data.map((group) => (
-          <SidebarGroup key={group.title}>
-            <SidebarGroupLabel className="uppercase text-lg py-6 text-slate-50">
-              {group.title}
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              {
-                group.items.map((item) => (
-                  item.additionalItem ? (
-                    <Collapsible
-                      className="group/collapsible"
-                      open={activeGroup === item.label}
-                      onOpenChange={() => toggleGroup(item.label)}
-                      key={item.label}
-                    >
-
-                      <CollapsibleTrigger asChild >
-                        <SidebarMenuButton className="flex justify-between items-center rounded-none pl-5 py-5">
-                          <Link href={item.href} className="flex justify-center items-center gap-2 text-[5] text-md">
-                            <item.icon />
-                            {item.label}
-                          </Link>
-                          <ChevronRight className={`transition-transform duration-300 ${activeGroup === item.label ? "rotate-90" : "rotate-0"
-                            }`} />
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <div className="cursor-pointer bg-white text-black">
-                        <CollapsibleContent className="space-y-2 pl-5 py-2">
-                          {item.additionalItem.map((subItem) => (
-                            <SidebarMenuSub key={subItem.label}>
-                              <Link href={subItem.href} className="text-md">
-                                <SidebarMenuSubItem>
-                                  {subItem.label}
-                                </SidebarMenuSubItem>
-                              </Link>
-                            </SidebarMenuSub>
-                          ))}
-                        </CollapsibleContent>
-                      </div>
-                    </Collapsible>
-                  ) : (
-                    <div
-                      key={item.label}
-                    >
-                      <Link href={item.href}>
-                        <SidebarMenuButton className="flex justify-start items-center gap-2 rounded-none pl-5 py-5 text-[5]">
-                          <item.icon />
-                          {item.label}
-                        </SidebarMenuButton>
-                      </Link>
-
-                    </div>
-                  )
-                ))
-              }
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
-      </SidebarContent>
-    </Sidebar>)
-  );
-
+        {
+          icon: FaEnvelopeOpen,
+          label: "Form",
+          link: "#",
+          additionalItem: [
+            { label: "Packages", link: "#" },
+            { label: "Contact Us", link: "#" },
+            { label: "Service Form", link: "#" },
+            { label: "Deleted Form", link: "#" },
+          ],
+        },
+        { icon: RiQuestionnaireLine, label: "Menu", link: "#" },
+        { icon: MdOutlineApps, label: "FAQ", link: "#" },
+        { icon: GrServices, label: "Footer", link: "#" },
+      ],
+    },
+  ]
 }
 
-export default AppSidebar
+const AppSidebar = ({ ...props }) => {
+  return (
+    (<Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        {/* <NavUser user={data.user} /> */}
+      </SidebarHeader>
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+        {/* <NavProjects projects={data.projects} /> */}
+      </SidebarContent>
+      <SidebarFooter>
+        {/* <NavUser user={data.user} /> */}
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>)
+  );
+};
+
+export default AppSidebar;

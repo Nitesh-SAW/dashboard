@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { filterByName } from '@/lib/features/filterSlice';
 import { BiChevronDown } from 'react-icons/bi';
 import useOutsideClick from './custom hooks/Closedropdown';
+import { fetchComponentsBySlug } from '@/lib/features/filterSlice';
 
 const FilterDropdown = () => {
     const { selectedItems } = useSelector((state) => state.filter);
@@ -25,10 +26,17 @@ const FilterDropdown = () => {
         } else {
             dispatch(filterByName(category));
         }
+
+        if (category === "Home") {
+            dispatch(fetchComponentsBySlug("/"))
+        } else {
+            dispatch(fetchComponentsBySlug(category.toLowerCase()));
+        }
+
         setIsDropdownOpen(false);  // Close dropdown after selection
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(filterByName('All'));
     }, [dispatch])
 

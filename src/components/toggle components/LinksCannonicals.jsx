@@ -19,7 +19,8 @@ const LinksCannonicals = ({ islinkscannonicals }) => {
                             className='absolute top-6 right-1 py-0 rounded-sm'
                         >Add</Button>
                     </div>
-                </div>}
+                </div>
+            }
         </>
     )
 }
