@@ -11,7 +11,8 @@ import {
   FaUsers,
   FaUserFriends,
   FaHashtag,
-  FaCalendarDay
+  FaCalendarDay,
+  FaEnvelopeOpen
 } from "react-icons/fa";
 import { LuBraces } from "react-icons/lu";
 
@@ -148,8 +149,8 @@ const data = {
           label: "Jobs",
           link: "#",
           additionalItem: [
-            { label: "Job List", link: "#" },
-            { label: "Add Jobs", link: "#" },
+            { label: "Job List", link: "/admin/career/jobs" },
+            { label: "Add Jobs", link: "/admin/career/jobs/create" },
             { label: "Skills", link: "#" },
             { label: "Department", link: "#" },
             { label: "Question", link: "#" }
@@ -184,7 +185,17 @@ const data = {
             { label: "Subscribe", link: "#" },
           ],
         },
-
+        {
+          icon: FaEnvelopeOpen,
+          label: "Form",
+          link: "#",
+          additionalItem: [
+            { label: "Packages", link: "#" },
+            { label: "Contact Us", link: "#" },
+            { label: "Service Form", link: "#" },
+            { label: "Deleted Form", link: "#" },
+          ],
+        },
         { icon: RiQuestionnaireLine, label: "Menu", link: "#" },
         { icon: MdOutlineApps, label: "FAQ", link: "#" },
         { icon: GrServices, label: "Footer", link: "#" },

@@ -17,7 +17,7 @@ const page = () => {
         </span>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-2">
         <UserCard title={"Product"} count={0} />
         <UserCard title={"Projects"} count={0} />
         <UserCard title={"Pending Applications"} count={0} />
