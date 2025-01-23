@@ -30,10 +30,18 @@ const initialState = {
             { name: "Button Icon", type: "file" },
             { name: "Button Text", type: "text" }
         ],
-        // 301: [
-        //     { name: "", type: "", required: false },
-        //     { name: "", type: "", required: false },
-        // ],
+
+
+
+        201: [
+            { name: "title", type: "text", required: false },
+            { name: "title", type: "text", required: false },
+            { name: "title", type: "text", required: false },
+            { name: "title", type: "text", required: false },
+        ],
+
+
+
         302: [
             { name: "title", type: "text", required: false },
             { name: "description", type: "text", required: false },
@@ -175,7 +183,7 @@ const initialState = {
             { name: "Image", type: "file", required: false },
             { name: "Text", type: "text", required: false }
         ],
-        509:[
+        509: [
             { name: "Title", type: "text", required: false },
             { name: "Description", type: "text", required: false },
             { name: "Image", type: "file", required: false },
