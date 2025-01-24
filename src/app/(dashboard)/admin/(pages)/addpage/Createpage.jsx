@@ -3,7 +3,7 @@ import { IoMdAdd } from "react-icons/io";
 import Image from "next/image";
 import Selector from '@/components/Selector'
 import SelectComponent from "./SelectComponent";
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 
@@ -30,12 +30,12 @@ const createpage = () => {
                     <div className='w-[25%] flex flex-col'>
                         <label htmlFor="Title">Title</label>
                         {/* <input type="text" className='rounded ring-[1px] ring-slate-400 px-6 py-1 mt-1' /> */}
-                        <Input id="Title" className="rounded-sm h-8"/>
+                        <Input id="Title" className="rounded-sm h-8" />
                     </div>
                     <div className='w-[25%] flex flex-col'>
                         <label htmlFor="mainitsol">https://mainitsol.com/</label>
                         {/* <input type="text" className='rounded ring-[1px] ring-slate-400 px-6 py-1 mt-1' /> */}
-                        <Input id="mainitsol" className="rounded-sm h-8"/>
+                        <Input id="mainitsol" className="rounded-sm h-8" />
                     </div>
                     <div className='w-[25%] flex flex-col'>
                         <label htmlFor="">Parent</label>
@@ -48,7 +48,7 @@ const createpage = () => {
                 </div>
                 <div className='w-full flex justify-center items-center py-1 mt-2'>
                     <div className='w-[97%] flex justify-center items-center rounded-sm bg-slate-100 ring-[1px] ring-slate-500 py-1'
-                    onClick={handleOpenModal}>
+                        onClick={handleOpenModal}>
                         <IoMdAdd />
                         <button>
                             Add Section

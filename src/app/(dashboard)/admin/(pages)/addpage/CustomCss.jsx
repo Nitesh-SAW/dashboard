@@ -75,11 +75,13 @@ const CustomCss = () => {
                     </div>
                 </div>
             </main>
-            <Metatags isOn={isOn} />
-            <LinksCannonicals islinkscannonicals={islinkscannonicals} />
-            <Ogtags isogtags={isogtags} />
-            <TweeterTag istweetertag={istweetertag} />
-            <ScriptCode isscriptcode={isscriptcode} />
+            <div className='flex flex-col gap-1'>
+                <Metatags isOn={isOn} />
+                <LinksCannonicals islinkscannonicals={islinkscannonicals} />
+                <Ogtags isogtags={isogtags} />
+                <TweeterTag istweetertag={istweetertag} />
+                <ScriptCode isscriptcode={isscriptcode} />
+            </div>
         </section>
 
     )

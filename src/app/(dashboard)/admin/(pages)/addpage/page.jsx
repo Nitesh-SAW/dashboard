@@ -8,7 +8,7 @@ import CustomCss from './CustomCss';
 
 const page = () => {
   return (
-    <section className="w-full h-screen justify-center items-center relative">
+    <section className="w-full min-h-screen justify-center items-center relative">
       <header className="w-full h-12  flex justify-between items-center py-3 mt-16 border-b">
 
         <div className="pl-2">
@@ -16,7 +16,7 @@ const page = () => {
         </div>
 
         <div className='flex justify-evenly items-center gap-2'>
-          <Link href="/admin/pagelist" className='flex justify-center items-center ring-1 rounded-sm ring-black px-4 py-1'>
+          <Link href="#" className='flex justify-center items-center ring-1 rounded-sm ring-black px-4 py-1'>
             <MdOutlineSave />
             <p>Create</p>
           </Link>

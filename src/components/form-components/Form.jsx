@@ -50,9 +50,8 @@ const DynamicForm = ({ imageId }) => {
                     ? `${field.name} is required`
                     : false,
                 })}
-                className={`rounded max-w-sm focus:border-none ${
-                  errors[field.name] ? "border-red-500 focus:ring-red-500" : ""
-                }`}
+                className={`rounded max-w-sm focus:border-none ${errors[field.name] ? "border-red-500 focus:ring-red-500" : ""
+                  }`}
               />
             </div>
           ))}

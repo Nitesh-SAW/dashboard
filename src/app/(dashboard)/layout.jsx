@@ -16,10 +16,10 @@ export default function DashboardLayout({ children }) {
             <SidebarInset>
                 <Provider store={store}>
                     <QueryClientProvider client={queryClient}>
-                        <header className="flex w-full h-14 shrink-0 items-center gap-2 bg-muted/50 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-14 fixed z-50 px-2 shadow-sm">
+                        <header className="flex w-full h-14 shrink-0 items-center gap-2 bg-muted/50 transition-[width,height] 
+                        ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-14 fixed z-50 px-2 shadow-sm">
                             <SidebarTrigger />
                             <div className="flex gap-4">
-                                <NavUser />
                                 <NavUser />
                             </div>
                         </header>

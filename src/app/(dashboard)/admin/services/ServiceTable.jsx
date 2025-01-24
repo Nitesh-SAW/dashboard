@@ -172,9 +172,8 @@ const columns = [
         <Toggle
           pressed={isYes}
           onPressedChange={setIsYes}
-          className={`!text-white w-5 h-5 ${
-            isYes ? "!bg-green-600" : "!bg-red-400"
-          }`}
+          className={`!text-white w-5 h-5 ${isYes ? "!bg-green-600" : "!bg-red-400"
+            }`}
         >
           {isYes ? "Yes" : "No"}
         </Toggle>
