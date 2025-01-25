@@ -35,6 +35,7 @@ const Jobform = () => {
                     </div>
                     <div>
                         <Label>Description</Label>
+                        <Input />
                         {/* <Editor /> */}
                     </div>
                 </div>
