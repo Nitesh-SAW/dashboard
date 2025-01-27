@@ -151,9 +151,9 @@ const data = {
           additionalItem: [
             { label: "Job List", link: "/admin/career/jobs" },
             { label: "Add Jobs", link: "/admin/career/jobs/create" },
-            { label: "Skills", link: "#" },
-            { label: "Department", link: "#" },
-            { label: "Question", link: "#" }
+            { label: "Skills", link: "/admin/career/skill" },
+            { label: "Department", link: "/admin/career/departments" },
+            { label: "Question", link: "/admin/career/questions" }
           ]
         },
         {
