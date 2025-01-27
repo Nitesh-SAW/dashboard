@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { Textarea } from './ui/textarea';
 import {
     ClassicEditor,
     Autoformat,
@@ -324,17 +325,26 @@ const Editor = () => {
     };
 
     return (
-        <div className="rounded-lg">
-            <div className="" ref={editorContainerRef}>
-                <div className="">
-                    <div className="rounded-md min-h-16" ref={editorRef}>{editorConfig &&
-                        <CKEditor
-                            editor={ClassicEditor}
-                            config={editorConfig}
-                            // data='<p>Start typing here...</p>'
-                            onChange={handleEditorChange}
-                        />
-                    }
+        // <div ref={editorRef}>
+        //     {editorConfig &&
+        //         <CKEditor
+        //             className=".editor-container .ck-editor__editable_inline "
+        //             editor={ClassicEditor}
+        //             config={editorConfig}
+        //             // data='<p>Start typing here...</p>'
+        //             onChange={handleEditorChange}
+
+        //         />
+        //     }
+        // </div>
+        <div className="main-container">
+            <div className="editor-container editor-container_classic-editor editor-container_include-style" ref={editorContainerRef}>
+                <div className="editor-container__editor">
+                    <div ref={editorRef}>
+                        {editorConfig &&
+                            <CKEditor
+                                editor={ClassicEditor}
+                                config={editorConfig} />}
                     </div>
                 </div>
             </div>

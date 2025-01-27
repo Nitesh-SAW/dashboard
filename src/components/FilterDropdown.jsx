@@ -27,13 +27,17 @@ const FilterDropdown = () => {
             dispatch(filterByName(category));
         }
 
+
+        //for sending slug to api 
+
         if (category === "Home") {
             dispatch(fetchComponentsBySlug("/"))
         } else {
             dispatch(fetchComponentsBySlug(category.toLowerCase()));
         }
 
-        setIsDropdownOpen(false);  // Close dropdown after selection
+        // Close dropdown after selection
+        setIsDropdownOpen(false);
     };
 
     useEffect(() => {

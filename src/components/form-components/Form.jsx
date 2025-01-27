@@ -4,20 +4,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFormConfig } from "@/lib/features/formSlice";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Label } from "@radix-ui/react-dropdown-menu";
+// import { Label } from "../ui/button";
 
-const DynamicForm = ({ imageId }) => {
+const DynamicForm = ({ imageId, pageName }) => {
   const dispatch = useDispatch();
 
   // Get form schema and config from Redux store
   const formSchema = useSelector((state) => state.form.formSchema[imageId]);
-  const formConfig =
-    useSelector((state) => state.form.formConfig[imageId]) || {};
+  const formConfig = useSelector((state) => state.form.formConfig[imageId]) || {};
+
+
+  const pageId = useSelector((state) =>
+    state.filter.selectedItems.find((page) => page.name === pageName)?.id
+  );
+  console.log(pageId)
 
   // Return early if formSchema is not available
   if (!formSchema || formSchema.length === 0) {
     return <p className="p-2">Form not found</p>;
   }
+
+
 
   // Initialize form with values from formConfig or default to empty string
   const {
@@ -27,6 +34,7 @@ const DynamicForm = ({ imageId }) => {
   } = useForm({
     defaultValues: formSchema.reduce((acc, field) => {
       acc[field.name] = formConfig[field.name] || ""; // Ensure there's always a value
+      // console.log(acc)
       return acc;
     }, {}),
   });
