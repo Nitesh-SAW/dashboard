@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from "next/link"
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -15,6 +16,14 @@ const Jobform = () => {
     const onSubmit = (data) => {
 
     }
+
+    const options = [
+        { id: 1, value: "Single line Input" },
+        { id: 2, value: "Multiline Input" },
+        { id: 3, value: "Dropdown options" },
+        { id: 4, value: "Multiple Choice" }
+    ];
+
     return (
         <section className='w-full justify-center mb-20'>
             <form onSubmit={handleSubmit(onSubmit)} className='mt-6 space-y-4'>
@@ -29,25 +38,24 @@ const Jobform = () => {
                             <Input />
                         </div>
                     </div>
-                    <div>
+                    <div className='space-y-1'>
                         <Label>Short Description</Label>
                         <Textarea />
                     </div>
-                    <div>
+                    <div className='space-y-1'>
                         <Label>Description</Label>
-                        <Input />
-                        {/* <Editor /> */}
+                        <Editor />
                     </div>
                 </div>
                 <div className='grid grid-cols-2 bg-white text-black rounded-sm p-4 gap-4'>
                     <div className='flex flex-col gap-4'>
                         <div className='flex flex-col gap-2'>
                             <Label>Department</Label>
-                            <DynamicSelect />
+                            <DynamicSelect options={options} />
                         </div>
                         <div className='flex flex-col gap-2'>
                             <Label>Type</Label>
-                            <DynamicSelect />
+                            <DynamicSelect options={options} />
                         </div>
                         <div className='flex flex-row gap-2'>
                             <div className='flex flex-col gap-2 w-1/2'>
@@ -56,12 +64,12 @@ const Jobform = () => {
                             </div>
                             <div className='flex flex-col gap-2 w-1/2'>
                                 <Label>Gender</Label>
-                                <DynamicSelect />
+                                <DynamicSelect options={options} />
                             </div>
                         </div>
                         <div className='flex flex-col  gap-2'>
                             <Label>Career Level</Label>
-                            <DynamicSelect />
+                            <DynamicSelect options={options} />
                         </div>
                     </div>
                     <div>
@@ -89,7 +97,9 @@ const Jobform = () => {
                         <h2>Custom Questions</h2>
                         <div className='flex gap-2'>
                             <Button>Refresh </Button>
-                            <Button> Add Questions</Button>
+                            <Link href="/admin/career/questions">
+                                <Button> Add Questions</Button>
+                            </Link>
                         </div>
                     </div>
                     <div className='space-x-2 text-base'>

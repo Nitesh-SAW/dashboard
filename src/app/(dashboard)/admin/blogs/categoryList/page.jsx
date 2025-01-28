@@ -187,9 +187,8 @@ const columns = [
         <Toggle
           pressed={isYes}
           onPressedChange={setIsYes}
-          className={`!text-white w-5 h-5 ${
-            isYes ? "!bg-green-600" : "!bg-red-400"
-          }`}
+          className={`!text-white w-5 h-5 ${isYes ? "!bg-green-600" : "!bg-red-400"
+            }`}
         >
           {isYes ? "Yes" : "No"}
         </Toggle>
@@ -248,7 +247,7 @@ const CategoryTable = () => {
   };
 
   return (
-    <section className="w-full mt-5 bg-white">
+    <section className="w-full mt-16 mb-20 bg-white">
       <header className="w-full flex justify-between mt-5">
         <div>Categories List</div>
         <Link href="/admin/blogs/categoryList/create" passHref>

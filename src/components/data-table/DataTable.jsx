@@ -1,14 +1,22 @@
 "use client";
 import React, { useState } from "react";
+import { Input } from '@/components/ui/input'
 import {
-    ColumnDef,
-    SortingState,
+    SquarePen,
+    ChevronDown,
+    AlignJustify,
+    X,
+    Filter,
+    Search,
+    Trash2,
+    Eye,
+} from "lucide-react";
+import {
     flexRender,
     getCoreRowModel,
     useReactTable,
     getSortedRowModel,
     getPaginationRowModel,
-    PaginationState,
 } from "@tanstack/react-table";
 
 import {

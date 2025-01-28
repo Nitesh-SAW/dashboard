@@ -1,13 +1,8 @@
-<<<<<<< HEAD:src/components/Editor.jsx
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { Textarea } from './ui/textarea';
-=======
-import { useState, useEffect, useRef, useMemo } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
->>>>>>> origin/feature-sanket:src/components/Editor.js
 import {
   ClassicEditor,
+  Alignment,
   Autoformat,
   AutoImage,
   AutoLink,
@@ -17,6 +12,7 @@ import {
   BlockQuote,
   Bold,
   Bookmark,
+  CloudServices,
   Code,
   CodeBlock,
   Essentials,
@@ -66,6 +62,7 @@ import {
   SpecialCharactersMathematical,
   SpecialCharactersText,
   Strikethrough,
+  Style,
   Subscript,
   Superscript,
   Table,
@@ -74,14 +71,15 @@ import {
   TableToolbar,
   TextTransformation,
   TodoList,
-  Underline,
-} from "ckeditor5";
+  Underline
+} from 'ckeditor5';
 
-import "ckeditor5/ckeditor5.css";
+import 'ckeditor5/ckeditor5.css';
 
-// import "./globals.css";
-
-const LICENSE_KEY = "GPL"; // or <YOUR_LICENSE_KEY>.
+/**
+ * Create a free account with a trial: https://portal.ckeditor.com/checkout?plan=free
+ */
+const LICENSE_KEY = 'GPL'; // or <YOUR_LICENSE_KEY>.
 
 const Editor = () => {
   const editorContainerRef = useRef(null);
@@ -103,36 +101,40 @@ const Editor = () => {
       editorConfig: {
         toolbar: {
           items: [
-            "sourceEditing",
-            "showBlocks",
-            "|",
-            "heading",
-            "|",
-            "fontSize",
-            "fontFamily",
-            "fontColor",
-            "fontBackgroundColor",
-            "|",
-            "bold",
-            "italic",
-            "underline",
-            "|",
-            "link",
-            "insertImage",
-            "insertTable",
-            "highlight",
-            "blockQuote",
-            "codeBlock",
-            "|",
-            "bulletedList",
-            "numberedList",
-            "todoList",
-            "outdent",
-            "indent",
+            'sourceEditing',
+            'showBlocks',
+            '|',
+            'heading',
+            'style',
+            '|',
+            'fontSize',
+            'fontFamily',
+            'fontColor',
+            'fontBackgroundColor',
+            '|',
+            'bold',
+            'italic',
+            'underline',
+            '|',
+            'link',
+            'insertImage',
+            'insertTable',
+            'highlight',
+            'blockQuote',
+            'codeBlock',
+            '|',
+            'alignment',
+            '|',
+            'bulletedList',
+            'numberedList',
+            'todoList',
+            'outdent',
+            'indent'
           ],
-          shouldNotGroupWhenFull: false,
+          shouldNotGroupWhenFull: false
         },
         plugins: [
+          Alignment,
           Autoformat,
           AutoImage,
           AutoLink,
@@ -142,6 +144,7 @@ const Editor = () => {
           BlockQuote,
           Bold,
           Bookmark,
+          CloudServices,
           Code,
           CodeBlock,
           Essentials,
@@ -191,6 +194,7 @@ const Editor = () => {
           SpecialCharactersMathematical,
           SpecialCharactersText,
           Strikethrough,
+          Style,
           Subscript,
           Superscript,
           Table,
@@ -199,69 +203,60 @@ const Editor = () => {
           TableToolbar,
           TextTransformation,
           TodoList,
-          Underline,
+          Underline
         ],
-        balloonToolbar: [
-          "bold",
-          "italic",
-          "|",
-          "link",
-          "insertImage",
-          "|",
-          "bulletedList",
-          "numberedList",
-        ],
+        balloonToolbar: ['bold', 'italic', '|', 'link', 'insertImage', '|', 'bulletedList', 'numberedList'],
         fontFamily: {
-          supportAllValues: true,
+          supportAllValues: true
         },
         fontSize: {
-          options: [10, 12, 14, "default", 18, 20, 22],
-          supportAllValues: true,
+          options: [10, 12, 14, 'default', 18, 20, 22],
+          supportAllValues: true
         },
         heading: {
           options: [
             {
-              model: "paragraph",
-              title: "Paragraph",
-              class: "ck-heading_paragraph",
+              model: 'paragraph',
+              title: 'Paragraph',
+              class: 'ck-heading_paragraph'
             },
             {
-              model: "heading1",
-              view: "h1",
-              title: "Heading 1",
-              class: "ck-heading_heading1",
+              model: 'heading1',
+              view: 'h1',
+              title: 'Heading 1',
+              class: 'ck-heading_heading1'
             },
             {
-              model: "heading2",
-              view: "h2",
-              title: "Heading 2",
-              class: "ck-heading_heading2",
+              model: 'heading2',
+              view: 'h2',
+              title: 'Heading 2',
+              class: 'ck-heading_heading2'
             },
             {
-              model: "heading3",
-              view: "h3",
-              title: "Heading 3",
-              class: "ck-heading_heading3",
+              model: 'heading3',
+              view: 'h3',
+              title: 'Heading 3',
+              class: 'ck-heading_heading3'
             },
             {
-              model: "heading4",
-              view: "h4",
-              title: "Heading 4",
-              class: "ck-heading_heading4",
+              model: 'heading4',
+              view: 'h4',
+              title: 'Heading 4',
+              class: 'ck-heading_heading4'
             },
             {
-              model: "heading5",
-              view: "h5",
-              title: "Heading 5",
-              class: "ck-heading_heading5",
+              model: 'heading5',
+              view: 'h5',
+              title: 'Heading 5',
+              class: 'ck-heading_heading5'
             },
             {
-              model: "heading6",
-              view: "h6",
-              title: "Heading 6",
-              class: "ck-heading_heading6",
-            },
-          ],
+              model: 'heading6',
+              view: 'h6',
+              title: 'Heading 6',
+              class: 'ck-heading_heading6'
+            }
+          ]
         },
         htmlSupport: {
           allow: [
@@ -269,102 +264,115 @@ const Editor = () => {
               name: /^.*$/,
               styles: true,
               attributes: true,
-              classes: true,
-            },
-          ],
+              classes: true
+            }
+          ]
         },
         image: {
           toolbar: [
-            "toggleImageCaption",
-            "imageTextAlternative",
-            "|",
-            "imageStyle:inline",
-            "imageStyle:wrapText",
-            "imageStyle:breakText",
-            "|",
-            "resizeImage",
-          ],
+            'toggleImageCaption',
+            'imageTextAlternative',
+            '|',
+            'imageStyle:inline',
+            'imageStyle:wrapText',
+            'imageStyle:breakText',
+            '|',
+            'resizeImage'
+          ]
         },
         initialData: "",
         licenseKey: LICENSE_KEY,
         link: {
           addTargetToExternalLinks: true,
-          defaultProtocol: "https://",
+          defaultProtocol: 'https://',
           decorators: {
             toggleDownloadable: {
-              mode: "manual",
-              label: "Downloadable",
+              mode: 'manual',
+              label: 'Downloadable',
               attributes: {
-                download: "file",
-              },
-            },
-          },
+                download: 'file'
+              }
+            }
+          }
         },
         list: {
           properties: {
             styles: true,
             startIndex: true,
-            reversed: true,
-          },
+            reversed: true
+          }
         },
         mention: {
           feeds: [
             {
-              marker: "@",
+              marker: '@',
               feed: [
                 /* See: https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html */
-              ],
-            },
-          ],
+              ]
+            }
+          ]
         },
         menuBar: {
-          isVisible: true,
+          isVisible: true
         },
-        placeholder: "Type or paste your content here!",
+        placeholder: 'Type or paste your content here!',
+        style: {
+          definitions: [
+            {
+              name: 'Article category',
+              element: 'h3',
+              classes: ['category']
+            },
+            {
+              name: 'Title',
+              element: 'h2',
+              classes: ['document-title']
+            },
+            {
+              name: 'Subtitle',
+              element: 'h3',
+              classes: ['document-subtitle']
+            },
+            {
+              name: 'Info box',
+              element: 'p',
+              classes: ['info-box']
+            },
+            {
+              name: 'Side quote',
+              element: 'blockquote',
+              classes: ['side-quote']
+            },
+            {
+              name: 'Marker',
+              element: 'span',
+              classes: ['marker']
+            },
+            {
+              name: 'Spoiler',
+              element: 'span',
+              classes: ['spoiler']
+            },
+            {
+              name: 'Code (dark)',
+              element: 'pre',
+              classes: ['fancy-code', 'fancy-code-dark']
+            },
+            {
+              name: 'Code (bright)',
+              element: 'pre',
+              classes: ['fancy-code', 'fancy-code-bright']
+            }
+          ]
+        },
         table: {
-          contentToolbar: [
-            "tableColumn",
-            "tableRow",
-            "mergeTableCells",
-            "tableProperties",
-            "tableCellProperties",
-          ],
-        },
-      },
+          contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
+        }
+      }
     };
   }, [isLayoutReady]);
 
-<<<<<<< HEAD:src/components/Editor.jsx
-    return (
-        // <div ref={editorRef}>
-        //     {editorConfig &&
-        //         <CKEditor
-        //             className=".editor-container .ck-editor__editable_inline "
-        //             editor={ClassicEditor}
-        //             config={editorConfig}
-        //             // data='<p>Start typing here...</p>'
-        //             onChange={handleEditorChange}
-
-        //         />
-        //     }
-        // </div>
-        <div className="main-container">
-            <div className="editor-container editor-container_classic-editor editor-container_include-style" ref={editorContainerRef}>
-                <div className="editor-container__editor">
-                    <div ref={editorRef}>
-                        {editorConfig &&
-                            <CKEditor
-                                editor={ClassicEditor}
-                                config={editorConfig} />}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-=======
   const [editorData, setEditorData] = useState("");
->>>>>>> origin/feature-sanket:src/components/Editor.js
 
   const handleEditorChange = (event, editor) => {
     const data = editor.getData();
@@ -373,19 +381,13 @@ const Editor = () => {
   };
 
   return (
-    <div className="" ref={editorContainerRef}>
-      <div className="rounded-md min-h-16" ref={editorRef}>
-        {editorConfig && (
-          <CKEditor
-            editor={ClassicEditor}
-            config={editorConfig}
-            // data='<p>Start typing here...</p>'
-            onChange={handleEditorChange}
-          />
-        )}
+    <div className="main-container">
+      <div className="editor-container editor-container_classic-editor editor-container_include-style" ref={editorContainerRef}>
+        <div className="editor-container__editor">
+          <div ref={editorRef}>{editorConfig && <CKEditor editor={ClassicEditor} config={editorConfig} />}</div>
+        </div>
       </div>
     </div>
   );
-};
-
+}
 export default Editor;
