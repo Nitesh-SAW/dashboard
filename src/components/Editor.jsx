@@ -1,5 +1,11 @@
+<<<<<<< HEAD:src/components/Editor.js
 import { useState, useEffect, useRef, useMemo } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+=======
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { Textarea } from './ui/textarea';
+>>>>>>> a82f97db122d3d2376b884d21a47fd3e9304de3d:src/components/Editor.jsx
 import {
   ClassicEditor,
   Autoformat,
@@ -328,7 +334,37 @@ const Editor = () => {
     };
   }, [isLayoutReady]);
 
+<<<<<<< HEAD:src/components/Editor.js
   const [editorData, setEditorData] = useState("");
+=======
+    return (
+        // <div ref={editorRef}>
+        //     {editorConfig &&
+        //         <CKEditor
+        //             className=".editor-container .ck-editor__editable_inline "
+        //             editor={ClassicEditor}
+        //             config={editorConfig}
+        //             // data='<p>Start typing here...</p>'
+        //             onChange={handleEditorChange}
+
+        //         />
+        //     }
+        // </div>
+        <div className="main-container">
+            <div className="editor-container editor-container_classic-editor editor-container_include-style" ref={editorContainerRef}>
+                <div className="editor-container__editor">
+                    <div ref={editorRef}>
+                        {editorConfig &&
+                            <CKEditor
+                                editor={ClassicEditor}
+                                config={editorConfig} />}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+>>>>>>> a82f97db122d3d2376b884d21a47fd3e9304de3d:src/components/Editor.jsx
 
   const handleEditorChange = (event, editor) => {
     const data = editor.getData();

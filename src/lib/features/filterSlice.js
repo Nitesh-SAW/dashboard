@@ -27,7 +27,6 @@ export const fetchComponentsBySlug = createAsyncThunk(
             }
 
             const data = await response.json();
-            console.log(data.page);
 
             return data;
         } catch (error) {
@@ -71,18 +70,18 @@ const initialState = {
             name: "Services",
             items: [
                 //Social media advertising
-                { id: 301, image: "/services/Banner.png" },
-                { id: 302, image: "/services/ResultsDrivenSocial.png" },
-                { id: 303, image: "/services/AdvertisingonSocialMedia.png" },
-                { id: 304, image: "/services/PaidSocialMedia.png" },
-                { id: 305, image: "/services/WhyYourBusinessNeeds.png" },
-                { id: 306, image: "/services/PPCAgencyThat.png" },
-                { id: 307, image: "/services/SocialMediaPlatforms.png" },
-                { id: 308, image: "/services/SocialMediaPlatformsforBusiness.png" },
-                { id: 309, image: "/services/HowMuchDoesSocial.png" },
-                { id: 310, image: "/services/SMAServices.png" },
-                { id: 311, image: "/services/WhyChoose.png" },
-                { id: 312, image: "/services/LetsConnect.png" }
+                { id: 401, image: "/services/Banner.png" },
+                { id: 402, image: "/services/ResultsDrivenSocial.png" },
+                { id: 403, image: "/services/AdvertisingonSocialMedia.png" },
+                { id: 404, image: "/services/PaidSocialMedia.png" },
+                { id: 405, image: "/services/WhyYourBusinessNeeds.png" },
+                { id: 406, image: "/services/PPCAgencyThat.png" },
+                { id: 407, image: "/services/SocialMediaPlatforms.png" },
+                { id: 408, image: "/services/SocialMediaPlatformsforBusiness.png" },
+                { id: 409, image: "/services/HowMuchDoesSocial.png" },
+                { id: 410, image: "/services/SMAServices.png" },
+                { id: 411, image: "/services/WhyChoose.png" },
+                { id: 412, image: "/services/LetsConnect.png" }
                 //PayPerClick(PPC)Marketing
 
             ]
@@ -96,15 +95,15 @@ const initialState = {
             id: 6,
             name: "Carriers",
             items: [
-                { id: 501, image: "/Carriers/AvailableJobsChoose.png" },
-                { id: 502, image: "/Carriers/WhyBreezeEnd.png" },
-                { id: 503, image: "/Carriers/OurCulture.png" },
-                { id: 504, image: "/Carriers/WhoArethe.png" },
-                { id: 505, image: "/Carriers/MakeTheRight.png" },
-                { id: 506, image: "/Carriers/DedicatedTeam.png" },
-                { id: 507, image: "/Carriers/OurCandidateExperience.png" },
-                { id: 508, image: "/Carriers/BreezeEndTechnologySignificant.png" },
-                { id: 509, image: "/Carriers/JoinOurGlobalTeam.png" }
+                { id: 601, image: "/Carriers/AvailableJobsChoose.png" },
+                { id: 602, image: "/Carriers/WhyBreezeEnd.png" },
+                { id: 603, image: "/Carriers/OurCulture.png" },
+                { id: 604, image: "/Carriers/WhoArethe.png" },
+                { id: 605, image: "/Carriers/MakeTheRight.png" },
+                { id: 606, image: "/Carriers/DedicatedTeam.png" },
+                { id: 607, image: "/Carriers/OurCandidateExperience.png" },
+                { id: 608, image: "/Carriers/BreezeEndTechnologySignificant.png" },
+                { id: 609, image: "/Carriers/JoinOurGlobalTeam.png" }
             ]
         },
     ],
@@ -128,8 +127,15 @@ const filterSlice = createSlice({
         },
 
         setSelectedImage: (state, action) => {
-            const { image, id } = action.payload
-            state.selectedImage.push({ image, id });
+            // console.log(name)
+            const { image, id } = action.payload;
+            const Id = Math.floor(id / 100);
+            // console.log(Id)
+
+            const matchedItem = state.selectedItems.find((item) => item.id === Id);
+            const name = matchedItem ? matchedItem.name : ""
+            // console.log(name);
+            state.selectedImage.push({ image, id, name });
         },
 
         reorderImages: (state, action) => {
@@ -142,7 +148,7 @@ const filterSlice = createSlice({
         removeSelectedImage: (state, action) => {
 
             const newArray = action.payload
-            console.log(newArray)
+            // console.log(newArray)
 
             const filterIndex = state.selectedImage.filter(
                 (_, i) =>

@@ -22,7 +22,8 @@ const SelectedImage = () => {
     }
 
 
-    const { selectedImage } = useSelector((state) => state.filter)
+    const { selectedImage } = useSelector((state) => state.filter);
+    // console.log(selectedImage);
     const dispatch = useDispatch()
 
     const handleDelete = (index) => {
@@ -70,7 +71,7 @@ const SelectedImage = () => {
                                                         >
                                                             <SendToBack />
                                                         </Button>
-                                                        <DynamicForm imageId={item.id} />
+                                                        <DynamicForm imageId={item.id} pageName={item.name} />
                                                     </div>
                                                 ) : (
                                                     <>
