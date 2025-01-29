@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import {
   ClassicEditor,
-  Alignment,
   Autoformat,
   AutoImage,
   AutoLink,
@@ -12,7 +11,6 @@ import {
   BlockQuote,
   Bold,
   Bookmark,
-  CloudServices,
   Code,
   CodeBlock,
   Essentials,
@@ -21,12 +19,10 @@ import {
   FontColor,
   FontFamily,
   FontSize,
-  FullPage,
   GeneralHtmlSupport,
   Heading,
   Highlight,
   HorizontalLine,
-  HtmlComment,
   HtmlEmbed,
   ImageBlock,
   ImageCaption,
@@ -45,9 +41,8 @@ import {
   LinkImage,
   List,
   ListProperties,
-  Markdown,
   MediaEmbed,
-  Mention,
+  PageBreak,
   Paragraph,
   PasteFromMarkdownExperimental,
   PasteFromOffice,
@@ -62,11 +57,12 @@ import {
   SpecialCharactersMathematical,
   SpecialCharactersText,
   Strikethrough,
-  Style,
   Subscript,
   Superscript,
   Table,
+  TableCaption,
   TableCellProperties,
+  TableColumnResize,
   TableProperties,
   TableToolbar,
   TextTransformation,
@@ -76,12 +72,11 @@ import {
 
 import 'ckeditor5/ckeditor5.css';
 
-/**
- * Create a free account with a trial: https://portal.ckeditor.com/checkout?plan=free
- */
+// import './globals.css';
+
 const LICENSE_KEY = 'GPL'; // or <YOUR_LICENSE_KEY>.
 
-const Editor = ({ value, onChange }) => {
+const Editor = (value, onChange) => {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
@@ -105,7 +100,6 @@ const Editor = ({ value, onChange }) => {
             'showBlocks',
             '|',
             'heading',
-            'style',
             '|',
             'fontSize',
             'fontFamily',
@@ -123,8 +117,6 @@ const Editor = ({ value, onChange }) => {
             'blockQuote',
             'codeBlock',
             '|',
-            'alignment',
-            '|',
             'bulletedList',
             'numberedList',
             'todoList',
@@ -134,7 +126,6 @@ const Editor = ({ value, onChange }) => {
           shouldNotGroupWhenFull: false
         },
         plugins: [
-          Alignment,
           Autoformat,
           AutoImage,
           AutoLink,
@@ -144,7 +135,6 @@ const Editor = ({ value, onChange }) => {
           BlockQuote,
           Bold,
           Bookmark,
-          CloudServices,
           Code,
           CodeBlock,
           Essentials,
@@ -153,12 +143,10 @@ const Editor = ({ value, onChange }) => {
           FontColor,
           FontFamily,
           FontSize,
-          FullPage,
           GeneralHtmlSupport,
           Heading,
           Highlight,
           HorizontalLine,
-          HtmlComment,
           HtmlEmbed,
           ImageBlock,
           ImageCaption,
@@ -177,9 +165,8 @@ const Editor = ({ value, onChange }) => {
           LinkImage,
           List,
           ListProperties,
-          Markdown,
           MediaEmbed,
-          Mention,
+          PageBreak,
           Paragraph,
           PasteFromMarkdownExperimental,
           PasteFromOffice,
@@ -194,11 +181,12 @@ const Editor = ({ value, onChange }) => {
           SpecialCharactersMathematical,
           SpecialCharactersText,
           Strikethrough,
-          Style,
           Subscript,
           Superscript,
           Table,
+          TableCaption,
           TableCellProperties,
+          TableColumnResize,
           TableProperties,
           TableToolbar,
           TextTransformation,
@@ -302,69 +290,10 @@ const Editor = ({ value, onChange }) => {
             reversed: true
           }
         },
-        mention: {
-          feeds: [
-            {
-              marker: '@',
-              feed: [
-                /* See: https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html */
-              ]
-            }
-          ]
-        },
         menuBar: {
           isVisible: true
         },
         placeholder: 'Type or paste your content here!',
-        style: {
-          definitions: [
-            {
-              name: 'Article category',
-              element: 'h3',
-              classes: ['category']
-            },
-            {
-              name: 'Title',
-              element: 'h2',
-              classes: ['document-title']
-            },
-            {
-              name: 'Subtitle',
-              element: 'h3',
-              classes: ['document-subtitle']
-            },
-            {
-              name: 'Info box',
-              element: 'p',
-              classes: ['info-box']
-            },
-            {
-              name: 'Side quote',
-              element: 'blockquote',
-              classes: ['side-quote']
-            },
-            {
-              name: 'Marker',
-              element: 'span',
-              classes: ['marker']
-            },
-            {
-              name: 'Spoiler',
-              element: 'span',
-              classes: ['spoiler']
-            },
-            {
-              name: 'Code (dark)',
-              element: 'pre',
-              classes: ['fancy-code', 'fancy-code-dark']
-            },
-            {
-              name: 'Code (bright)',
-              element: 'pre',
-              classes: ['fancy-code', 'fancy-code-bright']
-            }
-          ]
-        },
         table: {
           contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
         }
@@ -372,27 +301,25 @@ const Editor = ({ value, onChange }) => {
     };
   }, [isLayoutReady]);
 
-  // const handleEditorChange = (event, editor) => {
-  //   const data = editor.getData();
-  //   const newData = JSON.stringify({ content: data });
-  //   onchange(newData)
-  // };
-
   return (
     <div className="main-container">
-      <div className="editor-container editor-container_classic-editor editor-container_include-style" ref={editorContainerRef}>
+      <div className="editor-container editor-container_classic-editor" ref={editorContainerRef}>
         <div className="editor-container__editor">
-          <div ref={editorRef}>{editorConfig && <CKEditor
-            editor={ClassicEditor}
-            config={editorConfig}
-            onChange={(event, editor) => {
-              const editorData = editor.getData();
-              onChange(editorData);
-            }} />}
-          </div>
+          <div ref={editorRef}>{editorConfig &&
+            <CKEditor
+              editor={ClassicEditor}
+              config={editorConfig}
+              data={value}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                onChange(data);
+              }}
+            />}</div>
         </div>
       </div>
     </div>
   );
 }
-export default Editor;
+
+
+export default Editor
