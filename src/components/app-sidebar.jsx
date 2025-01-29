@@ -139,6 +139,7 @@ const data = {
           ],
         },
         { icon: IoMdSettings, label: "Settings", link: "#" },
+        { icon: FaUserFriends, label: "Feedback", link: "/admin/feedbacks" },
       ],
     },
     {

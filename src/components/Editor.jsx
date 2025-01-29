@@ -81,7 +81,7 @@ import 'ckeditor5/ckeditor5.css';
  */
 const LICENSE_KEY = 'GPL'; // or <YOUR_LICENSE_KEY>.
 
-const Editor = () => {
+const Editor = ({ value, onChange }) => {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
@@ -372,19 +372,24 @@ const Editor = () => {
     };
   }, [isLayoutReady]);
 
-  const [editorData, setEditorData] = useState("");
-
-  const handleEditorChange = (event, editor) => {
-    const data = editor.getData();
-    setEditorData(data);
-    // console.log('Editor data:', data); // Debugging content
-  };
+  // const handleEditorChange = (event, editor) => {
+  //   const data = editor.getData();
+  //   const newData = JSON.stringify({ content: data });
+  //   onchange(newData)
+  // };
 
   return (
     <div className="main-container">
       <div className="editor-container editor-container_classic-editor editor-container_include-style" ref={editorContainerRef}>
         <div className="editor-container__editor">
-          <div ref={editorRef}>{editorConfig && <CKEditor editor={ClassicEditor} config={editorConfig} />}</div>
+          <div ref={editorRef}>{editorConfig && <CKEditor
+            editor={ClassicEditor}
+            config={editorConfig}
+            onChange={(event, editor) => {
+              const editorData = editor.getData();
+              onChange(editorData);
+            }} />}
+          </div>
         </div>
       </div>
     </div>

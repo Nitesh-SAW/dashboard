@@ -17,7 +17,7 @@ const DynamicForm = ({ imageId, pageName }) => {
   const pageId = useSelector((state) =>
     state.filter.selectedItems.find((page) => page.name === pageName)?.id
   );
-  console.log(pageId)
+  // console.log(pageId)
 
   // Return early if formSchema is not available
   if (!formSchema || formSchema.length === 0) {
@@ -40,12 +40,18 @@ const DynamicForm = ({ imageId, pageName }) => {
   });
 
   const onSubmit = (data) => {
-    dispatch(setFormConfig({ imageId, config: data }));
+    console.log(data)
+    // dispatch(setFormConfig({ imageId, config: data }));
+  };
+
+  const onError = () => {
+    const missingFields = Object.keys(errors).map(([fieldsName, error]) => `${fieldsName}: ${error.message}`);
+    alert(`⚠️ Missing required fields: ${missingFields.join(", ")}`);
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full p-2 space-y-1">
+      <form onSubmit={handleSubmit(onSubmit, onError)} className="w-full p-2 space-y-1">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {formSchema.map((field) => (
             <div key={field.name} className="flex flex-col">
@@ -58,9 +64,11 @@ const DynamicForm = ({ imageId, pageName }) => {
                     ? `${field.name} is required`
                     : false,
                 })}
-                className={`rounded max-w-sm focus:border-none ${errors[field.name] ? "border-red-500 focus:ring-red-500" : ""
+
+                className={`rounded max-w-sm focus:border-none ${errors[field.name] && "border-red-500 focus:ring-red-500"}
                   }`}
               />
+              {errors[field.name] && <span style={{ color: "red" }}>{errors[field.name].message}</span>}
             </div>
           ))}
         </div>

@@ -90,12 +90,7 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Oswald&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap'); */
 
-@media print {
-  body {
-    margin: 0 !important;
-  }
-}
-
+/* Main container */
 .main-container {
   font-family: "Lato";
   width: max-content;
@@ -103,17 +98,20 @@
   margin-right: auto;
 }
 
+/* CKEditor content styles */
 .ck-content {
   font-family: "Lato";
   line-height: 1.6;
   word-break: break-word;
 }
 
+/* Editor container styles */
 .editor-container_classic-editor .editor-container__editor {
-  min-width: 320px;
+  min-width: 795px;
   max-width: 995px;
 }
 
+/* Header and content styles */
 .ck-content h3.category {
   font-family: "Oswald";
   font-size: 20px;
@@ -239,4 +237,63 @@
   background: #dddfe0;
   color: #000;
   box-shadow: 5px 5px 0 #b3b3b3;
+}
+
+/* Media Queries for Responsiveness */
+
+/* Tablet screens (min-width: 600px) */
+@media (max-width: 768px) {
+  .editor-container_classic-editor .editor-container__editor {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .ck-content h2.document-title {
+    font-size: 36px; /* Adjust font size for smaller screens */
+  }
+
+  .ck-content h3.category {
+    font-size: 16px; /* Adjust font size for smaller screens */
+  }
+
+  .ck-content blockquote.side-quote {
+    width: 100%; /* Allow blockquote to take full width */
+    float: none;
+    margin-left: 0;
+  }
+
+  .ck-content blockquote.side-quote p {
+    font-size: 1.5em; /* Adjust font size */
+  }
+}
+
+/* Mobile screens (min-width: 480px) */
+@media (max-width: 480px) {
+  .editor-container_classic-editor .editor-container__editor {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .ck-content h2.document-title {
+    font-size: 28px; /* Adjust font size for very small screens */
+  }
+
+  .ck-content h3.category {
+    font-size: 14px; /* Adjust font size for very small screens */
+  }
+
+  .ck-content p.info-box {
+    padding: 1em; /* Reduce padding for smaller screens */
+  }
+
+  .ck-content blockquote.side-quote {
+    width: 100%; /* Blockquote takes full width */
+    float: none;
+    margin-left: 0;
+    margin-bottom: 1em; /* Add bottom margin */
+  }
+
+  .ck-content blockquote.side-quote p {
+    font-size: 1.2em; /* Adjust font size for smaller screens */
+  }
 }

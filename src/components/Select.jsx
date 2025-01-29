@@ -6,8 +6,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"; // Adjust the import path
-import { Value } from "@radix-ui/react-select";
+} from "@/components/ui/select";
 
 // const MemoizedSelectItem = memo(({ value, label, itemClassName }) => (
 //     <SelectItem value={value} className={itemClassName}>
@@ -82,18 +81,18 @@ import { Value } from "@radix-ui/react-select";
 
 // export default DynamicSelect;
 
-const DynamicSelect = ({ options }) => {
-    const [selectedValue, setSelectedValue] = useState("")
+const DynamicSelect = ({ options, value, onChange, placeholder }) => {
+    // const [selectedValue, setSelectedValue] = useState("")
 
-    const handleSelect = (value) => {
-        setSelectedValue(value)
-        // console.log(selectedValue);
-    }
+    // const handleSelect = (value) => {
+    //     setSelectedValue(value)
+    //     // console.log(selectedValue);
+    // }
 
     return (
-        <Select onValueChange={handleSelect} defaultValue={selectedValue} >
+        <Select onValueChange={onChange} value={value} >
             <SelectTrigger>
-                <SelectValue placeholder="Select Question Type" />
+                <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
                 {options.map((option) => (

@@ -17,7 +17,12 @@ const page = () => {
     ];
 
     const [selectedValue, setSelectedValue] = useState("");
+    // const [optionsVisible, setOptionsVisible] = (false);
     const [isoptions, setISOptions] = useState([""]);
+
+    // const showOptionsSection = () => {
+    //     setOptionsVisible(true);
+    // };
 
     const handleSelect = (value) => {
         setSelectedValue(value)
@@ -69,44 +74,46 @@ const page = () => {
                 <div className="bg-white p-4">
                     <div>
                         <Label>Title</Label>
-                        <Select onValueChange={handleSelect} defaultValue={selectedValue} >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select Question Type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {options.map((option) => (
-                                    <SelectItem value={option.value} key={option.id}>{option.value}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        {
-                            ["Dropdown options", "Multiple Choice"].includes(selectedValue) && (
-                                <div>
-                                    <span>options</span>
-                                    <Button onClick={handleOpen}>Add Options</Button>
-                                    {
-                                        isoptions.map((option, index) => (
-                                            <div key={index} className="flex items-center gap-2">
-                                                <Input
-                                                    value={option}
-                                                    placeholder={`Option ${index + 1}`}
-                                                    onChange={(e) => updateOption(index, e.target.value)}
-                                                    className="flex-grow"
-                                                />
-                                                <Button
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    onClick={() => deleteOption(index)}
-                                                    aria-label="Remove option"
-                                                >
-                                                    <Trash className="h-4 w-4" />
-                                                </Button>
-                                            </div>
-                                        ))
-                                    }
-                                </div>
-                            )
-                        }
+                        <div className="flex">
+                            <Select onValueChange={handleSelect} defaultValue={selectedValue} >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Question Type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {options.map((option) => (
+                                        <SelectItem value={option.value} key={option.id}>{option.value}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            {
+                                ["Dropdown options", "Multiple Choice"].includes(selectedValue) && (
+                                    <div>
+                                        {/* <span>options</span> */}
+                                        <Button onClick={handleOpen}>Add Options</Button>
+                                        {
+                                            isoptions.map((option, index) => (
+                                                <div key={index} className="flex items-center gap-2">
+                                                    <Input
+                                                        value={option}
+                                                        placeholder={`Option ${index + 1}`}
+                                                        onChange={(e) => updateOption(index, e.target.value)}
+                                                        className="flex-grow"
+                                                    />
+                                                    <Button
+                                                        variant="destructive"
+                                                        size="sm"
+                                                        onClick={() => deleteOption(index)}
+                                                        aria-label="Remove option"
+                                                    >
+                                                        <Trash className="h-4 w-4" />
+                                                    </Button>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
             </main>
@@ -115,3 +122,124 @@ const page = () => {
 }
 
 export default page
+
+// const questionTypes = [
+//     { id: 1, value: "Single line Input" },
+//     { id: 2, value: "Multiline Input" },
+//     { id: 3, value: "Dropdown options" },
+//     { id: 4, value: "Multiple Choice" },
+// ];
+
+// const Page = () => {
+//     const [selectedValue, setSelectedValue] = useState("");
+//     const [optionsVisible, setOptionsVisible] = useState(false);
+//     const [options, setOptions] = useState([""]);
+
+//     const handleSelect = (value) => setSelectedValue(value);
+
+//     // const showOptionsSection = () => {
+//     //     setOptionsVisible(true);
+//     // };
+
+//     const addOption = () => {
+//         setOptionsVisible(true)
+//         setOptions((prevOptions) => [...prevOptions, ""]);
+//     };
+
+//     const updateOption = (index, value) => {
+//         const updatedOptions = [...options];
+//         updatedOptions[index] = value;
+//         setOptions(updatedOptions);
+//     };
+
+//     const removeOption = (index) => {
+//         const updatedOptions = options.filter((_, i) => i !== index);
+//         setOptions(updatedOptions);
+//     };
+
+//     return (
+//         <section className="w-full min-h-screen mb-20">
+//             {/* Header */}
+//             <header className="w-full h-14 flex justify-between items-center py-3 mt-16 border-b">
+//                 <h2 className="text-2xl">Add Questions</h2>
+//                 <div className="flex justify-center items-center gap-2">
+//                     <Link href="/admin/career/questions" className="flex items-center gap-2 rounded bg-black text-white px-4 py-1">
+//                         <Plus />
+//                         <p>Save</p>
+//                     </Link>
+//                     <Link href="/admin/career/questions" className="flex items-center gap-2 rounded bg-black text-white px-4 py-1">
+//                         <ArrowLeft />
+//                         <p>Back</p>
+//                     </Link>
+//                 </div>
+//             </header>
+
+//             {/* Main Content */}
+//             <main className="w-full flex flex-col gap-4 mt-5">
+//                 {/* Question Title */}
+//                 <div className="w-full bg-white flex justify-evenly items-center p-4">
+//                     <div>
+//                         <Label htmlFor="question-title">Title</Label>
+//                         <Input id="question-title" type="text" placeholder="Questions?" />
+//                     </div>
+//                     <div className="space-x-2 items-baseline">
+//                         <Checkbox id="is-required" />
+//                         <Label htmlFor="is-required">Is required?</Label>
+//                     </div>
+//                 </div>
+
+//                 {/* Question Type Selector */}
+//                 <div className="bg-white p-4">
+//                     <div>
+//                         <Label htmlFor="question-type">Question Type</Label>
+//                         <div className="flex justify-between items-center gap-4">
+//                             <Select onValueChange={handleSelect} defaultValue={selectedValue}>
+//                                 <SelectTrigger>
+//                                     <SelectValue placeholder="Select Question Type" />
+//                                 </SelectTrigger>
+//                                 <SelectContent>
+//                                     {questionTypes.map((option) => (
+//                                         <SelectItem value={option.value} key={option.id}>
+//                                             {option.value}
+//                                         </SelectItem>
+//                                     ))}
+//                                 </SelectContent>
+//                             </Select>
+
+//                             {["Dropdown options", "Multiple Choice"].includes(selectedValue) && (
+//                                 <div className="mt-4">
+//                                     <Button variant="outline" onClick={addOption}>
+//                                         Add Option
+//                                     </Button>
+//                                 </div>
+//                             )}
+//                         </div>
+//                         <div className="flex flex-col gap-2 mt-2">
+//                             {optionsVisible &&
+//                                 options.map((option, index) => (
+//                                     <div key={index} className="flex items-center gap-2">
+//                                         <Input
+//                                             value={option}
+//                                             onChange={(e) => updateOption(index, e.target.value)}
+//                                             placeholder={`Option ${index + 1}`}
+//                                             className="flex-grow"
+//                                         />
+//                                         <Button
+//                                             variant="destructive"
+//                                             size="sm"
+//                                             onClick={() => removeOption(index)}
+//                                             aria-label="Remove option"
+//                                         >
+//                                             <Trash className="h-4 w-4" />
+//                                         </Button>
+//                                     </div>
+//                                 ))}
+//                         </div>
+//                     </div>
+//                 </div>
+//             </main>
+//         </section>
+//     );
+// };
+
+// export default Page;
