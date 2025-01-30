@@ -8,8 +8,9 @@ import LinksCannonicals from '@/components/toggle components/LinksCannonicals'
 import Ogtags from '@/components/toggle components/Ogtags'
 import TweeterTag from '@/components/toggle components/TweeterTag'
 import ScriptCode from '@/components/toggle components/ScriptCode'
+import { Controller } from 'react-hook-form'
 
-const CustomCss = () => {
+const CustomCss = ({ control }) => {
     const [isOn, setIsOn] = useState(false);
     const [islinkscannonicals, setIsLinksCannonicals] = useState(false);
     const [isogtags, setIsOgTags] = useState(false);
@@ -21,25 +22,60 @@ const CustomCss = () => {
             <main className='w-full grid grid-cols-2 gap-8 p-5'>
                 <div className='w-full gap-1.5 flex flex-col justify-start items-start'>
                     <Label htmlFor="textarea">CustomCss</Label>
-                    <Textarea id='textarea' />
+                    <Controller
+                        name='custom_css'
+                        control={control}
+                        render={({ field }) => (
+                            <Textarea id='textarea' {...field} />
+                        )}
+                    />
                 </div>
 
                 <div className='w-full grid grid-cols-3 gap-2'>
                     <div className='flex flex-col gap-2'>
                         <Label htmlFor="In-SiteMap" className='text-sm'>Show In SiteMap</Label>
-                        <Switch id="In-SiteMap" />
+                        <Controller
+                            name='sitemap'
+                            control={control}
+                            render={({ field }) => (
+                                <Switch
+                                    checked={field.value === 1}
+                                    onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}
+                                />
+                            )}
+                        />
                     </div>
                     <div className='flex flex-col gap-2'>
                         <Label htmlFor="In-Seperate" className='text-sm'>Show In Seperate SiteMap</Label>
-                        <Switch id="In-Seperate" />
+                        <Controller
+                            name='separate_siteMap'
+                            control={control}
+                            render={({ field }) => (
+                                <Switch
+                                    checked={field.value === 1}
+                                    onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}
+                                />
+                            )}
+                        />
                     </div>
                     <div className='flex flex-col gap-2'>
                         <Label htmlFor="Meta-tags" className='text-sm'>Meta tags</Label>
-                        <Switch
+                        <Controller
+                            name='Meta-tags'
+                            control={control}
+                            render={({ field }) => (
+                                <Switch
+
+                                    checked={field.value === 1 && isOn}
+                                    onCheckedChange={(checked) => field.onChange(setIsOn(checked) ? 1 : 0)}
+                                />
+                            )}
+                        />
+                        {/* <Switch
                             id="Meta-tags"
                             checked={isOn}
                             onCheckedChange={(checked) => setIsOn(checked)}
-                        />
+                        /> */}
                     </div>
                     <div className='flex flex-col gap-2'>
                         <Label htmlFor="Link-Canonicals" className='text-sm'>Link Canonicals</Label>

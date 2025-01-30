@@ -1,12 +1,13 @@
+import { nanoid } from "@reduxjs/toolkit";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const fisherYatesAlgo = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array
-}
+// const fisherYatesAlgo = (array) => {
+//     for (let i = array.length - 1; i > 0; i--) {
+//         const j = Math.floor(Math.random() * (i + 1));
+//         [array[i], array[j]] = [array[j], array[i]];
+//     }
+//     return array
+// }
 
 export const fetchComponentsBySlug = createAsyncThunk(
     'filter/fetchFilters', async (slug, { rejectWithValue }) => {
@@ -30,7 +31,7 @@ export const fetchComponentsBySlug = createAsyncThunk(
 
             return data;
         } catch (error) {
-            console.error(error);
+            console.error(error)
             return rejectWithValue(error.message)
         }
     }
@@ -38,11 +39,11 @@ export const fetchComponentsBySlug = createAsyncThunk(
 
 const initialState = {
     selectedItems: [
-        {
-            id: 0,
-            name: "All",
-            items: [],
-        },
+        // {
+        //     id: 0,
+        //     name: "All",
+        //     items: [],
+        // },
         {
             id: 1,
             name: "Home",
@@ -116,21 +117,24 @@ const filterSlice = createSlice({
     initialState,
     reducers: {
         filterByName: (state, action) => {
-            if (action.payload === "All") {
-                const allImages = state.selectedItems.flatMap(item => item.items);
-                state.filteredItems = fisherYatesAlgo(allImages)
-            } else {
-                const category = state.selectedItems.find((item) =>
-                    item.name === action.payload);
-                state.filteredItems = category ? category.items : [];
-            }
+            // if (action.payload === "All") {
+            //     const allImages = state.selectedItems.flatMap(item => item.items);
+            //     state.filteredItems = fisherYatesAlgo(allImages)
+            // } else {
+            //     const category = state.selectedItems.find((item) =>
+            //         item.name === action.payload);
+            //     state.filteredItems = category ? category.items : [];
+            // }
+            const category = state.selectedItems.find((item) =>
+                item.name === action.payload);
+            state.filteredItems = category ? category.items : [];
         },
 
         setSelectedImage: (state, action) => {
             // console.log(name)
             const { image, id } = action.payload;
             const Id = Math.floor(id / 100);
-            // console.log(Id)
+            const uniqueId = nanoid();
 
             const matchedItem = state.selectedItems.find((item) => item.id === Id);
             const name = matchedItem ? matchedItem.name : ""

@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react'
 import { BiChevronDown } from "react-icons/bi";
 import useOutsideClick from './custom hooks/Closedropdown';
 
-const Selector = () => {
+const Selector = ({ value, onChange }) => {
 
     const [selectOption, setSelectOption] = useState("None")
     const [isOpen, setIsOpen] = useState(false)
@@ -35,10 +35,11 @@ const Selector = () => {
         option.Option.toLowerCase().includes(searchQuery.toLowerCase())
     ))
 
-    const handleChange = (value) => (
-        setSelectOption(value),
+    const handleChange = (value) => {
+        setSelectOption(value)
         setIsOpen(false)
-    )
+        onChange({ value })
+    }
 
     const dropdownRef = useOutsideClick(() => setIsOpen(false));
 
@@ -47,7 +48,7 @@ const Selector = () => {
             <section className="w-full mx-auto" ref={dropdownRef}>
                 <div className="relative" >
 
-                    <button
+                    <div
                         className=" flex justify-between items-center w-full text-left rounded text-black ring-[1px] ring-slate-300 focus:ring-slate-800 py-1 px-3 duration-200"
                         onClick={() => setIsOpen(!isOpen)}
                     >
@@ -55,7 +56,7 @@ const Selector = () => {
                         <BiChevronDown
                             className={`transition-transform duration-400 ${isOpen ? "rotate-180" : "rotate-0"}`}
                         />
-                    </button>
+                    </div>
 
                     {/* Options List */}
                     {isOpen && (

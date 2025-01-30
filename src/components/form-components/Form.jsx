@@ -40,8 +40,8 @@ const DynamicForm = ({ imageId, pageName }) => {
   });
 
   const onSubmit = (data) => {
-    console.log(data)
-    // dispatch(setFormConfig({ imageId, config: data }));
+    // console.log(data)
+    dispatch(setFormConfig({ imageId, config: data }));
   };
 
   const onError = () => {

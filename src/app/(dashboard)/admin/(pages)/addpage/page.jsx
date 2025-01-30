@@ -5,8 +5,17 @@ import { MdOutlineSave } from "react-icons/md";
 import Createpage from './Createpage'
 import SelectedImage from './SelectedImage';
 import CustomCss from './CustomCss';
+import { Button } from '@/components/ui/button'
+import { useForm, Controller } from 'react-hook-form'
 
 const page = () => {
+
+  const { control, handleSubmit, setValue, getValues, reset, watch } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data)
+  }
+
   return (
     <section className="w-full min-h-screen justify-center items-center relative">
       <header className="w-full h-12  flex justify-between items-center py-3 mt-16 border-b">
@@ -30,9 +39,12 @@ const page = () => {
 
 
       <main className='mt-5 pb-20'>
-        <Createpage />
-        <SelectedImage />
-        <CustomCss />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Createpage control={control} setValue={setValue} />
+          <SelectedImage />
+          <CustomCss control={control} setValue={setValue} />
+          <Button type="Submit">Save</Button>
+        </form>
       </main>
     </section >
   )

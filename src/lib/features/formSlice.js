@@ -190,7 +190,7 @@ const formSlice = createSlice({
     initialState,
     reducers: {
         setFormConfig: (state, action) => {
-            const { imageId, config } = action.payload
+            const { imageId, uniqueId, config } = action.payload
 
             Object.keys(config).forEach((key) => {
                 if (config[key] instanceof FileList && config[key].length > 0) {
@@ -208,7 +208,11 @@ const formSlice = createSlice({
                 }
             });
 
-            state.formConfig[imageId] = config;
+            if (!state.formConfig[imageId]) {
+                state.formConfig[imageId] = [];
+            };
+
+            state.formConfig[imageId].push(config);
         }
     }
 })

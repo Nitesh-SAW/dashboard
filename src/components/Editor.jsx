@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import {
@@ -76,7 +77,7 @@ import 'ckeditor5/ckeditor5.css';
 
 const LICENSE_KEY = 'GPL'; // or <YOUR_LICENSE_KEY>.
 
-const Editor = (value, onChange) => {
+const Editor = ({ value, onChange }) => {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);

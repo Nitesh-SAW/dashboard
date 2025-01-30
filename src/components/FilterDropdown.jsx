@@ -11,7 +11,8 @@ const FilterDropdown = () => {
     const dispatch = useDispatch();
 
     // State to track selected category
-    const [selectedCategory, setSelectedCategory] = useState('All');
+    const [selectedCategory, setSelectedCategory] = useState("Home");
+    // console.log(selectedCategory);
 
     // State to handle dropdown visibility
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -21,11 +22,13 @@ const FilterDropdown = () => {
 
     const handleFilterChange = (category) => {
         setSelectedCategory(category);
-        if (category === "All") {
-            dispatch(filterByName('All'));
-        } else {
-            dispatch(filterByName(category));
-        }
+
+        dispatch(filterByName(category));
+        // if (category === "Home") {
+        //     dispatch(filterByName('Home'));
+        // } else {
+        //     dispatch(filterByName(category));
+        // }
 
 
         //for sending slug to api 
@@ -41,7 +44,7 @@ const FilterDropdown = () => {
     };
 
     useEffect(() => {
-        dispatch(filterByName('All'));
+        dispatch(filterByName('Home'));
     }, [dispatch])
 
     const dropdownRef = useOutsideClick(() => setIsDropdownOpen(false));
@@ -51,9 +54,9 @@ const FilterDropdown = () => {
             {/* Custom dropdown trigger */}
             <button className="dropdown-toggle w-[95%] flex justify-between items-center px-1 mx-1 ring-1 ring-black text-xs text-" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                 {selectedCategory}
-                <BiChevronDown
+                {/* <BiChevronDown
                     className={`transition-transform duration-400 ${isDropdownOpen ? "rotate-180" : "rotate-0"}`}
-                />
+                /> */}
             </button>
 
             {/* Dropdown menu */}

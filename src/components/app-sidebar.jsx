@@ -165,7 +165,7 @@ const data = {
         {
           icon: FaCalendarDay,
           label: "Interview Schedules",
-          link: "#"
+          link: "/admin/career/interview-schedule"
         },
         {
           icon: FaUserFriends,
