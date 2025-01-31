@@ -1,10 +1,10 @@
-"use client";
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { filterByName } from "@/lib/features/filterSlice";
-import { BiChevronDown } from "react-icons/bi";
-import useOutsideClick from "./custom hooks/Closedropdown";
-import { fetchComponentsBySlug } from "@/lib/features/filterSlice";
+'use client'
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { filterByName } from '@/lib/features/filterSlice';
+import { BiChevronDown } from 'react-icons/bi';
+import useOutsideClick from './custom hooks/Closedropdown';
+import { fetchComponentsBySlug } from '@/lib/features/filterSlice';
 
 const FilterDropdown = () => {
   const { selectedItems } = useSelector((state) => state.filter);
@@ -16,26 +16,30 @@ const FilterDropdown = () => {
   // State to handle dropdown visibility
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const handleFilterChange = (category) => {
-    setSelectedCategory(category);
-    if (category === "All") {
-      dispatch(filterByName("All"));
-    } else {
-      dispatch(filterByName(category));
-    }
+    const handleFilterChange = (category) => {
+        setSelectedCategory(category);
+        if (category === "All") {
+            dispatch(filterByName('All'));
+        } else {
+            dispatch(filterByName(category));
+        }
 
-    if (category === "Home") {
-      dispatch(fetchComponentsBySlug("/"));
-    } else {
-      dispatch(fetchComponentsBySlug(category.toLowerCase()));
-    }
 
-    setIsDropdownOpen(false); // Close dropdown after selection
-  };
+        //for sending slug to api 
 
-  useEffect(() => {
-    dispatch(filterByName("All"));
-  }, [dispatch]);
+        if (category === "Home") {
+            dispatch(fetchComponentsBySlug("/"))
+        } else {
+            dispatch(fetchComponentsBySlug(category.toLowerCase()));
+        }
+
+        // Close dropdown after selection
+        setIsDropdownOpen(false);
+    };
+
+    useEffect(() => {
+        dispatch(filterByName('All'));
+    }, [dispatch])
 
   const dropdownRef = useOutsideClick(() => setIsDropdownOpen(false));
 

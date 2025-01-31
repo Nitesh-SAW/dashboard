@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from "next/link"
-import Image from "next/image"
 import JobTable from './jobTable'
+import { Plus } from "lucide-react"
 
 const page = () => {
     return (
@@ -12,7 +12,7 @@ const page = () => {
                 </ul>
                 <ul>
                     <Link href="/admin/career/jobs/create" className="flex justify-center items-center gap-2 rounded bg-black text-white px-4 py-1">
-                        <Image src="/add.png" alt="add" width='14' height='8' />
+                        <Plus />
                         <p>Create Job</p>
                     </Link>
                 </ul>
