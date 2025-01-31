@@ -5,12 +5,12 @@ import { MdOutlineSave } from "react-icons/md";
 import Createpage from './Createpage'
 import SelectedImage from './SelectedImage';
 import CustomCss from './CustomCss';
-import { Button } from '@/components/ui/button'
+// import { Button } from '@/components/ui/button'
 import { useForm, Controller } from 'react-hook-form'
 
 const page = () => {
 
-  const { control, handleSubmit, setValue, getValues, reset, watch } = useForm();
+  const { control, handleSubmit, setValue, unregister } = useForm();
 
   const onSubmit = (data) => {
     console.log(data)
@@ -25,10 +25,10 @@ const page = () => {
         </div>
 
         <div className='flex justify-evenly items-center gap-2'>
-          <Link href="#" className='flex justify-center items-center ring-1 rounded-sm ring-black px-4 py-1'>
+          <button type="submit" form="createPageForm" className='flex justify-center items-center ring-1 rounded-sm ring-black px-4 py-1'>
             <MdOutlineSave />
             <p>Create</p>
-          </Link>
+          </button>
           <Link href="/admin/pagelist" className='flex justify-center items-center gap-2 rounded bg-black text-white px-4 py-1'>
             <IoMdArrowRoundBack />
             <p>Back</p>
@@ -39,11 +39,10 @@ const page = () => {
 
 
       <main className='mt-5 pb-20'>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form id="createPageForm" onSubmit={handleSubmit(onSubmit)}>
           <Createpage control={control} setValue={setValue} />
           <SelectedImage />
-          <CustomCss control={control} setValue={setValue} />
-          <Button type="Submit">Save</Button>
+          <CustomCss control={control} unregister={unregister} />
         </form>
       </main>
     </section >

@@ -47,7 +47,8 @@ const createpage = ({ control }) => {
                             control={control}
                             render={({ field }) => (
                                 <Input id="mainitsol" className="rounded-sm h-8" {...field} />
-                            )} />
+                            )}
+                        />
 
                     </div>
                     <div className='w-[25%] flex flex-col'>
@@ -65,6 +66,7 @@ const createpage = ({ control }) => {
                         <Controller
                             name="active"
                             control={control}
+                            defaultValue={0}
                             render={({ field }) => (
                                 <Switch
                                     checked={field.value === 1}
@@ -74,13 +76,13 @@ const createpage = ({ control }) => {
 
                     </div>
                 </div>
-                <div className='w-full flex justify-center items-center py-1 mt-2'>
+                <div className='w-full flex flex-wrap justify-center items-center py-1 mt-2'>
                     <div className='w-[97%] flex justify-center items-center rounded-sm bg-slate-100 ring-[1px] ring-slate-500 py-1'
                         onClick={handleOpenModal}>
-                        <IoMdAdd />
-                        <button>
+                        <ul className="flex justify-center items-center cursor-pointer">
+                            <IoMdAdd />
                             Add Section
-                        </button>
+                        </ul>
                     </div>
                 </div>
             </section>
