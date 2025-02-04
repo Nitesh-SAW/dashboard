@@ -178,6 +178,26 @@ const data = {
       title: "Additionals",
       items: [
         {
+          icon: FaUserFriends,
+          label: "Job Applications",
+          link: "#"
+        },
+        {
+          icon: FaCalendarDay,
+          label: "Interview Schedules",
+          link: "#"
+        },
+        {
+          icon: FaUserFriends,
+          label: "Candidate Database",
+          link: "#"
+        }
+      ]
+    },
+    {
+      title: "Additionals",
+      items: [
+        {
           icon: MdMoveToInbox,
           label: "Inbox",
           link: "#",

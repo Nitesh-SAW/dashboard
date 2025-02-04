@@ -1,19 +1,45 @@
 import React, { useState, memo, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import {
+<<<<<<< HEAD
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+=======
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"; // Adjust the import path
+import { Value } from "@radix-ui/react-select";
+>>>>>>> efe839cb8043bed62574b2dfcc13150a1e93c15f
 
-// const MemoizedSelectItem = memo(({ value, label, itemClassName }) => (
-//     <SelectItem value={value} className={itemClassName}>
-//         {label}
-//     </SelectItem>
-// ));
+const DynamicSelect = ({ options, onChange, value, placeholder }) => {
+  return (
+    <Select onValueChange={onChange} value={value}>
+      <SelectTrigger>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent>
+        {options.map((option) => (
+          <SelectItem
+            className="capitalize"
+            value={option.value}
+            key={option.id}
+          >
+            {option.value}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+};
 
+<<<<<<< HEAD
 // const DynamicSelect = ({
 //     options,
 //     onChange,
@@ -104,3 +130,6 @@ const DynamicSelect = ({ options, value, onChange, placeholder }) => {
 }
 
 export default DynamicSelect
+=======
+export default DynamicSelect;
+>>>>>>> efe839cb8043bed62574b2dfcc13150a1e93c15f

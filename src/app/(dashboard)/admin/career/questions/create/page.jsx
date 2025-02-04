@@ -53,7 +53,7 @@ const page = () => {
                         <Plus />
                         <p>Save</p>
                     </Link>
-                    <Link href="/admin/career/jobs/questions" className="flex justify-center items-center gap-2 rounded bg-black text-white px-4 py-1">
+                    <Link href="/admin/career/questions" className="flex justify-center items-center gap-2 rounded bg-black text-white px-4 py-1">
                         <ArrowLeft />
                         <p>Back</p>
                     </Link>

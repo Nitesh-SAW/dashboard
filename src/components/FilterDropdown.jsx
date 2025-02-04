@@ -7,6 +7,7 @@ import useOutsideClick from './custom hooks/Closedropdown';
 import { fetchComponentsBySlug } from '@/lib/features/filterSlice';
 
 const FilterDropdown = () => {
+<<<<<<< HEAD
     const { selectedItems } = useSelector((state) => state.filter);
     const dispatch = useDispatch();
 
@@ -17,8 +18,16 @@ const FilterDropdown = () => {
     // State to handle dropdown visibility
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+=======
+  const { selectedItems } = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
+>>>>>>> efe839cb8043bed62574b2dfcc13150a1e93c15f
 
+  // State to track selected category
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
+  // State to handle dropdown visibility
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleFilterChange = (category) => {
         setSelectedCategory(category);
@@ -47,8 +56,9 @@ const FilterDropdown = () => {
         dispatch(filterByName('Home'));
     }, [dispatch])
 
-    const dropdownRef = useOutsideClick(() => setIsDropdownOpen(false));
+  const dropdownRef = useOutsideClick(() => setIsDropdownOpen(false));
 
+<<<<<<< HEAD
     return (
         <section className="filter-Container relative w-[20%] mx-auto" ref={dropdownRef}>
             {/* Custom dropdown trigger */}
@@ -58,26 +68,45 @@ const FilterDropdown = () => {
                     className={`transition-transform duration-400 ${isDropdownOpen ? "rotate-180" : "rotate-0"}`}
                 /> */}
             </button>
+=======
+  return (
+    <section
+      className="filter-Container relative w-[20%] mx-auto"
+      ref={dropdownRef}
+    >
+      {/* Custom dropdown trigger */}
+      <button
+        className="dropdown-toggle w-[95%] flex justify-between items-center px-1 mx-1 ring-1 ring-black text-xs text-"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+      >
+        {selectedCategory}
+        <BiChevronDown
+          className={`transition-transform duration-400 ${
+            isDropdownOpen ? "rotate-180" : "rotate-0"
+          }`}
+        />
+      </button>
+>>>>>>> efe839cb8043bed62574b2dfcc13150a1e93c15f
 
-            {/* Dropdown menu */}
-            {isDropdownOpen && (
-                <div
-                    className="dropdown-menu absolute w-full ml-[2.5] mt-1 bg-white border border-slate-300 rounded-sm shadow-lg overflow-auto"
-                    style={{ zIndex: 100 }}
-                >
-                    {selectedItems.map((item) => (
-                        <div
-                            key={item.id}
-                            className="text-sm pl-1 dropdown-item cursor-pointer hover:bg-sky-500 hover:text-white"
-                            onClick={() => handleFilterChange(item.name)}
-                        >
-                            {item.name}
-                        </div>
-                    ))}
-                </div>
-            )}
-        </section>
-    );
+      {/* Dropdown menu */}
+      {isDropdownOpen && (
+        <div
+          className="dropdown-menu absolute w-full ml-[2.5] mt-1 bg-white border border-slate-300 rounded-sm shadow-lg overflow-auto"
+          style={{ zIndex: 100 }}
+        >
+          {selectedItems.map((item) => (
+            <div
+              key={item.id}
+              className="text-sm pl-1 dropdown-item cursor-pointer hover:bg-sky-500 hover:text-white"
+              onClick={() => handleFilterChange(item.name)}
+            >
+              {item.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
 };
 
 export default FilterDropdown;
