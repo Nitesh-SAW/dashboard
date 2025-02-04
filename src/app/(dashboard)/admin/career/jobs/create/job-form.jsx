@@ -91,6 +91,19 @@ const Jobform = () => {
         { id: 4, value: "Experienced Professional" }
     ];
 
+    const list = [
+        { id: 1, value: "Department Head" },
+        { id: 2, value: "Entry Lavel" },
+        { id: 3, value: "Intern/Student" },
+        { id: 4, value: "Experienced " },
+        { id: 5, value: "Professional " },
+        { id: 6, value: "Department Head" },
+        { id: 7, value: "Entry Lavel" },
+        { id: 8, value: "Intern/Student" },
+        { id: 9, value: "Experienced " },
+        { id: 0, value: "Professional " }
+    ]
+
     return (
         <section className='w-full justify-center mb-20'>
             <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col flex-wrap mt-6 space-y-4'>
@@ -181,14 +194,18 @@ const Jobform = () => {
                             <div className='space-y-2 w-44'>
                                 <Input placeholder="Search..."  {...register("skills")} />
                                 <ScrollArea className="h-56 rounded-md border">
-
+                                    {list.map((item) => (
+                                        <ul key={item.id} className='cursor-pointer'>
+                                            {item.value}
+                                            <Separator />
+                                        </ul>
+                                    ))}
                                 </ScrollArea>
                             </div>
                             <ArrowRightLeft className='text-slate-500 bold' />
                             <div className='space-y-2 w-44'>
                                 <Input placeholder="Search..." />
                                 <ScrollArea className="h-56 rounded-md border">
-
                                 </ScrollArea>
                             </div>
                         </div>
