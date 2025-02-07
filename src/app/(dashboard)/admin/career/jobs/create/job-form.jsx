@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import fetchdeparment from "@/lib/features/department";
+import { fetchdepartment } from "@/lib/features/department";
+import { fetchSkills } from "@/lib/features/skills";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,80 +13,85 @@ import Editor from "@/components/Editor";
 import DynamicSelect from "@/components/Select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-
+import { fetchqustion } from "@/lib/features/qustionslice";
+import { addJob } from "@/lib/features/addJob";
 const Jobform = () => {
   const {
     register,
     control,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      selectedSkills: [],
+      metaKeywords: [],
+    },
+  });
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    // console.log(data);
-    const Job = {
+    console.log("sending data", data);
+    const formdata = {
       title: data.title,
       slug: data.slug,
-      positions: data.positions,
+      positions: Number(data.positions),
       shortDescription: data.shortDescription,
-      description: "hii i am",
+      description: data.description,
       department: data.department,
       type: data.type,
       gender: data.gender,
       careerLevel: data.careerLevel,
-      skills: [data.skills],
-      customQuestions: ["explaining responsibilities and qualifications "],
+      skills: data.selectedSkills,
+      customQuestions: ["explaining responsibilities and qualifications"],
       metaforms: [
         {
           metatitle: data.metatitle,
           metedescription: data.metedescription,
           link: data.link,
-          metaKeywords: [data.metaKeywords],
+          metaKeywords: data.metaKeywords,
         },
       ],
     };
-    try {
-      const response = await fetch("http://localhost:3005/api/job/create-job", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Job),
-      });
-
-      if (!response.ok) {
-        const errorDetails = await response.json();
-        console.error("Error Details:", errorDetails);
-        throw new Error(errorDetails.message || "Failed to submit the form");
-      }
-
-      const result = await response.json();
-      console.log("Form submitted successfully:", result);
-    } catch (error) {
-      console.error("Failed to submit the form", error);
-    }
+    dispatch(addJob(formdata));
   };
 
-  const dispatch = useDispatch();
   const { departments } = useSelector((state) => state.departments);
   useEffect(() => {
-    dispatch(fetchdeparment());
+    dispatch(fetchdepartment());
   }, [dispatch]);
 
-  // const [data, setdata] = useState([]);
-  // useEffect(() => {
-  //   fetch("http://localhost:3005/api/job/get-department")
-  //     .then((response) => response.json())
-  //     .then((data) => setdata(data))
-  //     .catch((error) => console.log("error fetch", error));
-  // }, []);
-
-  const [skill, setskill] = useState([]);
-
+  const { skills } = useSelector((state) => state.skills);
   useEffect(() => {
-    fetch("http://localhost:3005/api/job/get-skills")
-      .then((response) => response.json())
-      .then((data) => setskill(data))
-      .catch((error) => console.log("error fetch", error));
-  }, []);
+    dispatch(fetchSkills());
+  }, [dispatch]);
+
+  const { qustions } = useSelector((state) => state.qustions);
+  useEffect(() => {
+    dispatch(fetchqustion());
+  }, [dispatch]);
+
+  const selectedSkills = watch("selectedSkills");
+  // Skill Add karne ka function
+  const handleSelectSkill = (skillName) => {
+    setValue("selectedSkills", [...selectedSkills, skillName]);
+  };
+
+  // Skill Remove karne ka function
+  const handleRemoveSkill = (skillName) => {
+    setValue(
+      "selectedSkills",
+      selectedSkills.filter((skill) => skill !== skillName)
+    );
+  };
+
+  const metaKeywords = watch("metaKeywords");
+  const handleKeywordsChange = (e) => {
+    const value = e.target.value;
+    const keywordsArray = value.split(",").map((word) => word.trim());
+    setValue("metaKeywords", keywordsArray, { shouldValidate: true });
+  };
 
   const gender = [
     { id: 1, value: "Male" },
@@ -126,7 +132,13 @@ const Jobform = () => {
           </div>
           <div className="space-y-1">
             <Label>Description</Label>
-            {/* <Editor /> */}
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <Editor value={field.value} onChange={field.onChange} />
+              )}
+            />
           </div>
         </div>
         <div className="grid grid-cols-2 bg-white text-black rounded-sm p-4 gap-4">
@@ -138,7 +150,7 @@ const Jobform = () => {
                 control={control}
                 render={({ field }) => (
                   <DynamicSelect
-                    options={state.departments.map((dept) => ({
+                    options={departments.map((dept) => ({
                       id: dept.id,
                       value: dept.department,
                     }))}
@@ -205,25 +217,50 @@ const Jobform = () => {
             <Label>Skills Required</Label>
             <div className="flex flex-row justify-between items-baseline">
               <div className="space-y-2">
-                <Input {...register("skills")} />
+                <Input type="text" placeholder="search.." />
                 <ScrollArea className="h-56 w-44 rounded-md border">
-                  {skill.length > 0 ? (
-                    skill.map((skil) => (
-                      <>
-                        <div key={skil.id} className="capitalize px-4">
-                          {skil.skillname}
+                  {/* Conditional rendering: Check if skills is available */}
+                  {skills && skills.length > 0 ? (
+                    skills
+                      .filter(
+                        (skill) => !selectedSkills.includes(skill.skillname)
+                      )
+                      .map((skill) => (
+                        <div
+                          key={skill.id}
+                          className="capitalize px-4 cursor-pointer"
+                          onClick={() => handleSelectSkill(skill.skillname)}
+                        >
+                          {skill.skillname}
+                          <Separator />
                         </div>
-                        <Separator />
-                      </>
-                    ))
+                      ))
                   ) : (
                     <p className="text-gray-500 text-center">Loading...</p>
                   )}
                 </ScrollArea>
               </div>
+
               <div className="space-y-2">
                 <Input />
-                <ScrollArea className="h-56 w-44 rounded-md border"></ScrollArea>
+                <ScrollArea className="h-56 w-44 rounded-md border">
+                  {selectedSkills.length > 0 ? (
+                    selectedSkills.map((skill, index) => (
+                      <div
+                        key={index} // Ensure unique key if it's just a skill name
+                        className=" rounded-md cursor-pointer"
+                        onClick={() => handleRemoveSkill(skill)}
+                      >
+                        {skill}
+                        <Separator />
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500 text-center">
+                      No skills selected
+                    </p>
+                  )}
+                </ScrollArea>
               </div>
             </div>
           </div>
@@ -240,19 +277,20 @@ const Jobform = () => {
               </Link>
             </div>
           </div>
-          <div className="space-x-2 text-base">
-            <Checkbox />
-            <span>
-              Have you communicated with clients globally for any project?
-            </span>
-          </div>
+          {qustions.map((que) => (
+            <div className="space-x-2 text-base">
+              <Checkbox />
+
+              <span key={que.id}>{que.title}</span>
+            </div>
+          ))}
         </div>
 
         {/* Metatags */}
         <div className="bg-white text-black rounded-sm p-4 flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             <Label>Meta Title</Label>
-            <Input placeholder="Meta Title" {...register("title")} />
+            <Input placeholder="Meta Title" {...register("metatitle")} />
           </div>
           <div className="flex flex-col  gap-2">
             <Label>Meta Description</Label>
@@ -263,7 +301,12 @@ const Jobform = () => {
           </div>
           <div className="flex flex-col  gap-2">
             <Label>Meta Keywords (comma seperated)</Label>
-            <Input placeholder="add tag" {...register("metaKeywords")} />
+            <Input
+              type="text"
+              placeholder="add tag"
+              onChange={handleKeywordsChange}
+              value={metaKeywords.join(", ")}
+            />
           </div>
           <div className="flex flex-col  gap-2">
             <Label>Link Canonical</Label>

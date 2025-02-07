@@ -5,41 +5,39 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { adddepartment, updateDepartment } from "@/lib/features/department";
 
 const page = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
-  const createdepartment = async (data) => {
-    console.log(data);
-    const depatm = {
-      department: data.department,
-    };
-    try {
-      const response = await fetch(
-        "http://localhost:3005/api/job/create-dpartment",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(depatm),
-        }
-      );
-      if (!response.ok) {
-        const errorDetails = await response.json();
-        console.error("Error Details:", errorDetails);
-        throw new Error(
-          errorDetails.message || "Failed to submit the department"
-        );
-      }
+  const dispatch = useDispatch();
+  const [selectedDepartment, setselectedDepartment] = useState(null);
 
-      const result = await response.json();
-      console.log("department submitted successfully:", result);
-    } catch (error) {
-      console.log("Failed to create", error);
+  const createdepartment = (data) => {
+    if (selectedDepartment) {
+      dispatch(
+        updateDepartment({
+          id: selectedDepartment.id,
+          department: data.department,
+        })
+      );
+    } else {
+      dispatch(adddepartment({ department: data.department }));
     }
+    setselectedDepartment(null);
+    setValue("department", "");
+  };
+
+  const handleUpdatedepartment = (dep) => {
+    setselectedDepartment(dep);
+    setValue("department", dep.name);
   };
 
   return (
@@ -53,12 +51,12 @@ const page = () => {
             <Label> Department Name</Label>
             <Input type="text" {...register("department")} />
             <Button variant="outline" className="w-12 h-8" type="submit">
-              Save
+              {selectedDepartment ? "Update" : "Save"}
             </Button>
           </div>
         </form>
 
-        <DepartmentsList  />
+        <DepartmentsList onEdit={handleUpdatedepartment} />
       </main>
     </section>
   );
