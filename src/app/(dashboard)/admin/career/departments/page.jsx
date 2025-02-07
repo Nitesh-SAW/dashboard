@@ -20,7 +20,7 @@ const page = () => {
     };
     try {
       const response = await fetch(
-        "http://localhost:3005/api/job/create-dpartment",
+        "https://breezend-backend-2.onrender.com/api/job/create-dpartment",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -58,7 +58,7 @@ const page = () => {
           </div>
         </form>
 
-        <DepartmentsList  />
+        <DepartmentsList />
       </main>
     </section>
   );

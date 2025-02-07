@@ -12,39 +12,39 @@ import DynamicForm from "@/components/form-components/Form";
 import { Button } from "@/components/ui/button";
 
 const SelectedImage = () => {
-  const [ismask, setIsMask] = useState([]);
-  const [isFormVisible, setIsFormVisible] = useState({});
+    const [ismask, setIsMask] = useState([]);
+    const [isFormVisible, setIsFormVisible] = useState({});
 
-  const handleForm = (id) => {
-    setIsFormVisible((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+    const handleForm = (id) => {
+        setIsFormVisible((prev) => ({ ...prev, [id]: !prev[id] }));
+    };
 
 
     const { selectedImage } = useSelector((state) => state.filter);
-    // console.log(selectedImage);
+    console.log(selectedImage);
     const dispatch = useDispatch()
 
-  const handleDelete = (index) => {
-    dispatch(removeSelectedImage(index));
-  };
-  const handleMask = (Id) => {
-    setIsMask((prev) =>
-      prev.includes(Id) ? prev.filter((item) => item !== Id) : [...prev, Id]
-    );
-  };
+    const handleDelete = (index) => {
+        dispatch(removeSelectedImage(index));
+    };
+    const handleMask = (Id) => {
+        setIsMask((prev) =>
+            prev.includes(Id) ? prev.filter((item) => item !== Id) : [...prev, Id]
+        );
+    };
 
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
+    const onDragEnd = (result) => {
+        const { source, destination } = result;
 
-    if (!destination) return;
+        if (!destination) return;
 
-    dispatch(
-      reorderImages({
-        sourceIndex: source.index,
-        destinationIndex: destination.index,
-      })
-    );
-  };
+        dispatch(
+            reorderImages({
+                sourceIndex: source.index,
+                destinationIndex: destination.index,
+            })
+        );
+    };
 
     return (
         <section className='w-[98%] min-h-full rounded-sm mt-4 bg-white mx-3 py-6 px-3 relative'>

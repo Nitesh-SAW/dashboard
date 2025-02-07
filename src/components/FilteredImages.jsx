@@ -6,6 +6,7 @@ import { setSelectedImage } from '@/lib/features/filterSlice'
 
 const FilteredImages = () => {
     const { filteredItems } = useSelector((state) => state.filter)
+    console.log(filteredItems)
     const dispatch = useDispatch();
 
 

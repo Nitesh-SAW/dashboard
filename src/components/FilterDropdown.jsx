@@ -7,86 +7,61 @@ import useOutsideClick from './custom hooks/Closedropdown';
 import { fetchComponentsBySlug } from '@/lib/features/filterSlice';
 
 const FilterDropdown = () => {
-<<<<<<< HEAD
-    const { selectedItems } = useSelector((state) => state.filter);
-    const dispatch = useDispatch();
-
-    // State to track selected category
-    const [selectedCategory, setSelectedCategory] = useState("Home");
-    // console.log(selectedCategory);
-
-    // State to handle dropdown visibility
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-=======
   const { selectedItems } = useSelector((state) => state.filter);
   const dispatch = useDispatch();
->>>>>>> efe839cb8043bed62574b2dfcc13150a1e93c15f
 
   // State to track selected category
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("Home");
+  // console.log(selectedCategory);                 
 
   // State to handle dropdown visibility
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const handleFilterChange = (category) => {
-        setSelectedCategory(category);
 
-        dispatch(filterByName(category));
-        // if (category === "Home") {
-        //     dispatch(filterByName('Home'));
-        // } else {
-        //     dispatch(filterByName(category));
-        // }
+  // State to track selected category
+  // const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // // State to handle dropdown visibility
+  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleFilterChange = (category) => {
+    setSelectedCategory(category);
+
+    dispatch(filterByName(category));
+    // if (category === "Home") {
+    //     dispatch(filterByName('Home'));
+    // } else {
+    //     dispatch(filterByName(category));
+    // }
 
 
-        //for sending slug to api 
+    //for sending slug to api 
 
-        if (category === "Home") {
-            dispatch(fetchComponentsBySlug("/"))
-        } else {
-            dispatch(fetchComponentsBySlug(category.toLowerCase()));
-        }
+    if (category === "Home") {
+      dispatch(fetchComponentsBySlug("/"))
+    } else {
+      dispatch(fetchComponentsBySlug(category.toLowerCase()));
+    }
 
-        // Close dropdown after selection
-        setIsDropdownOpen(false);
-    };
+    // Close dropdown after selection
+    setIsDropdownOpen(false);
+  };
 
-    useEffect(() => {
-        dispatch(filterByName('Home'));
-    }, [dispatch])
+  useEffect(() => {
+    dispatch(filterByName('Home'));
+  }, [dispatch])
 
   const dropdownRef = useOutsideClick(() => setIsDropdownOpen(false));
 
-<<<<<<< HEAD
-    return (
-        <section className="filter-Container relative w-[20%] mx-auto" ref={dropdownRef}>
-            {/* Custom dropdown trigger */}
-            <button className="dropdown-toggle w-[95%] flex justify-between items-center px-1 mx-1 ring-1 ring-black text-xs text-" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                {selectedCategory}
-                {/* <BiChevronDown
+  return (
+    <section className="filter-Container relative w-[20%] mx-auto" ref={dropdownRef}>
+      {/* Custom dropdown trigger */}
+      <button className="dropdown-toggle w-[95%] flex justify-between items-center px-1 mx-1 ring-1 ring-black text-xs text-" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+        {selectedCategory}
+        {/* <BiChevronDown
                     className={`transition-transform duration-400 ${isDropdownOpen ? "rotate-180" : "rotate-0"}`}
                 /> */}
-            </button>
-=======
-  return (
-    <section
-      className="filter-Container relative w-[20%] mx-auto"
-      ref={dropdownRef}
-    >
-      {/* Custom dropdown trigger */}
-      <button
-        className="dropdown-toggle w-[95%] flex justify-between items-center px-1 mx-1 ring-1 ring-black text-xs text-"
-        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-      >
-        {selectedCategory}
-        <BiChevronDown
-          className={`transition-transform duration-400 ${
-            isDropdownOpen ? "rotate-180" : "rotate-0"
-          }`}
-        />
       </button>
->>>>>>> efe839cb8043bed62574b2dfcc13150a1e93c15f
 
       {/* Dropdown menu */}
       {isDropdownOpen && (

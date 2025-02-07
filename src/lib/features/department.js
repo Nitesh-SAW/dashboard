@@ -1,9 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchdepartment = createAsyncThunk("fetchdepartment", async () => {
-  const response = await fetch("http://localhost:3005/api/job/get-department");
-  // if (!response.ok) throw new error("Failed to fetch");
-  return await response.json();
+  try {
+    const response = await fetch("https://breezend-backend-2.onrender.com/api/job/get-department");
+    if (!response.ok) throw new error("Failed to fetch");
+    return await response.json();
+  } catch (error) {
+    console.log(error)
+  }
 });
 const departmentslice = createSlice({
   name: "department",
@@ -12,7 +16,8 @@ const departmentslice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {}, // No reducers needed for now
+  reducers: {},
+  // No reducers needed for now
   extraReducers: (builder) => {
     builder
       .addCase(fetchdepartment.pending, (state) => {

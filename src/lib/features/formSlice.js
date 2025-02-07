@@ -215,19 +215,11 @@ const initialState = {
 };
 
 const formSlice = createSlice({
-<<<<<<< HEAD
-    name: 'Form',
-    initialState,
-    reducers: {
-        setFormConfig: (state, action) => {
-            const { imageId, uniqueId, config } = action.payload
-=======
-  name: "Form",
+  name: 'Form',
   initialState,
   reducers: {
     setFormConfig: (state, action) => {
-      const { imageId, config } = action.payload;
->>>>>>> efe839cb8043bed62574b2dfcc13150a1e93c15f
+      const { imageId, uniqueId, config } = action.payload
 
       Object.keys(config).forEach((key) => {
         if (config[key] instanceof FileList && config[key].length > 0) {
@@ -241,25 +233,17 @@ const formSlice = createSlice({
           //     type: file.type,
           // };
 
-<<<<<<< HEAD
-                    delete config[key];
-                }
-            });
-
-            if (!state.formConfig[imageId]) {
-                state.formConfig[imageId] = [];
-            };
-
-            state.formConfig[imageId].push(config);
-=======
           delete config[key];
->>>>>>> efe839cb8043bed62574b2dfcc13150a1e93c15f
         }
       });
 
-      state.formConfig[imageId] = config;
-    },
-  },
+      if (!state.formConfig[imageId]) {
+        state.formConfig[imageId] = [];
+      };
+
+      state.formConfig[imageId].push(config);
+    }
+  }
 });
 
 export const { setFormConfig } = formSlice.actions;

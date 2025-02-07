@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     useReactTable,
     getCoreRowModel,
@@ -32,79 +32,81 @@ import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 import { Checkbox } from "@/components/ui/checkbox";
 import DataTable from '@/components/data-table/DataTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchdepartment } from '@/lib/features/department';
 
-const data = [
-    {
-        id: "1",
-        name: "Home",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-    {
-        id: "2",
-        name: "about",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-    {
-        id: "3",
-        name: "contect",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-    {
-        id: "4",
-        name: "sliders",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-    {
-        id: "5",
-        name: "banners",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-    {
-        id: "6",
-        name: "selectors",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-    {
-        id: "7",
-        name: "select",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-    {
-        id: "8",
-        name: "Renders",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-    {
-        id: "9",
-        name: "Traders",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-    {
-        id: "10",
-        name: "post",
-        active: "",
-        createdat: "",
-        action: "",
-    },
-];
+// const data = [
+//     {
+//         id: "1",
+//         name: "Home",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+//     {
+//         id: "2",
+//         name: "about",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+//     {
+//         id: "3",
+//         name: "contect",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+//     {
+//         id: "4",
+//         name: "sliders",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+//     {
+//         id: "5",
+//         name: "banners",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+//     {
+//         id: "6",
+//         name: "selectors",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+//     {
+//         id: "7",
+//         name: "select",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+//     {
+//         id: "8",
+//         name: "Renders",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+//     {
+//         id: "9",
+//         name: "Traders",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+//     {
+//         id: "10",
+//         name: "post",
+//         active: "",
+//         createdat: "",
+//         action: "",
+//     },
+// ];
 
 const columns = [
     {
@@ -181,13 +183,24 @@ const columns = [
 ];
 
 const DepartmentList = () => {
-   
- 
-
-
-
+    const dispatch = useDispatch();
+    const { departments } = useSelector((state) => state.departments);
+    useEffect(() => (
+        dispatch(fetchdepartment())
+    ), [dispatch])
+    const data = departments.map((dept) => (
+        {
+            id: dept.id,
+            name: dept.department,
+            active: "",
+            createdat: dept.created_at,
+            action: "",
+        }
+    ))
     return (
-        <DataTable data={data} columns={columns} />
+        <>
+            <DataTable data={data} columns={columns} />
+        </>
     )
 }
 
