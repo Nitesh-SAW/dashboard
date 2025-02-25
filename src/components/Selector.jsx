@@ -38,7 +38,7 @@ const Selector = ({ value, onChange }) => {
     const handleChange = (value) => {
         setSelectOption(value)
         setIsOpen(false)
-        onChange({ value })
+        onChange(value)
     }
 
     const dropdownRef = useOutsideClick(() => setIsOpen(false));

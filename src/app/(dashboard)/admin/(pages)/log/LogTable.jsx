@@ -11,6 +11,7 @@ import {
   SelectValue,
   SelectInput
 } from "@/components/ui/select";
+import DynamicSelect from "@/components/Select";
 import {
   flexRender,
   getCoreRowModel,
@@ -142,27 +143,15 @@ const LogTable = () => {
   return (
     <section className="w-full p-1 bg-white">
       <div className="flex gap-2">
+        <DynamicSelect
+          placeholder="Select"
+          options={options}
+        />
+        <DynamicSelect
+          placeholder="Select"
+          options={options}
+        />
 
-        {/* <Select>
-          <SelectTrigger>
-            <SelectValue placeholder="All Users">
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <Input
-              placeholder="Search..."
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {filteredOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select> */}
-        <ComboboxDemo />
         <Button>Generate Log</Button>
       </div>
 

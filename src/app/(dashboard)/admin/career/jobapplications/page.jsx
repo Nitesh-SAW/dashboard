@@ -75,7 +75,7 @@ const DraggableColumns = () => {
                                             <div
                                                 ref={provided.innerRef}
                                                 {...provided.droppableProps}
-                                                className="w-64 px-4 bg-gray-200 rounded-md min-h-[300px] flex flex-col"
+                                                className="w-64 px-4 bg-gray-200 rounde d-md min-h-[300px] flex flex-col"
                                             >
                                                 <h2 className="text-center p-2 font-bold mb-2">{colId}</h2>
                                                 <div className="flex-1 overflow-y-auto max-h-[200px] flex flex-col">

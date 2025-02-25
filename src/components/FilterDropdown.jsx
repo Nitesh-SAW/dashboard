@@ -56,12 +56,12 @@ const FilterDropdown = () => {
   return (
     <section className="filter-Container relative w-[20%] mx-auto" ref={dropdownRef}>
       {/* Custom dropdown trigger */}
-      <button className="dropdown-toggle w-[95%] flex justify-between items-center px-1 mx-1 ring-1 ring-black text-xs text-" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+      <div className="dropdown-toggle w-[95%] flex justify-between items-center px-1 mx-1 ring-1 ring-black text-xs cursor-pointer" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
         {selectedCategory}
         {/* <BiChevronDown
                     className={`transition-transform duration-400 ${isDropdownOpen ? "rotate-180" : "rotate-0"}`}
                 /> */}
-      </button>
+      </div>
 
       {/* Dropdown menu */}
       {isDropdownOpen && (

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchdepartment } from "@/lib/features/department";
-import { fetchSkills } from "@/lib/features/skillSlice";
+import { fetchSkills } from "@/lib/features/skills";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,27 +13,29 @@ import Editor from "@/components/Editor";
 import DynamicSelect from "@/components/Select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-
+import { fetchqustion } from "@/lib/features/qustionslice";
+import { addJob } from "@/lib/features/addJob";
 const Jobform = () => {
     const {
         register,
         control,
         handleSubmit,
-        setValue,
         watch,
+        setValue,
         formState: { errors },
-        reset
     } = useForm({
         defaultValues: {
             selectedSkills: [],
-            metaKeywords: []
+            metaKeywords: [],
+            selectedQuestions: []
         },
     });
-
+    const dispatch = useDispatch();
+    const selectedQuestions = watch("selectedQuestions");
 
     const onSubmit = async (data) => {
-        console.log(data);
-        const Job = {
+        console.log("sending data", data);
+        const formdata = {
             title: data.title,
             slug: data.slug,
             positions: Number(data.positions),
@@ -44,7 +46,7 @@ const Jobform = () => {
             gender: data.gender,
             careerLevel: data.careerLevel,
             skills: data.selectedSkills,
-            customQuestions: ["explaining responsibilities and qualifications "],
+            customQuestions: data.selectedQuestions,
             metaforms: [
                 {
                     metatitle: data.metatitle,
@@ -54,43 +56,48 @@ const Jobform = () => {
                 },
             ],
         };
-        console.log(Job)
-        try {
-            const response = await fetch("https://breezend-backend-2.onrender.com/api/job/create-job",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(Job),
-                });
-
-            if (!response.ok) {
-                const errorDetails = await response.json();
-                console.error("Error Details:", errorDetails);
-                throw new Error(errorDetails.message || "Failed to submit the form");
-            }
-
-            const result = await response.json();
-            console.log("Form submitted successfully:", result);
-        } catch (error) {
-            console.error("Failed to submit the form", error);
-        }
+        console.log(formdata)
+        dispatch(addJob(formdata));
     };
 
-    const dispatch = useDispatch();
     const { departments } = useSelector((state) => state.departments);
     useEffect(() => {
         dispatch(fetchdepartment());
     }, [dispatch]);
 
-    const { skills } = useSelector((state) => state.skill);
-    // console.log(skills)
+    const { skills } = useSelector((state) => state.skills);
     useEffect(() => {
         dispatch(fetchSkills());
     }, [dispatch]);
 
-    const genders = [
+    const { qustions } = useSelector((state) => state.qustions);
+    useEffect(() => {
+        dispatch(fetchqustion());
+    }, [dispatch]);
+
+    const selectedSkills = watch("selectedSkills");
+    // Funtion for Adding Skill
+    const handleSelectSkill = (skillName) => {
+        setValue("selectedSkills", [...selectedSkills, skillName]);
+    };
+
+    // Funtion for removing Skill
+    const handleRemoveSkill = (skillName) => {
+        setValue(
+            "selectedSkills",
+            selectedSkills.filter((skill) => skill !== skillName)
+        );
+    };
+
+    const metaKeywords = watch("metaKeywords");
+    const handleKeywordsChange = (e) => {
+        const value = e.target.value;
+        const keywordsArray = value.split(",").map((word) => word.trim());
+        setValue("metaKeywords", keywordsArray, { shouldValidate: true });
+    };
+
+
+    const gender = [
         { id: 1, value: "Male" },
         { id: 2, value: "Female" },
         { id: 3, value: "No preference" },
@@ -108,33 +115,6 @@ const Jobform = () => {
         { id: 3, value: "Intern/Student" },
         { id: 4, value: "Experienced Professional" },
     ];
-
-    // const [searchQuery, setSearchQuery] = useState("");
-    // const [selected, setSelected] = useState("");
-
-    // const searchOption = skills.filter((skill) => (
-    //     skill.skillname.toLowerCase().includes(searchQuery.toLowerCase())
-    // ))
-    const selectedSkills = watch("selectedSkills");
-    // Skill Add karne ka function
-    const handleSelectSkill = (skillName) => {
-        setValue("selectedSkills", [...selectedSkills, skillName]);
-    };
-
-    // Skill Remove karne ka function
-    const handleRemoveSkill = (skillName) => {
-        setValue(
-            "selectedSkills",
-            selectedSkills.filter((skill) => skill !== skillName)
-        );
-    };
-
-    const metaKeywords = watch("metaKeywords")
-    const handleKeywordsChange = (e) => {
-        const value = e.target.value;
-        const keywordsArray = value.split(",").map((word) => word.trim())
-        setValue("metaKeywords", keywordsArray, { shouldValidate: true });
-    }
 
     return (
         <section className="w-full justify-center mb-20">
@@ -160,10 +140,7 @@ const Jobform = () => {
                             name="description"
                             control={control}
                             render={({ field }) => (
-                                <Editor
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                />
+                                <Editor value={field.value} onChange={field.onChange} />
                             )}
                         />
                     </div>
@@ -215,7 +192,7 @@ const Jobform = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <DynamicSelect
-                                            options={genders}
+                                            options={gender}
                                             value={field.value}
                                             onChange={field.onChange}
                                             placeholder="Select Gender"
@@ -240,16 +217,17 @@ const Jobform = () => {
                             />
                         </div>
                     </div>
-                    <div className="px-6">
+                    <div>
                         <Label>Skills Required</Label>
                         <div className="flex flex-row justify-between items-baseline">
                             <div className="space-y-2">
                                 <Input type="text" placeholder="search.." />
                                 <ScrollArea className="h-56 w-44 rounded-md border">
-                                    {/* Conditional rendering: Check if skills is available */}
                                     {skills && skills.length > 0 ? (
                                         skills
-                                            .filter((skill) => !selectedSkills.includes(skill.skillname))
+                                            .filter(
+                                                (skill) => !selectedSkills.includes(skill.skillname)
+                                            )
                                             .map((skill) => (
                                                 <div
                                                     key={skill.id}
@@ -272,7 +250,7 @@ const Jobform = () => {
                                     {selectedSkills.length > 0 ? (
                                         selectedSkills.map((skill, index) => (
                                             <div
-                                                key={index} // Ensure unique key if it's just a skill name
+                                                key={index}
                                                 className=" rounded-md cursor-pointer"
                                                 onClick={() => handleRemoveSkill(skill)}
                                             >
@@ -281,11 +259,12 @@ const Jobform = () => {
                                             </div>
                                         ))
                                     ) : (
-                                        <p className="text-gray-500 text-center">No skills selected</p>
+                                        <p className="text-gray-500 text-center">
+                                            No skills selected
+                                        </p>
                                     )}
                                 </ScrollArea>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -296,17 +275,32 @@ const Jobform = () => {
                         <h2>Custom Questions</h2>
                         <div className="flex gap-2">
                             <Button>Refresh </Button>
-                            <Link href="/admin/career/questions">
+                            <Link href="/admin/career/questions/create">
                                 <Button> Add Questions</Button>
                             </Link>
                         </div>
                     </div>
-                    <div className="space-x-2 text-base">
-                        <Checkbox />
-                        <span>
-                            Have you communicated with clients globally for any project?
-                        </span>
-                    </div>
+                    {qustions.map((que) => (
+                        <div key={que.id} className="space-x-2 text-base">
+                            <Controller
+                                name="selectedQuestions"
+                                control={control}
+                                render={({ field }) => (
+                                    <Checkbox
+                                        checked={field.value.includes(que.title)}
+                                        onCheckedChange={(checked) => {
+                                            field.onChange(
+                                                checked
+                                                    ? [...field.value, que.title]
+                                                    : field.value.filter((q) => q !== que.title)
+                                            );
+                                        }}
+                                    />
+                                )}
+                            />
+                            <span>{que.title}</span>
+                        </div>
+                    ))}
                 </div>
 
                 {/* Metatags */}
@@ -324,7 +318,8 @@ const Jobform = () => {
                     </div>
                     <div className="flex flex-col  gap-2">
                         <Label>Meta Keywords (comma seperated)</Label>
-                        <Input type="text"
+                        <Input
+                            type="text"
                             placeholder="add tag"
                             onChange={handleKeywordsChange}
                             value={metaKeywords.join(", ")}

@@ -1,9 +1,9 @@
 "use client"
 import { IoMdAdd } from "react-icons/io";
 import Image from "next/image";
-import Selector from '@/components/Selector'
+import Selector from '@/components/Selector';
 import SelectComponent from "./SelectComponent";
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Controller } from "react-hook-form";
@@ -34,6 +34,7 @@ const createpage = ({ control }) => {
                         <Controller
                             name="title"
                             control={control}
+                            defaultValue=""
                             render={({ field }) => (
                                 <Input id="Title" className="rounded-sm h-8" {...field} />
                             )}
@@ -45,6 +46,7 @@ const createpage = ({ control }) => {
                         <Controller
                             name="url"
                             control={control}
+                            defaultValue=""
                             render={({ field }) => (
                                 <Input id="mainitsol" className="rounded-sm h-8" {...field} />
                             )}
@@ -56,8 +58,9 @@ const createpage = ({ control }) => {
                         <Controller
                             name="parent"
                             control={control}
+                            defaultValue=""
                             render={({ field }) => (
-                                <Selector {...field} value={field.value} onChange={field.onChange} />
+                                <Selector {...field} value={field.value} onChange={field.onChange} className="cursor-pointer" />
                             )} />
 
                     </div>
@@ -66,14 +69,13 @@ const createpage = ({ control }) => {
                         <Controller
                             name="active"
                             control={control}
-                            defaultValue={0}
+                            defaultValue={false}
                             render={({ field }) => (
                                 <Switch
-                                    checked={field.value === 1}
-                                    onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}
+                                    checked={field.value === true}
+                                    onCheckedChange={(checked) => field.onChange(checked ? true : false)}
                                 />
                             )} />
-
                     </div>
                 </div>
                 <div className='w-full flex flex-wrap justify-center items-center py-1 mt-2'>

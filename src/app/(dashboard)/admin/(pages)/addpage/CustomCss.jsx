@@ -13,29 +13,29 @@ const CustomCss = ({ control, unregister }) => {
     const istweetertag = useWatch({ control, name: "twitter_tags" });
     const isscriptcode = useWatch({ control, name: "script_code" });
     useEffect(() => {
-        if (isMetaTagsOn === 0) {
+        if (isMetaTagsOn === false) {
             unregister("meta-title");
             unregister("meta-keyword");
             unregister("meta-description");
         }
-        if (islinkscannonicals === 0) {
+        if (islinkscannonicals === false) {
             unregister("islinkscannonicals_href");
         }
-        if (isogtags === 0) {
+        if (isogtags === false) {
             unregister("og_title");
             unregister("og_url");
             unregister("og_type");
             unregister("og_picture");
             unregister("og_description");
         }
-        if (istweetertag === 0) {
+        if (istweetertag === false) {
             unregister("tweeter_title");
             unregister("tweeter_url");
             unregister("tweeter_card");
             unregister("tweeter_picture");
             unregister("tweeter_description");
         }
-        if (isscriptcode === 0) {
+        if (isscriptcode === false) {
             unregister("scrip");
         }
     }, [isMetaTagsOn, islinkscannonicals, isogtags, istweetertag, isscriptcode, unregister]);
@@ -49,7 +49,7 @@ const CustomCss = ({ control, unregister }) => {
                         name='custom_css'
                         control={control}
                         render={({ field }) => (
-                            <Textarea id='textarea' {...field} />
+                            <Textarea id='textarea' className="min-h-40" {...field} />
                         )}
                     />
                 </div>
@@ -61,12 +61,12 @@ const CustomCss = ({ control, unregister }) => {
                         <Controller
                             name='sitemap'
                             control={control}
-                            defaultValue={0}
+                            defaultValue={false}
                             render={({ field }) => (
                                 <Switch
                                     id="In-SiteMap"
-                                    checked={field.value === 1}
-                                    onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}
+                                    checked={field.value === true}
+                                    onCheckedChange={(checked) => field.onChange(checked ? true : false)}
                                 />
                             )}
                         />
@@ -76,12 +76,12 @@ const CustomCss = ({ control, unregister }) => {
                         <Controller
                             name='separate_siteMap'
                             control={control}
-                            defaultValue={0}
+                            defaultValue={false}
                             render={({ field }) => (
                                 <Switch
                                     id="In-Seperate"
-                                    checked={field.value === 1}
-                                    onCheckedChange={(checked) => field.onChange(checked ? 1 : 0)}
+                                    checked={field.value === true}
+                                    onCheckedChange={(checked) => field.onChange(checked ? true : false)}
                                 />
                             )}
                         />
@@ -91,12 +91,12 @@ const CustomCss = ({ control, unregister }) => {
                         <Controller
                             name='isBlog'
                             control={control}
-                            defaultValue={0}
+                            defaultValue={false}
                             render={({ field }) => (
                                 <Switch
                                     id="Is-Blog"
-                                    checked={field.value === 1}
-                                    onCheckedChange={(checked) => { field.onChange(checked ? 1 : 0); }}
+                                    checked={field.value === true}
+                                    onCheckedChange={(checked) => { field.onChange(checked ? true : false); }}
                                 />
                             )}
                         />
@@ -106,12 +106,12 @@ const CustomCss = ({ control, unregister }) => {
                         <Controller
                             name='meta_tags'
                             control={control}
-                            defaultValue={0}
+                            defaultValue={false}
                             render={({ field }) => (
                                 <Switch
                                     id="Meta-tags"
-                                    checked={field.value === 1}
-                                    onCheckedChange={(checked) => { field.onChange(checked ? 1 : 0); }}
+                                    checked={field.value === true}
+                                    onCheckedChange={(checked) => { field.onChange(checked ? true : false); }}
                                 />
                             )}
                         />
@@ -121,12 +121,12 @@ const CustomCss = ({ control, unregister }) => {
                         <Controller
                             name='link_canonicals'
                             control={control}
-                            defaultValue={0}
+                            defaultValue={false}
                             render={({ field }) => (
                                 <Switch
                                     id="Link-Canonicals"
-                                    checked={field.value === 1}
-                                    onCheckedChange={(checked) => { field.onChange(checked ? 1 : 0); }}
+                                    checked={field.value === true}
+                                    onCheckedChange={(checked) => { field.onChange(checked ? true : false); }}
                                 />
                             )}
                         />
@@ -136,12 +136,12 @@ const CustomCss = ({ control, unregister }) => {
                         <Controller
                             name='open_graph'
                             control={control}
-                            defaultValue={0}
+                            defaultValue={false}
                             render={({ field }) => (
                                 <Switch
                                     id="Open-Graph"
-                                    checked={field.value === 1}
-                                    onCheckedChange={(checked) => { field.onChange(checked ? 1 : 0); }}
+                                    checked={field.value === true}
+                                    onCheckedChange={(checked) => { field.onChange(checked ? true : false); }}
                                 />
                             )}
                         />
@@ -151,12 +151,12 @@ const CustomCss = ({ control, unregister }) => {
                         <Controller
                             name='twitter_tags'
                             control={control}
-                            defaultValue={0}
+                            defaultValue={false}
                             render={({ field }) => (
                                 <Switch
                                     id="Twitter-Tags"
-                                    checked={field.value === 1}
-                                    onCheckedChange={(checked) => { field.onChange(checked ? 1 : 0); }}
+                                    checked={field.value === true}
+                                    onCheckedChange={(checked) => { field.onChange(checked ? true : false); }}
                                 />
                             )}
                         />
@@ -166,12 +166,12 @@ const CustomCss = ({ control, unregister }) => {
                         <Controller
                             name='script_code'
                             control={control}
-                            defaultValue={0}
+                            defaultValue={false}
                             render={({ field }) => (
                                 <Switch
                                     id="Script-Code"
-                                    checked={field.value === 1}
-                                    onCheckedChange={(checked) => { field.onChange(checked ? 1 : 0); }}
+                                    checked={field.value === true}
+                                    onCheckedChange={(checked) => { field.onChange(checked ? true : false); }}
                                 />
                             )}
                         />
@@ -181,29 +181,41 @@ const CustomCss = ({ control, unregister }) => {
             <div className='flex flex-col gap-1'>
                 {/* <Metatags isOn={isOn} /> */}
                 {/* {isMetaTagsOn && <Metatags control={control} isOn={isMetaTagsOn} />} */}
-                {isMetaTagsOn === 1 && <div className='w-full p-3'>
+                {isMetaTagsOn === true && <div className='w-full p-3'>
                     <hr />
                     <h4 className='font-normal my-4 pl-3'>META TAGS</h4>
                     <hr />
                     <div className='w-full grid grid-cols-2 gap-8 p-3'>
                         <div>
                             <Label htmlFor="Meta-Title">Meta Title</Label>
-                            <Controller name="meta-title" control={control} render={({ field }) => (<Input type="text" id="Meta-Title" {...field} />)} />
+                            <Controller
+                                name="meta_title"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (<Input type="text" id="Meta-Title" {...field} />)} />
 
                             <Label htmlFor="Meta-Keywords">Meta Keywords</Label>
-                            <Controller name="meta-keyword" control={control} render={({ field }) => (<Input type="text" id="Meta-Keywords" {...field} />)} />
+                            <Controller
+                                name="meta_keyword"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (<Input type="text" id="Meta-Keywords" {...field} />)} />
 
                         </div>
                         <div>
                             <Label htmlFor="Meta-Description">Meta Description</Label>
-                            <Controller name="meta-description" control={control} render={({ field }) => (<Textarea id="Meta-Description" {...field} />)} />
+                            <Controller
+                                name="meta_description"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (<Textarea id="Meta-Description" {...field} />)} />
 
                         </div>
                     </div>
                 </div>
                 }
                 {/* <LinksCannonicals islinkscannonicals={islinkscannonicals} /> */}
-                {islinkscannonicals === 1 &&
+                {islinkscannonicals === true &&
                     <div className='w-full p-3'>
                         <hr />
                         <h4 className='font-normal my-4 pl-3'>LINK CANONICAL</h4>
@@ -213,13 +225,14 @@ const CustomCss = ({ control, unregister }) => {
                             <Controller
                                 name='islinkscannonicals_href'
                                 control={control}
+                                defaultValue=""
                                 render={({ field }) => (<Input type="text" id="href" {...field} />)}
                             />
                         </div>
                     </div>
                 }
                 {/* <Ogtags isogtags={isogtags} /> */}
-                {isogtags === 1 && <div className='w-full p-3'>
+                {isogtags === true && <div className='w-full p-3'>
                     <hr />
                     <h4 className=' font-normal my-4 pl-3'>OG TAGS</h4>
                     <hr />
@@ -229,6 +242,7 @@ const CustomCss = ({ control, unregister }) => {
                             <Controller
                                 name='og_title'
                                 control={control}
+                                defaultValue=""
                                 render={({ field }) => (<Input id='Title' {...field} />)}
                             />
 
@@ -236,6 +250,7 @@ const CustomCss = ({ control, unregister }) => {
                             <Controller
                                 name='og_url'
                                 control={control}
+                                defaultValue=""
                                 render={({ field }) => (<Input id='URL' {...field} />)}
                             />
 
@@ -243,6 +258,7 @@ const CustomCss = ({ control, unregister }) => {
                             <Controller
                                 name='og_type'
                                 control={control}
+                                defaultValue=""
                                 render={({ field }) => (<Input id='Type' {...field} />)}
                             />
 
@@ -252,6 +268,7 @@ const CustomCss = ({ control, unregister }) => {
                             <Controller
                                 name='og_picture'
                                 control={control}
+                                defaultValue=""
                                 render={({ field }) => (<Input type="file" id="picture" {...field} />)}
                             />
 
@@ -259,13 +276,14 @@ const CustomCss = ({ control, unregister }) => {
                             <Controller
                                 name='og_description'
                                 control={control}
+                                defaultValue=""
                                 render={({ field }) => (<Textarea id='description' {...field} />)}
                             />
                         </div>
                     </div>
                 </div>}
                 {/* <TweeterTag istweetertag={istweetertag} /> */}
-                {istweetertag === 1 &&
+                {istweetertag === true &&
                     <div className='w-full p-3'>
                         <hr />
                         <h4 className='font-normal my-4 pl-3'>TWITTER TAGS</h4>
@@ -276,6 +294,7 @@ const CustomCss = ({ control, unregister }) => {
                                 <Controller
                                     name="tweeter_title"
                                     control={control}
+                                    defaultValue=""
                                     render={({ field }) => (<Input id='Title' {...field} />)}
                                 />
 
@@ -283,6 +302,7 @@ const CustomCss = ({ control, unregister }) => {
                                 <Controller
                                     name="tweeter_url"
                                     control={control}
+                                    defaultValue=""
                                     render={({ field }) => (<Input id='URL' {...field} />)}
                                 />
 
@@ -290,6 +310,7 @@ const CustomCss = ({ control, unregister }) => {
                                 <Controller
                                     name="tweeter_card"
                                     control={control}
+                                    defaultValue=""
                                     render={({ field }) => (<Input id='card' {...field} />)}
                                 />
 
@@ -299,6 +320,7 @@ const CustomCss = ({ control, unregister }) => {
                                 <Controller
                                     name="tweeter_picture"
                                     control={control}
+                                    defaultValue=""
                                     render={({ field }) => (<Input id="picture" type="file" {...field} />)}
                                 />
 
@@ -306,6 +328,7 @@ const CustomCss = ({ control, unregister }) => {
                                 <Controller
                                     name="tweeter_description"
                                     control={control}
+                                    defaultValue=""
                                     render={({ field }) => (<Textarea id='description' {...field} />)}
                                 />
                             </div>
@@ -313,7 +336,7 @@ const CustomCss = ({ control, unregister }) => {
                     </div>}
                 {/* <ScriptCode isscriptcode={isscriptcode} /> */}
                 {
-                    isscriptcode === 1 &&
+                    isscriptcode === true &&
                     <div className='w-full p-3'>
                         <hr />
                         <h4 className='font-normal my-4 pl-3'>Script Code</h4>
@@ -323,6 +346,7 @@ const CustomCss = ({ control, unregister }) => {
                             <Controller
                                 name="script"
                                 control={control}
+                                defaultValue=""
                                 render={({ field }) => (<Textarea id="script" className="w-full h-[30%]" {...field} />)}
                             />
 

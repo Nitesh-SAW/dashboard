@@ -1,18 +1,19 @@
 'use client'
 import React from 'react'
 import Image from 'next/image'
+import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux'
 import { setSelectedImage } from '@/lib/features/filterSlice'
 
 const FilteredImages = () => {
     const { filteredItems } = useSelector((state) => state.filter)
-    console.log(filteredItems)
+    // console.log(filteredItems)
     const dispatch = useDispatch();
 
 
 
-    const hanleClickImage = (image, id) => {
-        dispatch(setSelectedImage({ image, id }))
+    const hanleClickImage = (image, id, schema, name) => {
+        dispatch(setSelectedImage({ image, id, schema, name }))
     }
 
     return (
@@ -31,7 +32,7 @@ const FilteredImages = () => {
                                     alt='Image'
                                     width={1080}
                                     height={720}
-                                    onClick={() => hanleClickImage(item.image, item.id)} />
+                                    onClick={() => hanleClickImage(item.image, item.id, item.schema, item.name)} />
                             </div>
                         ))
                     }

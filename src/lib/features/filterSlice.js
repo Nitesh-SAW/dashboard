@@ -1,4 +1,3 @@
-import { nanoid } from "@reduxjs/toolkit";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // const fisherYatesAlgo = (array) => {
@@ -47,12 +46,60 @@ const initialState = {
       id: 1,
       name: "Home",
       items: [
-        { id: 101, image: "/Home.png" },
-        { id: 102, image: "/homeslider.png" },
-        { id: 103, image: "/home1.png" },
-        { id: 104, image: "/testimonial.png" },
-        { id: 105, image: "/Insights.png" },
-        { id: 106, image: "/banner.png" }
+        {
+          id: 101, image: "/Home.png", name: "Banner",
+          schema: [
+            { name: "heading", type: "text", required: true },
+            { name: "description", type: "textarea", required: true, },
+            { name: "buttontext", type: "text", required: true, }
+          ]
+        },
+        {
+          id: 102, image: "/homeslider.png", name: "Slider",
+          schema: [
+            {
+              name: "Upload Image", type: "file", label: "Image", required: "true", required: true,
+            },
+          ],
+        },
+        {
+          id: 103, image: "/home1.png", name: "OurClientsGetResult",
+          schema: [
+            { name: "Heading", type: "text", label: "Heading", required: true },
+            { name: "Upload Video", type: "file", label: "Upload", required: true },
+            { name: "Sub Heading", type: "text", label: "Sub Heading", required: true, },
+            { name: "Description", type: "text", label: "Description", required: true, },
+          ]
+        },
+        {
+          id: 104, image: "/testimonial.png", name: "Testimonials",
+          schema: [
+            { name: "title", type: "text", required: false },
+            { name: "Heading", type: "text", required: true },
+            { name: "Card Title", type: "text", required: false },
+            { name: "Card Text", type: "text", required: false },
+            { name: "Card Description", type: "text", required: false },
+          ]
+        },
+        {
+          id: 105, image: "/Insights.png", name: "Findoutour",
+          schema: [
+            { name: "title", type: "text", required: false },
+            { name: "Heading", type: "text", required: true },
+            { name: "Card Title", type: "text", required: false },
+            { name: "Card Text", type: "text", required: false },
+            { name: "Card Description", type: "text", required: false },
+          ]
+        },
+        {
+          id: 106, image: "/banner.png", name: "Ready to grow buiseness",
+          schema: [
+            { name: "title", type: "text" },
+            { name: "text", type: "text" },
+            { name: "Button Icon", type: "file" },
+            { name: "Button Text", type: "text" },
+          ]
+        }
       ]
     },
     {
@@ -73,7 +120,16 @@ const initialState = {
         { id: 401, image: "/services/Banner.png" },
         { id: 402, image: "/services/ResultsDrivenSocial.png" },
         { id: 403, image: "/services/AdvertisingonSocialMedia.png" },
-        { id: 404, image: "/services/PaidSocialMedia.png" },
+        {
+          id: 404, image: "/services/PaidSocialMedia.png", name: "PaidSocialMedia",
+          schema: [
+            { name: "title", type: "text" },
+            { name: "text", type: "text" },
+            { name: "description", type: "text" },
+            { name: "button Text", type: "text" },
+            { name: "image", type: "file" }
+          ]
+        },
         { id: 405, image: "/services/WhyYourBusinessNeeds.png" },
         { id: 406, image: "/services/PPCAgencyThat.png" },
         { id: 407, image: "/services/SocialMediaPlatforms.png" },
@@ -131,14 +187,14 @@ const filterSlice = createSlice({
 
     setSelectedImage: (state, action) => {
       // console.log(name)
-      const { image, id } = action.payload;
-      const Id = Math.floor(id / 100);
-      const uniqueId = nanoid();
+      const { image, id, schema, name } = action.payload;
+      // const Id = Math.floor(id / 100);
+      // const uniqueId = nanoid();
 
-      const matchedItem = state.selectedItems.find((item) => item.id === Id);
-      const name = matchedItem ? matchedItem.name : ""
+      // const matchedItem = state.selectedItems.find((item) => item.id === Id);
+      // const name = matchedItem ? matchedItem.name : ""
       // console.log(name);
-      state.selectedImage.push({ image, id, name });
+      state.selectedImage.push({ image, id, schema, name });
     },
 
     reorderImages: (state, action) => {

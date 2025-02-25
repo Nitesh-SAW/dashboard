@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, FC, useEffect, useRef, useMemo } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import {
   ClassicEditor,

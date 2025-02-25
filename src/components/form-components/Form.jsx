@@ -1,89 +1,172 @@
-"use client";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { setFormConfig } from "@/lib/features/formSlice";
+"use client"
+import React, { useEffect, useState } from "react";
+import { useFormContext, Controller, useFieldArray } from "react-hook-form";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-// import { Label } from "../ui/button";
-
-const DynamicForm = ({ imageId, pageName }) => {
-  const dispatch = useDispatch();
-
-  // Get form schema and config from Redux store
-  const formSchema = useSelector((state) => state.form.formSchema[imageId]);
-  const formConfig = useSelector((state) => state.form.formConfig[imageId]) || {};
-
-
-  const pageId = useSelector((state) =>
-    state.filter.selectedItems.find((page) => page.name === pageName)?.id
-  );
-  // console.log(pageId)
-
-  // Return early if formSchema is not available
-  if (!formSchema || formSchema.length === 0) {
-    return <p className="p-2">Form not found</p>;
-  }
 
 
 
-  // Initialize form with values from formConfig or default to empty string
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: formSchema.reduce((acc, field) => {
-      acc[field.name] = formConfig[field.name] || ""; // Ensure there's always a value
-      // console.log(acc)
+
+const DynamicForm = ({ imageId, schema, name }) => {
+  const { control, setValue, getValues, watch } = useFormContext();
+  const [filePreviews, setFilePreviews] = useState({});
+
+  useEffect(() => {
+    const currentData = getValues("component") || {};
+
+    if (!currentData[name]) {
+      currentData[name] = [];
+    }
+
+    // Pehle se data exist karta hai ya nahi check karo
+    if (currentData[name][imageId] && Object.keys(currentData[name][imageId]).length > 0) {
+      return; // Agar pehle se valid data hai to `setValue` mat chalao
+    }
+
+    // Valid values ke bina setValue mat chalao
+    // const newData = schema.reduce((acc, field) => {
+    //   acc[field.name] = field.value || "";
+    //   return acc;
+    // }, {});
+
+    const newData = schema.reduce((acc, field) => {
+      acc[field.name] = field.type === "file" ? null : field.value || "";
       return acc;
-    }, {}),
-  });
+    }, {});
 
-  const onSubmit = (data) => {
-    // console.log(data)
-    dispatch(setFormConfig({ imageId, config: data }));
-  };
+    setValue("component", {
+      ...currentData,
+      [name]: [...currentData[name], newData], // Sirf ek naya valid object add karo
+    });
+  }, [name, imageId, schema, setValue, getValues]);
 
-  const onError = () => {
-    const missingFields = Object.keys(errors).map(([fieldsName, error]) => `${fieldsName}: ${error.message}`);
-    alert(`⚠️ Missing required fields: ${missingFields.join(", ")}`);
+  const handleFileChange = (event, fieldName) => {
+    const file = event.target.files[0];
+    if (file) {
+      setValue(`component.${name}.${imageId}.${fieldName}`, file); // Save file
+      setFilePreviews((prev) => ({
+        ...prev,
+        [fieldName]: URL.createObjectURL(file), // Show preview
+      }));
+    }
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit, onError)} className="w-full p-2 space-y-1">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {formSchema.map((field) => (
-            <div key={field.name} className="flex flex-col">
-              {/* <Label>{field.label}</Label> */}
-              <Input
-                type={field.type}
-                placeholder={`${field.name}`}
-                {...register(field.name, {
-                  required: field.required
-                    ? `${field.name} is required`
-                    : false,
-                })}
-
-                className={`rounded max-w-sm focus:border-none ${errors[field.name] && "border-red-500 focus:ring-red-500"}
-                  }`}
-              />
-              {errors[field.name] && <span style={{ color: "red" }}>{errors[field.name].message}</span>}
-            </div>
-          ))}
+    <div className="w-full p-2 border rounded-md grid grid-cols-2 md:grid-cols-3 gap-2">
+      {schema.map((field, index) => (
+        <div key={index} className="mb-3">
+          {/* <label className="block font-medium mb-1">{field.name}:</label> */}
+          <Controller
+            name={`component.${name}.${imageId}.${field.name}`} // Ensure unique field names
+            control={control}
+            defaultValue={field.value || ""}
+            render={({ field: { value, onChange } }) => (
+              field.type === "file" ? (
+                <>
+                  <Input
+                    type="file"
+                    onChange={(e) => handleFileChange(e, field.name)}
+                    className="w-full p-2 border rounded"
+                  />
+                  {filePreviews[field.name] && (
+                    <img src={filePreviews[field.name]} alt="Preview" width="100" />
+                  )}
+                </>
+              ) : (
+                <Input
+                  type="text"
+                  {...{ value, onChange }}
+                  className="w-full p-2 border rounded"
+                  placeholder={`Enter ${field.name}`}
+                />
+              )
+            )}
+          />
         </div>
-        <div className="mt-4 flex justify-center">
-          <Button
-            variant="secondary"
-            type="submit"
-            className="rounded p-2 bg-green-400 hover:bg-green-400"
-          >
-            Save
-          </Button>
-        </div>
-      </form>
-    </>
+      ))}
+    </div>
   );
-};
+}
 
-export default DynamicForm;
+export default DynamicForm
+
+
+// "use client";
+// import React, { useEffect, useState } from "react";
+// import { useFormContext, Controller } from "react-hook-form";
+// import { Input } from "../ui/input";
+
+// const DynamicForm = ({ imageId, schema, name }) => {
+//   const { control, setValue, getValues, watch } = useFormContext();
+//   const [filePreviews, setFilePreviews] = useState({}); // Store file previews
+
+//   useEffect(() => {
+//     const currentData = getValues("component") || {};
+
+//     if (!currentData[name]) {
+//       currentData[name] = [];
+//     }
+
+//     if (currentData[name][imageId] && Object.keys(currentData[name][imageId]).length > 0) {
+//       return;
+//     }
+
+//     const newData = schema.reduce((acc, field) => {
+//       acc[field.name] = field.type === "file" ? null : field.value || "";
+//       return acc;
+//     }, {});
+
+//     setValue("component", {
+//       ...currentData,
+//       [name]: [...currentData[name], newData],
+//     });
+//   }, [name, imageId, schema, setValue, getValues]);
+
+//   const handleFileChange = (event, fieldName) => {
+//     const file = event.target.files[0];
+//     if (file) {
+//       setValue(`component.${name}.${imageId}.${fieldName}`, file); // Save file
+//       setFilePreviews((prev) => ({
+//         ...prev,
+//         [fieldName]: URL.createObjectURL(file), // Show preview
+//       }));
+//     }
+//   };
+
+//   return (
+//     <div className="w-full p-2 space-y-2 border rounded-md">
+//       {schema.map((field, index) => (
+//         <div key={index} className="mb-3">
+//           <label className="block font-medium mb-1">{field.name}:</label>
+//           <Controller
+//             name={`component.${name}.${imageId}.${field.name}`}
+//             control={control}
+//             defaultValue={field.type === "file" ? null : field.value || ""}
+//             render={({ field: { value, onChange } }) => (
+//               field.type === "file" ? (
+//                 <>
+//                   <input
+//                     type="file"
+//                     onChange={(e) => handleFileChange(e, field.name)}
+//                     className="w-full p-2 border rounded"
+//                   />
+//                   {filePreviews[field.name] && (
+//                     <img src={filePreviews[field.name]} alt="Preview" width="100" />
+//                   )}
+//                 </>
+//               ) : (
+//                 <Input
+//                   type="text"
+//                   {...{ value, onChange }}
+//                   className="w-full p-2 border rounded"
+//                   placeholder={`Enter ${field.name}`}
+//                 />
+//               )
+//             )}
+//           />
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default DynamicForm;

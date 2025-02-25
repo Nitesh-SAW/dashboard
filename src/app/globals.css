@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
+  /* Chrome, Safari, Opera */
 }
 
 @layer base {
@@ -42,6 +43,7 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -82,6 +84,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -145,18 +148,14 @@
   --background-color: #e91e63;
   padding: 1.2em 2em;
   border: 1px solid var(--background-color);
-  background: linear-gradient(
-      135deg,
+  background: linear-gradient(135deg,
       var(--background-color) 0%,
       var(--background-color) var(--background-size),
-      transparent var(--background-size)
-    ),
-    linear-gradient(
-      135deg,
+      transparent var(--background-size)),
+    linear-gradient(135deg,
       transparent calc(100% - var(--background-size)),
       var(--background-color) calc(100% - var(--background-size)),
-      var(--background-color)
-    );
+      var(--background-color));
   border-radius: 10px;
   margin: 1.5em 2em;
   box-shadow: 5px 5px 0 #ffe6ef;
@@ -249,21 +248,25 @@
   }
 
   .ck-content h2.document-title {
-    font-size: 36px; /* Adjust font size for smaller screens */
+    font-size: 36px;
+    /* Adjust font size for smaller screens */
   }
 
   .ck-content h3.category {
-    font-size: 16px; /* Adjust font size for smaller screens */
+    font-size: 16px;
+    /* Adjust font size for smaller screens */
   }
 
   .ck-content blockquote.side-quote {
-    width: 100%; /* Allow blockquote to take full width */
+    width: 100%;
+    /* Allow blockquote to take full width */
     float: none;
     margin-left: 0;
   }
 
   .ck-content blockquote.side-quote p {
-    font-size: 1.5em; /* Adjust font size */
+    font-size: 1.5em;
+    /* Adjust font size */
   }
 }
 
@@ -275,25 +278,31 @@
   }
 
   .ck-content h2.document-title {
-    font-size: 28px; /* Adjust font size for very small screens */
+    font-size: 28px;
+    /* Adjust font size for very small screens */
   }
 
   .ck-content h3.category {
-    font-size: 14px; /* Adjust font size for very small screens */
+    font-size: 14px;
+    /* Adjust font size for very small screens */
   }
 
   .ck-content p.info-box {
-    padding: 1em; /* Reduce padding for smaller screens */
+    padding: 1em;
+    /* Reduce padding for smaller screens */
   }
 
   .ck-content blockquote.side-quote {
-    width: 100%; /* Blockquote takes full width */
+    width: 100%;
+    /* Blockquote takes full width */
     float: none;
     margin-left: 0;
-    margin-bottom: 1em; /* Add bottom margin */
+    margin-bottom: 1em;
+    /* Add bottom margin */
   }
 
   .ck-content blockquote.side-quote p {
-    font-size: 1.2em; /* Adjust font size for smaller screens */
+    font-size: 1.2em;
+    /* Adjust font size for smaller screens */
   }
 }
