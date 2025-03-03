@@ -11,7 +11,6 @@ import {
   SelectValue,
   SelectInput
 } from "@/components/ui/select";
-import DynamicSelect from "@/components/Select";
 import {
   flexRender,
   getCoreRowModel,
@@ -117,44 +116,10 @@ const LogTable = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const options = [
-    { value: "user", label: "User" },
-    { value: "admin", label: "Admin" },
-    { value: "none", label: "None" },
-    { value: "home", label: "Home" },
-    { value: "about us", label: "About us" },
-    { value: "superadmin", label: "Super Admin" }
-  ];
-
-  const [filteredOptions, setFilteredOptions] = useState(options)
-
-  useEffect(() => {
-
-    const filtered = options.filter((option) => (
-      option.label.toLowerCase().includes(searchQuery.toLowerCase())
-    ));
-    setFilteredOptions(filtered);
-  }, [searchQuery])
-
 
 
   return (
     <section className="w-full p-1 bg-white">
-      <div className="flex gap-2">
-        <DynamicSelect
-          placeholder="Select"
-          options={options}
-        />
-        <DynamicSelect
-          placeholder="Select"
-          options={options}
-        />
-
-        <Button>Generate Log</Button>
-      </div>
-
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headersgroup) => (

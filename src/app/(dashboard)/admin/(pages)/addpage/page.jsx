@@ -16,7 +16,6 @@ const page = () => {
   const methods = useForm();
 
   const onSubmit = async (data) => {
-
     const formData = new FormData();
 
     let componentData = data.component || {};
@@ -25,7 +24,7 @@ const page = () => {
       componentData[key] = componentData[key].filter((obj) => Object.keys(obj).length > 0);
     });
 
-
+    //Separate ComponentType and Data from the Components
     const components = Object.keys(data.component).map((componentType) => {
       return {
         componentType,
@@ -49,11 +48,11 @@ const page = () => {
     formData.append("custom_css", data.custom_css)
     formData.append("sitemap", data.sitemap)
     formData.append("show_in_root_sitemap", data.separate_siteMap)
-    formData.append("enableOpenGraph", true)
-    formData.append("enableMetaTags", false)
-    formData.append("enableLinkCanonicals", false)
-    formData.append("enableTwitterTags", false)
-    formData.append("enableScriptCode", false)
+    formData.append("enableOpenGraph", data.open_graph)
+    formData.append("enableMetaTags", data.meta_tags)
+    formData.append("enableLinkCanonicals", data.link_canonicals)
+    formData.append("enableTwitterTags", data.twitter_tags)
+    formData.append("enableScriptCode", data.script_code)
 
 
     const MetaTags = {
@@ -61,84 +60,85 @@ const page = () => {
       meta_desc: data.meta_description,
       meta_key: data.meta_keyword
     };
+    const MetaTagsData = Object.fromEntries(
+      Object.entries(MetaTags).filter(([_, value]) => value != null && value !== "")
+    )
+    if (Object.keys(MetaTagsData).length > 0) {
+      formData.append("MetaTags", JSON.stringify(MetaTagsData))
+    }
 
     const OpenGraph = {
       title: data.og_title,
-      image: data.og_picture,
       url: data.og_url,
       description: data.og_description,
       type: data.og_type
     };
 
+    const OpenGraphData = Object.fromEntries(
+      Object.entries(OpenGraph).filter(([_, value]) => value != null && value !== "")
+    )
+    console.log(OpenGraphData)
+    if (Object.keys(OpenGraphData).length > 0) {
+      formData.append("OpenGraph", JSON.stringify(OpenGraphData));
+    }
+    if (data.og_picture && data.og_picture.length > 0) {
+      formData.append("OpenGraphImage", data.og_picture[0])
+    };
+
     const TwitterTags = {
       title: data.tweeter_title,
-      image: data.tweeter_picture,
       url: data.tweeter_url,
       description: data.tweeter_description,
       card: data.tweeter_card
     };
 
+    const TwiteerTagsData = Object.fromEntries(
+      Object.entries(TwitterTags).filter(([_, value]) => value != null && value !== "")
+    )
+    if (Object.keys(TwiteerTagsData).length > 0) {
+      formData.append("TwitterTags", JSON.stringify(TwiteerTagsData))
+    };
+    if (data.tweeter_picture && data.tweeter_picture.length > 0) {
+      formData.append("TwitterImage", data.tweeter_picture[0])
+    };
+
     const ScriptCode = {
       description: data.script
     };
+    const ScriptCodeData = Object.fromEntries(
+      Object.entries(ScriptCode).filter(([_, value]) => value != null && value !== "")
+    )
+    if (Object.keys(ScriptCodeData).length > 0) {
+      formData.append("ScriptCode", JSON.stringify(ScriptCodeData))
+    };
+
 
     const LinkCanonicals = {
       href: data.islinkscannonicals_href
     };
+    const LinkCanonicalsData = Object.fromEntries(
+      Object.entries(LinkCanonicals).filter(([_, value]) => value != null && value !== "")
+    )
 
-    formData.append("MetaTags", JSON.stringify(MetaTags))
-    formData.append("LinkCanonicals", JSON.stringify(LinkCanonicals))
-    formData.append("OpenGraph", JSON.stringify(OpenGraph))
-    formData.append("TwitterTags", JSON.stringify(TwitterTags))
-    formData.append("ScriptCode", JSON.stringify(ScriptCode))
+    if (Object.keys(LinkCanonicalsData).length > 0) {
+      formData.append("LinkCanonicals", JSON.stringify(LinkCanonicalsData))
+    };
 
-    formData.append("components", JSON.stringify(components)); // JSON data send kar rahe hain
+    formData.append("components", JSON.stringify(components));
 
-    // 🔹 File data ko append karo
-    Object.keys(data.component).forEach((componentType) => {
-      data.component[componentType].forEach((item, index) => {
+    //  File data ko append karo
+    Object.keys(data.component).forEach((componentType, index) => {
+      data.component[componentType].forEach((item, fileIndex) => {
         Object.keys(item).forEach((fieldName) => {
           if (item[fieldName] instanceof File) {
-            formData.append(`${componentType}[${index}][${fieldName}]`, item[fieldName]); // File ko send karna
+            formData.append(`${componentType}_${index}_${fileIndex}`, item[fieldName]); // File ko send karna
           }
         });
       });
     });
 
-    // 🔹 Debugging
-    for (let pair of formData.entries()) {
-      console.log(pair);
-    }
-    
     console.log(Object.fromEntries(formData));
-
-
-    const formDatas = {
-      title: data.title,
-      url: data.url,
-      slug: data.url,
-      parent: data.parent,
-      status: Number(data.active),
-      custom_css: data.custom_css,
-      sitemap: data.sitemap,
-      show_in_root_sitemap: data.separate_siteMap,
-      enableOpenGraph: true,
-      enableMetaTags: false,
-      enableLinkCanonicals: false,
-      enableTwitterTags: false,
-      enableScriptCode: false,
-      OpenGraph: {
-        title: data.og_title,
-        image: data.og_picture,
-        url: data.og_url,
-        description: data.og_description,
-        type: data.og_type
-      },
-      components: components
-    }
-
-    console.log(formDatas);
-    // dispatch(sendDataToBackend(formData))
+    dispatch(sendDataToBackend(formData))
   }
 
 

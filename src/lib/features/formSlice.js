@@ -247,20 +247,26 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const sendDataToBackend = createAsyncThunk(
-  'data/send',
+  'formData/send',
   async (formData, { rejectWithValue }) => {
-    console.log(data);
+    console.log(formData);
     try {
-      const response = await axios.post('https://breezend-backend-2.onrender.com/api/create-page', formData,
-        {
-          headers: {
-            "Content-Type" : "multipart/form-data"
-          }
-        }
-      );
+      const response = await axios.post('https://breezend-backend-2.onrender.com/api/create-page', formData);
       
-      return response.data
+      return response.formData
     } catch (error) {
+      return rejectWithValue(error.response?.data || 'Something went wrong');
+    }
+  }
+);
+export const getDataFromBackend = createAsyncThunk(
+  'pageData/receive',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get('https://breezend-backend-2.onrender.com/api/get-all-page');
+      return response.data;
+    } catch (error) {
+      console.error('GET API Error:', error.response?.data || 'Something went wrong');
       return rejectWithValue(error.response?.data || 'Something went wrong');
     }
   }
@@ -279,6 +285,17 @@ const formSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(sendDataToBackend.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(getDataFromBackend.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getDataFromBackend.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.data = action.payload;
+      })
+      .addCase(getDataFromBackend.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       });

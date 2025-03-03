@@ -118,26 +118,95 @@ const initialState = {
       items: [
         //Social media advertising
         { id: 401, image: "/services/Banner.png" },
-        { id: 402, image: "/services/ResultsDrivenSocial.png" },
-        { id: 403, image: "/services/AdvertisingonSocialMedia.png" },
+        {
+          id: 402, image: "/services/ResultsDrivenSocial.png", name: "ResultsDrivenSocial",
+          schema: [
+            { name: "title", type: "text" },
+            { name: "text", type: "text" },
+            { name: "description", type: "text" },
+            { name: "image", type: "file" },
+            { name: "icon", type: "file" },
+            { name: "icon_text", type: "text" }
+          ]
+        },
+        {
+          id: 403, image: "/services/AdvertisingonSocialMedia.png", name: "AdvertisingonSocialMedia",
+          schema: [
+            { name: "title", type: "text" },
+            { name: "description", type: "text" },
+            { name: "image", type: "file" }
+          ]
+        },
         {
           id: 404, image: "/services/PaidSocialMedia.png", name: "PaidSocialMedia",
           schema: [
             { name: "title", type: "text" },
             { name: "text", type: "text" },
             { name: "description", type: "text" },
-            { name: "button Text", type: "text" },
+            { name: "btnText", type: "text" },
             { name: "image", type: "file" }
           ]
         },
-        { id: 405, image: "/services/WhyYourBusinessNeeds.png" },
-        { id: 406, image: "/services/PPCAgencyThat.png" },
-        { id: 407, image: "/services/SocialMediaPlatforms.png" },
-        { id: 408, image: "/services/SocialMediaPlatformsforBusiness.png" },
-        { id: 409, image: "/services/HowMuchDoesSocial.png" },
+        {
+          id: 405, image: "/services/WhyYourBusinessNeeds.png", name: "WhyYourBusinessNeeds",
+          schema: [
+            { name: "title", type: "text" },
+            { name: "description", type: "text" },
+            { name: "image", type: "file" }
+          ]
+        },
+        {
+          id: 406, image: "/services/PPCAgencyThat.png", name: "PPCAgencyThat",
+          schema: [
+            { name: "title", type: "text" },
+            { name: "text", type: "text" },
+            { name: "description", type: "text" },
+          ]
+        },
+        {
+          id: 407, image: "/services/SocialMediaPlatforms.png", name: "SocialMediaPlatforms",
+          schema: [
+            { name: "title", type: "text" },
+            { name: "text", type: "text" },
+            { name: "description", type: "text" },
+            { name: "image", type: "file" }
+          ]
+        },
+        {
+          id: 408, image: "/services/SocialMediaPlatformsforBusiness.png", name: "SocialMediaPlatformsforBusiness",
+          Schema: [
+            { name: "title", type: "text" },
+            { name: "text", type: "text" },
+            { name: "btnText", type: "text" },
+          ]
+        },
+        {
+          id: 409, image: "/services/HowMuchDoesSocial.png", name: "HowMuchDoesSocial",
+          schema: [
+            { name: "title", type: "text" },
+            { name: "description", type: "text" },
+            { name: "image", type: "file" },
+            { name: "icon", type: "file" },
+            { name: "icon_text", type: "text" }
+          ]
+        },
         { id: 410, image: "/services/SMAServices.png" },
-        { id: 411, image: "/services/WhyChoose.png" },
-        { id: 412, image: "/services/LetsConnect.png" }
+        {
+          id: 411, image: "/services/WhyChoose.png", name: "WhyChoose",
+          schema: [
+            { name: "description", type: "text" },
+            { name: "icon", type: "file" },
+            { name: "iconTitle", type: "text" }
+          ]
+        },
+        {
+          id: 412, image: "/services/LetsConnect.png", name: "LetsConnect",
+          schema: [
+            { name: "title", type: "text" },
+            { name: "text", type: "text" },
+            { name: "btnText", type: "text" },
+          ]
+        }
         //PayPerClick(PPC)Marketing
 
       ]

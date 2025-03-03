@@ -141,7 +141,7 @@ const CustomCss = ({ control, unregister }) => {
                                 <Switch
                                     id="Open-Graph"
                                     checked={field.value === true}
-                                    onCheckedChange={(checked) => { field.onChange(checked ? true : false); }}
+                                    onCheckedChange={(checked) => { field.onChange(checked ? true : false) }}
                                 />
                             )}
                         />
@@ -269,7 +269,7 @@ const CustomCss = ({ control, unregister }) => {
                                 name='og_picture'
                                 control={control}
                                 defaultValue=""
-                                render={({ field }) => (<Input type="file" id="picture" {...field} />)}
+                                render={({ field }) => (<Input type="file" id="picture" onChange={(e) => field.onChange(e.target.files)} />)}
                             />
 
                             <Label htmlFor="description">Description</Label>
@@ -321,7 +321,7 @@ const CustomCss = ({ control, unregister }) => {
                                     name="tweeter_picture"
                                     control={control}
                                     defaultValue=""
-                                    render={({ field }) => (<Input id="picture" type="file" {...field} />)}
+                                    render={({ field }) => (<Input id="picture" type="file" onChange={(e) => field.onChange(e.target.files)} />)}
                                 />
 
                                 <Label htmlFor="description">Description</Label>

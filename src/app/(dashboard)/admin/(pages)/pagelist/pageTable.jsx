@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -40,65 +40,67 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getDataFromBackend } from "@/lib/features/formSlice";
+import { useSelector, useDispatch } from "react-redux";
 
-const data = [
-  {
-    id: "m5gr84i9",
-    active: 316,
-    PageTitle: "Home",
-    Url: "ken99@yahoo.com",
-    CreatedAt: "qwerty1",
-    action: "",
-  },
-  {
-    id: "3u1reuv4",
-    active: 242,
-    PageTitle: "Trade-in Program",
-    Url: "Abe45@gmail.com",
-    CreatedAt: "qwerty2",
-    action: "",
-  },
-  {
-    id: "derv1ws0",
-    active: 837,
-    PageTitle: "Privacy Policy",
-    Url: "Monserrat44@gmail.com",
-    CreatedAt: "qwerty3",
-    action: "",
-  },
-  {
-    id: "5kma53ae",
-    active: 874,
-    PageTitle: "Policy & Warranty",
-    Url: "Silas22@gmail.com",
-    CreatedAt: "qwerty4",
-    action: "",
-  },
-  {
-    id: "bhqecj4p",
-    active: 721,
-    PageTitle: "Refund Policy",
-    Url: "carmella@hotmail.com",
-    CreatedAt: "qwerty",
-    action: "",
-  },
-  {
-    id: "bhqehg4p",
-    active: 721,
-    PageTitle: "Refund Policy",
-    Url: "carmella@hotmail.com",
-    CreatedAt: "qwerty",
-    action: "",
-  },
-  {
-    id: "bhquyj4p",
-    active: 721,
-    PageTitle: "Refund Policy",
-    Url: "carmella@hotmail.com",
-    CreatedAt: "qwerty",
-    action: "",
-  },
-];
+// const data = [
+//   {
+//     id: "m5gr84i9",
+//     active: 316,
+//     PageTitle: "Home",
+//     Url: "ken99@yahoo.com",
+//     CreatedAt: "qwerty1",
+//     action: "",
+//   },
+//   {
+//     id: "3u1reuv4",
+//     active: 242,
+//     PageTitle: "Trade-in Program",
+//     Url: "Abe45@gmail.com",
+//     CreatedAt: "qwerty2",
+//     action: "",
+//   },
+//   {
+//     id: "derv1ws0",
+//     active: 837,
+//     PageTitle: "Privacy Policy",
+//     Url: "Monserrat44@gmail.com",
+//     CreatedAt: "qwerty3",
+//     action: "",
+//   },
+//   {
+//     id: "5kma53ae",
+//     active: 874,
+//     PageTitle: "Policy & Warranty",
+//     Url: "Silas22@gmail.com",
+//     CreatedAt: "qwerty4",
+//     action: "",
+//   },
+//   {
+//     id: "bhqecj4p",
+//     active: 721,
+//     PageTitle: "Refund Policy",
+//     Url: "carmella@hotmail.com",
+//     CreatedAt: "qwerty",
+//     action: "",
+//   },
+//   {
+//     id: "bhqehg4p",
+//     active: 721,
+//     PageTitle: "Refund Policy",
+//     Url: "carmella@hotmail.com",
+//     CreatedAt: "qwerty",
+//     action: "",
+//   },
+//   {
+//     id: "bhquyj4p",
+//     active: 721,
+//     PageTitle: "Refund Policy",
+//     Url: "carmella@hotmail.com",
+//     CreatedAt: "qwerty",
+//     action: "",
+//   },
+// ];
 
 const columns = [
   {
@@ -187,11 +189,14 @@ const columns = [
   },
 ];
 
-function DataTable() {
+function DataTable({data}) {
+
   const [sorting, setSorting] = React.useState([]); // handle sorting states
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [rowSelection, setRowSelection] = React.useState({});
+
+
 
   const table = useReactTable({
     data,
