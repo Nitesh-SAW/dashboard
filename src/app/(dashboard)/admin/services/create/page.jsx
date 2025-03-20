@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Save, ArrowLeft } from 'lucide-react'
 import CreateForm from './createForm'
 
-const page = () => {
+const Page = () => {
 
   return (
     <section className="w-full mx-auto transition-all duration-300 pb-5">
@@ -28,4 +28,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

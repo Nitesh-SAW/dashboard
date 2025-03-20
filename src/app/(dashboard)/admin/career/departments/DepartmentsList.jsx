@@ -123,7 +123,30 @@ const DepartmentList = ({ onEdit }) => {
     },
   ];
 
-  return <DataTable data={data} columns={columns} />;
+  const handleDelete = async (selectedIds) => {
+    console.log(selectedIds);
+
+    if (selectedIds.length === 0) {
+      alert("No row are selected for delete")
+    }
+
+    if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} row`)) {
+      return;
+    }
+
+    try {
+      const response = await axios.post(`https://breezend-backend-2.onrender.com/api/job/delete-department`,
+        { id: selectedIds }
+      )
+      console.log("Deleted successfully:", response.data);
+      alert("Selected rows deleted successfully!");
+      await dispatch(fetchdepartment()).unwrap();
+    } catch (error) {
+      console.error("Delete Department API error", error.response?.data || "Something wents wrong")
+    }
+  }
+
+  return <DataTable data={data} columns={columns} handleDelete={handleDelete} />;
 };
 
 export default DepartmentList;

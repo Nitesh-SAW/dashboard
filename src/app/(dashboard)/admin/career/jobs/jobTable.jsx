@@ -41,18 +41,19 @@ import { AlignJustify, SquarePen, X, Filter, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 import { Checkbox } from "@/components/ui/checkbox";
+import Link from 'next/link'
 
 const JobTable = () => {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 25 });
   const dispatch = useDispatch();
-  const { jobs } = useSelector((state) => state.jobs);
+  const { jobs = [] } = useSelector((state) => state.jobs);
   const fetched = useRef(false);
   useEffect(() => {
     dispatch(getJobs());
     fetched.current = true;
   }, [dispatch]);
 
-  console.log(getJobs)
+  // console.log(getJobs)
 
   const data = useMemo(
     () =>
@@ -62,13 +63,14 @@ const JobTable = () => {
         department: dat.department,
         active: "",
         createdat: dat.created_at,
-        action: "",
+        action: dat.id,
       })),
     [jobs]
   );
+
   const columns = [
     {
-      id: "Select",
+      id: "id",
       header: ({ table }) => (
         <Checkbox
           checked={
@@ -86,13 +88,6 @@ const JobTable = () => {
           aria-label="Select row"
         />
       ),
-    },
-    {
-      accessorKey: "id",
-      header: "ID",
-      cell: ({ row }) => {
-        return <div>{row.getValue("id")}</div>;
-      },
     },
     {
       accessorKey: "title",
@@ -137,21 +132,14 @@ const JobTable = () => {
     },
     {
       accessorKey: "action",
-      header: "Action",
-      cell: () => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost">
-              <AlignJustify />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="!min-w-4 absolute -right-2 bg-black pointer-events-none">
-            <Button className="w-20 h-6 space-x-1">
-              <SquarePen />
-            </Button>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
+      header: <div className="w-10">Action</div>,
+      cell: ({ row }) => {
+        return (
+          <div>
+            <Link href={`/dashboard/admin/career/jobs/${row.getValue("action")}/edit`}><SquarePen /></Link>
+          </div>
+        )
+      }
     },
   ];
 
@@ -173,12 +161,38 @@ const JobTable = () => {
     table.setPageIndex(pageIndex);
   });
 
+  const handleDelete = async (selectedIds) => {
+    console.log(selectedIds)
+
+    if (selectedIds.length === 0) {
+      alert("No rows selected for deletion.");
+      return;
+    }
+
+    if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} pages?`)) {
+      return;
+    }
+
+    console.log("Deleting Jobs with IDs:", selectedIds);
+
+    try {
+      await dispatch(deleteJobs(selectedIds)).unwrap();
+      await dispatch(getJobs()).unwrap
+    } catch (error) {
+      console.error("Delete Job API error:", error);
+    }
+  };
+
+  const onEdit = (id) => {
+    console.log(id)
+  }
+
   return (
     <section className="w-full mt-5 mb-5 bg-white">
       {/* Filter options*/}
       <div className="w-full h-20 flex justify-between items-center px-2 py-2">
         <div className="flex justify-center items-center gap-4">
-          <ImBin size={20} />
+          <ImBin size={20} onClick={() => { handleDelete(table.getSelectedRowModel().rows.map(row => row.original.id)) }} />
           <ImEye size={20} />
           <ImEyeBlocked size={20} />
           <p>({table.getFilteredSelectedRowModel().rows.length})</p>

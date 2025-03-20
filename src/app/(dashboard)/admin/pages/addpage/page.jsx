@@ -1,11 +1,10 @@
 "use client"
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdOutlineSave } from "react-icons/md";
-import Createpage from './Createpage'
-import SelectedImage from './SelectedImage';
-import CustomCss from './CustomCss';
+import Createpage from '@/components/PageModule/Createpage'
+import SelectedImage from '@/components/PageModule/SelectedImage';
+import CustomCss from '@/components/PageModule/CustomCss';
 import { useForm, FormProvider, Controller } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
 import { sendDataToBackend } from '@/lib/features/formSlice';
@@ -139,8 +138,15 @@ const page = () => {
 
     console.log(Object.fromEntries(formData));
     dispatch(sendDataToBackend(formData))
+      .unwrap()
+      .then(() => {
+        alert("Selected Pages Created successfully!");
+      })
+      .catch((error) => {
+        console.error("Error deleting pages:", error);
+        alert("Failed to Create pages.");
+      });
   }
-
 
   return (
     <section className="w-full min-h-screen justify-center items-center relative">

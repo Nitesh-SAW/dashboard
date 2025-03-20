@@ -4,7 +4,7 @@ import Slidertable from "./Slidertable"
 const Slider = () => {
     return (
         <>
-            <section className="w-full mx-auto">
+            <section className="w-full mx-auto mt-16">
                 <header className="w-full flex justify-between items center px-2 py-3">
                     <h2 className="text-2xl">Slider</h2>
                     <Button>

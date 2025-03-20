@@ -6,10 +6,12 @@ import SelectComponent from "./SelectComponent";
 import React, { useState } from 'react';
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 
-const createpage = ({ control }) => {
+const Createpage = () => {
+
+    const { control, reset } = useFormContext();
 
     const [isModalOpen, setIsModalOpen] = useState(false); // State to track modal visibility
 
@@ -93,4 +95,4 @@ const createpage = ({ control }) => {
     )
 }
 
-export default createpage
+export default Createpage

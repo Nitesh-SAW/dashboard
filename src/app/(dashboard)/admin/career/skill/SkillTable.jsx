@@ -40,6 +40,7 @@ import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 import { Checkbox } from "@/components/ui/checkbox";
 import DataTable from "@/components/data-table/DataTable";
+import toast from 'react-hot-toast'
 
 const SkillTable = ({ onEdit }) => {
   const dispatch = useDispatch();
@@ -100,9 +101,8 @@ const SkillTable = ({ onEdit }) => {
           <Toggle
             pressed={isYes}
             onPressedChange={setIsYes}
-            className={`!text-white w-5 h-5 ${
-              isYes ? "!bg-green-600" : "!bg-red-400"
-            }`}
+            className={`!text-white w-5 h-5 ${isYes ? "!bg-green-600" : "!bg-red-400"
+              }`}
           >
             {isYes ? "Yes" : "No"}
           </Toggle>
@@ -130,7 +130,28 @@ const SkillTable = ({ onEdit }) => {
     },
   ];
 
-  return <DataTable data={data} columns={columns} />;
+  const handleDelete = async (selectedIds) => {
+    console.log(selectedIds)
+    if (selectedIds.length === 0) {
+      alert("No rows are selected for delete")
+    };
+
+    if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} row`)) {
+      return;
+    }
+
+    try {
+      const response = await axios.post(`https://breezend-backend-2.onrender.com/api/job/delete-skills`,
+        { id: selectedIds }
+      )
+      console.log("Deleted successfully:", response.data);
+      alert("Selected rows deleted successfully!");
+      await dispatch(fetchSkills()).unwrap();
+    } catch (error) {
+      console.error("Delete Skills API error", error.response?.data || "Something wents wrong")
+    }
+  }
+  return <DataTable data={data} columns={columns} handleDelete={handleDelete} />;
 };
 
 export default SkillTable;

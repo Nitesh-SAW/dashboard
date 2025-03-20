@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { adddepartment, updateDepartment } from "@/lib/features/department";
 
-const page = () => {
+const Page = () => {
   const {
     register,
     handleSubmit,
@@ -62,4 +62,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

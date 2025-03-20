@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { CirclePlus, Trash2 } from 'lucide-react'
 import ServicesTable from './ServiceTable'
 
-const page = () => {
+const Page = () => {
     return (
         <section className="w-full mx-auto transition-all duration-300 pb-5">
             <header className="w-full flex justify-between items center px-2 py-3">
@@ -27,4 +27,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

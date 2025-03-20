@@ -5,6 +5,8 @@ import { Plus, AlignJustify, SquarePen } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Toggle } from "@/components/ui/toggle";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { toast } from 'react-hot-toast';
 
 import {
   DropdownMenu,
@@ -17,23 +19,23 @@ import { fetchqustion } from "@/lib/features/qustionslice";
 
 const page = () => {
   const dispatch = useDispatch();
-  const { qustions } = useSelector((state) => state.qustions);
+  const { questions } = useSelector((state) => state.qustions);
 
   useEffect(() => {
     dispatch(fetchqustion());
   }, [dispatch]);
 
-  const data = qustions.map((que) => ({
-    id: que.id,
-    qustion: que.title,
+  const data = questions.map((question) => ({
+    id: question.id,
+    qustion: question.title,
+    type: question.questionType,
     active: "",
-    createdat: que.created_at,
-    action: "",
+    createdat: question.created_at,
   }));
 
   const columns = [
     {
-      id: "Select",
+      accessorKey: "id",
       header: ({ table }) => (
         <Checkbox
           checked={
@@ -52,18 +54,25 @@ const page = () => {
         />
       ),
     },
-    {
-      accessorKey: "id",
-      header: "ID",
-      cell: ({ row }) => {
-        return <div>{row.getValue("id")}</div>;
-      },
-    },
+    // {
+    //   accessorKey: "id",
+    //   header: "ID",
+    //   cell: ({ row }) => {
+    //     return <div>{row.getValue("id")}</div>;
+    //   },
+    // },
     {
       accessorKey: "qustion",
       header: "Qustion",
       cell: ({ row }) => {
         return <div>{row.getValue("qustion")}</div>;
+      },
+    },
+    {
+      accessorKey: "type",
+      header: "Type ",
+      cell: ({ row }) => {
+        return <div>{row.getValue("type")}</div>;
       },
     },
     {
@@ -75,9 +84,8 @@ const page = () => {
           <Toggle
             pressed={isYes}
             onPressedChange={setIsYes}
-            className={`!text-white w-5 h-5 ${
-              isYes ? "!bg-green-600" : "!bg-red-400"
-            }`}
+            className={`!text-white w-5 h-5 ${isYes ? "!bg-green-600" : "!bg-red-400"
+              }`}
           >
             {isYes ? "Yes" : "No"}
           </Toggle>
@@ -93,26 +101,71 @@ const page = () => {
 
         return <div>{formattedDate}</div>;
       },
-    },
-    {
-      accessorKey: "action",
-      header: "Action",
-      cell: () => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost">
-              <AlignJustify />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="!min-w-4 absolute -right-2 bg-black pointer-events-none">
-            <Button className="w-20 h-6 space-x-1">
-              <SquarePen />
-            </Button>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
-    },
+    }
   ];
+
+
+
+  const handleDelete = async (selectedIds) => {
+
+    if (selectedIds.length === 0) {
+      toast.error("No rows are selected to delete");
+      return;
+    }
+
+    const confirmDelete = async () => {
+      return new Promise((resolve) => {
+        toast(
+          (t) => (
+            <div>
+              <p>Are you sure you want to delete {selectedIds.length} items?</p>
+              <div className="flex gap-2 mt-2">
+                <button
+                  onClick={() => {
+                    toast.dismiss(t.id);
+                    resolve(true);
+                  }}
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={() => {
+                    toast.dismiss(t.id);
+                    resolve(false);
+                  }}
+                  className="bg-gray-300 px-4 py-2 rounded"
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          ),
+          { duration: Infinity }
+        );
+      });
+    };
+
+    const confirmed = await confirmDelete();
+
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await axios.post(`https://breezend-backend-2.onrender.com/api/job/delete-qustion`,
+        { id: selectedIds }
+      )
+      console.log("Deleted successfully:", response.data);
+      toast.success("Selected rows deleted successfully!")
+      await dispatch(fetchqustion()).unwrap();
+
+      resetSelection();
+    } catch (error) {
+      console.error("Delete Qestion API error", error.response?.data || "Something wents wrong")
+    }
+  }
 
   return (
     <section className="w-full min-h-screen mb-20">
@@ -122,7 +175,7 @@ const page = () => {
         </ul>
         <ul>
           <Link
-            href="/admin/career/questions/create"
+            href="/dashboard/admin/career/questions/create"
             className="flex justify-center items-center gap-2 rounded bg-black text-white px-2 py-1"
           >
             <Plus />
@@ -131,10 +184,11 @@ const page = () => {
         </ul>
       </header>
       <main className="w-full flex gap-2 mt-5">
-        <DataTable data={data} columns={columns} />
+        <DataTable data={data} columns={columns} handleDelete={handleDelete} />
       </main>
     </section>
   );
 };
 
 export default page;
+

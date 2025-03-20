@@ -1,7 +1,7 @@
 import UserCard from "@/components/UserCard";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <div className="flex justify-between m-5 mt-20 ">
@@ -27,4 +27,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

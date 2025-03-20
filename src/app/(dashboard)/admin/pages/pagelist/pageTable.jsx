@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   flexRender,
   getCoreRowModel,
@@ -18,19 +19,11 @@ import {
   Search,
   Trash2,
   Eye,
+  Copy
 } from "lucide-react";
 import { FaRegEye } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -42,69 +35,12 @@ import {
 } from "@/components/ui/table";
 import { getDataFromBackend } from "@/lib/features/formSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { deletePages } from "@/lib/features/formSlice";
 
-// const data = [
-//   {
-//     id: "m5gr84i9",
-//     active: 316,
-//     PageTitle: "Home",
-//     Url: "ken99@yahoo.com",
-//     CreatedAt: "qwerty1",
-//     action: "",
-//   },
-//   {
-//     id: "3u1reuv4",
-//     active: 242,
-//     PageTitle: "Trade-in Program",
-//     Url: "Abe45@gmail.com",
-//     CreatedAt: "qwerty2",
-//     action: "",
-//   },
-//   {
-//     id: "derv1ws0",
-//     active: 837,
-//     PageTitle: "Privacy Policy",
-//     Url: "Monserrat44@gmail.com",
-//     CreatedAt: "qwerty3",
-//     action: "",
-//   },
-//   {
-//     id: "5kma53ae",
-//     active: 874,
-//     PageTitle: "Policy & Warranty",
-//     Url: "Silas22@gmail.com",
-//     CreatedAt: "qwerty4",
-//     action: "",
-//   },
-//   {
-//     id: "bhqecj4p",
-//     active: 721,
-//     PageTitle: "Refund Policy",
-//     Url: "carmella@hotmail.com",
-//     CreatedAt: "qwerty",
-//     action: "",
-//   },
-//   {
-//     id: "bhqehg4p",
-//     active: 721,
-//     PageTitle: "Refund Policy",
-//     Url: "carmella@hotmail.com",
-//     CreatedAt: "qwerty",
-//     action: "",
-//   },
-//   {
-//     id: "bhquyj4p",
-//     active: 721,
-//     PageTitle: "Refund Policy",
-//     Url: "carmella@hotmail.com",
-//     CreatedAt: "qwerty",
-//     action: "",
-//   },
-// ];
 
 const columns = [
   {
-    id: "select",
+    accessorKey: "id",
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -139,67 +75,79 @@ const columns = [
       <section className="flex">
         <div className="flex justify-center items-center gap-1 lowercase">
           {row.getValue("Url")}
-          <FaRegEye width={20} height={20} />
+          <Link href={`${row.getValue("Url")}`}><FaRegEye width={20} height={20} /></Link>
         </div>
       </section>
     ),
   },
   {
-    accessorKey: "CreatedAt",
-    header: () => <div>Crated At</div>,
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("CreatedAt")}</div>
-    ),
-  },
-  {
     accessorKey: "active",
-    header: () => <div className="text-right">Active</div>,
+    header: () => <div className="text-right">In Sitemap</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("active"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
+      if (row.getValue("active") === "true") {
+        return <div className="text-right font-medium">Yes</div>;
+      }
+      return <div className="text-right font-medium">No</div>;
     },
   },
   {
-    id: "actions",
+    accessorKey: "CreatedAt",
+    header: () => <div className="text-center">Crated At</div>,
+    cell: ({ row }) => (
+      <div className="lowercase text-center">{row.getValue("CreatedAt")}</div>
+    ),
+  },
+  {
+    accessorKey: "action",
     enableHiding: false,
     header: () => <div className="">Actions</div>,
-    cell: () => {
+    cell: ({ row }) => {
+      const pageId = row.getValue("action");
+
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-10 p-0">
-              <AlignJustify />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
-            <DropdownMenuItem>
-              <SquarePen />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div>
+          {row.getValue("action")}
+          <Link href={`${row.getValue("action")}/edit`}><SquarePen /></Link>
+        </div>
       );
     },
   },
 ];
 
-function DataTable({data}) {
+function DataTable() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.form.data);
+  const status = useSelector((state) => state.form.status);
+  const error = useSelector((state) => state.form.error);
 
   const [sorting, setSorting] = React.useState([]); // handle sorting states
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  const [tableData, setTableData] = useState([]);
 
+  useEffect(() => {
+    dispatch(getDataFromBackend());
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    if (status === 'succeeded' && data?.pages?.length > 0) {
+      const PageData = data.pages.map((dta) => ({
+        id: dta.id,
+        active: dta.show_in_root_sitemap,
+        PageTitle: dta.title,
+        Url: dta.url,
+        CreatedAt: dta.created_at,
+        action: dta.id
+      }));
+      setTableData(PageData);
+    }
+  }, [status, data]);
 
   const table = useReactTable({
-    data,
+    data: tableData,
     columns,
     onSortingChange: setSorting, //sorting state function
     getSortedRowModel: getSortedRowModel(),
@@ -225,15 +173,44 @@ function DataTable({data}) {
   //   console.log(table.getRowModel().rows.length);
   //   console.log(table.getFilteredSelectedRowModel());
 
-  // const handleClear = () => {
-  //     setFilterValue("");
-  // }
+  const handleDelete = () => {
+    const selectedIds = table
+      .getFilteredSelectedRowModel()
+      .rows.map((row) => row.original.id);
+
+    if (selectedIds.length === 0) {
+      alert("No rows selected for deletion.");
+      return;
+    }
+
+    if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} pages?`)) {
+      return;
+    }
+
+    console.log("Deleting pages with IDs:", selectedIds);
+
+    dispatch(deletePages(selectedIds))
+      .unwrap()
+      .then(() => {
+        alert("Selected pages deleted successfully!");
+        dispatch(getDataFromBackend());
+        // Optionally, refresh the table data here
+      })
+      .catch((error) => {
+        console.error("Error deleting pages:", error);
+        alert("Failed to delete pages.");
+      });
+  };
+
+
 
   return (
     <div className="w-full mt-5 mb-5 bg-white">
       <div className="flex justify-between items-center p-4 relative">
         <div className="flex justify-center items-center gap-1">
-          <Trash2 />
+          <Trash2
+            onClick={handleDelete}
+          />
           <p>({table.getFilteredSelectedRowModel().rows.length})</p>
         </div>
         <div className="w-[25%] h-98 flex relative">

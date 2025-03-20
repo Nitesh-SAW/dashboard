@@ -26,12 +26,13 @@ export const adddepartment = createAsyncThunk(
 export const updateDepartment = createAsyncThunk(
   "department/updateDepartment",
   async ({ id, department }) => {
+    console.log("debug", id, department)
     const response = await fetch(
       `https://breezend-backend-2.onrender.com/api/job/update-department/${id}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(department),
+        body: JSON.stringify({ department }),
       }
     );
     return response.json();

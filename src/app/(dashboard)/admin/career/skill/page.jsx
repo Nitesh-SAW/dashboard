@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addSkill, updateSkill } from "@/lib/features/skills";
+import toast from 'react-hot-toast'
+
 const page = () => {
   const {
     register,
@@ -24,8 +26,10 @@ const page = () => {
       dispatch(
         updateSkill({ id: selectedSkill.id, skillname: data.skillname })
       );
+      toast.success("Skill Updated Sucessfully")
     } else {
-      dispatch(addSkill({ skillname: data.skillname }))
+      dispatch(addSkill({ skillname: data.skillname }));
+      toast.success("Skill Added Successfully")
     }
     setSelectedSkill(null);
     setValue("skillname", "");

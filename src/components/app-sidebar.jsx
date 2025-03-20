@@ -68,9 +68,9 @@ const data = {
           label: "Pages",
           link: "#",
           additionalItem: [
-            { label: "Pages List", link: "/admin/pagelist" },
-            { label: "Add Page", link: "/admin/addpage" },
-            { label: "Logs", link: "/admin/log" },
+            { label: "Pages List", link: "/admin/pages/pagelist" },
+            { label: "Add Page", link: "/admin/pages/addpage" },
+            { label: "Logs", link: "/admin/pages/log" },
           ],
         },
 
@@ -218,7 +218,7 @@ const data = {
           ],
         },
         { icon: RiQuestionnaireLine, label: "Menu", link: "#" },
-        { icon: MdOutlineApps, label: "FAQ", link: "#" },
+        { icon: MdOutlineApps, label: "FAQ", link: "/admin/faqs" },
         { icon: GrServices, label: "Footer", link: "#" },
       ],
     },

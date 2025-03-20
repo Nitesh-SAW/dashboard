@@ -7,9 +7,9 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import AppSidebar from "@/components/app-sidebar";
 import NavUser from "@/components/nav-user";
 
-const queryClient = new QueryClient();
 
 export default function DashboardLayout({ children }) {
+    const queryClient = new QueryClient();
     return (
         <SidebarProvider>
             <AppSidebar />

@@ -4,7 +4,7 @@ import React from 'react'
 // import moment from 'moment'
 
 const localizer = momentLocalizer(moment)
-const page = () => {
+const Page = () => {
     return (
         <section className='w-full min-h-screen'>
             <header className='w-full h-14 py-3 mt-16 border-b'>
@@ -22,4 +22,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

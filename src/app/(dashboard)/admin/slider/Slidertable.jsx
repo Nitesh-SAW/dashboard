@@ -145,9 +145,9 @@ const Slidertable = () => {
             }
         }
     )
-    console.log(table)
+    // console.log(table)
     return (
-        <section className="w-full mt-20 bg-white">
+        <section className="w-full mt-5 bg-white">
             <div className="flex justify-between items-center p-4 relative">
                 <div className="flex justify-center items-center gap-4">
                     <ImBin size={20} />

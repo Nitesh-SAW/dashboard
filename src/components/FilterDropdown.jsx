@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { filterByName } from '@/lib/features/filterSlice';
 import { BiChevronDown } from 'react-icons/bi';
 import useOutsideClick from './custom hooks/Closedropdown';
-import { fetchComponentsBySlug } from '@/lib/features/filterSlice';
 
 const FilterDropdown = () => {
   const { selectedItems } = useSelector((state) => state.filter);
@@ -28,22 +27,7 @@ const FilterDropdown = () => {
     setSelectedCategory(category);
 
     dispatch(filterByName(category));
-    // if (category === "Home") {
-    //     dispatch(filterByName('Home'));
-    // } else {
-    //     dispatch(filterByName(category));
-    // }
 
-
-    //for sending slug to api 
-
-    if (category === "Home") {
-      dispatch(fetchComponentsBySlug("/"))
-    } else {
-      dispatch(fetchComponentsBySlug(category.toLowerCase()));
-    }
-
-    // Close dropdown after selection
     setIsDropdownOpen(false);
   };
 

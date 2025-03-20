@@ -3,7 +3,7 @@ import Link from "next/link"
 import JobTable from './jobTable'
 import { Plus } from "lucide-react"
 
-const page = () => {
+const Page = () => {
     return (
         <section className='w-full min-h-screen'>
             <header className='w-full h-14 flex justify-between items-center py-3 mt-16 border-b'>
@@ -22,4 +22,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

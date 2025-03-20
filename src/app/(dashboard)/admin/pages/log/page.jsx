@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 
 
-const page = () => {
+const Page = () => {
 
 
   const [inputValue, setInputValue] = useState("");
@@ -112,4 +112,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

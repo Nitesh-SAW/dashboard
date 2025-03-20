@@ -14,36 +14,62 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-const page = () => {
+const Page = () => {
+
+  const dispatch = useDispatch();
+  const { handleSubmit, register, formState: { errors }, control, setValue, watch, reset } = useForm({
+    defaultValues: {
+      options: []
+    },
+  });
+
   const options = [
-    { id: 1, value: "Single line Input" },
-    { id: 2, value: "Multiline Input" },
-    { id: 3, value: "Dropdown options" },
-    { id: 4, value: "Multiple Choice" },
+    { id: 1, value: "SINGLE_LINE" },
+    { id: 2, value: "MULTI_LINE" },
+    { id: 3, value: "DROPDOWN" },
+    { id: 4, value: "MULTIPLE_CHOICE" },
   ];
 
-  const [selectedValue, setSelectedValue] = useState("");
-  const [isoptions, setISOptions] = useState([""]);
-  const [isactive, setIsActive] = useState(false);
+  const selectedValue = watch("questionType")
+  const formOptions = watch("options") ?? [];
 
   const handleSelect = (value) => {
-    setSelectedValue(value);
+    setValue("questionType", value)
   };
   const handleOpen = () => {
-    setISOptions((prevOption) => [...prevOption, ""]);
+    setValue("options", [...formOptions, ""])
   };
 
   const updateOption = (index, value) => {
-    const updatedOptions = [...isoptions];
+    const updatedOptions = [...formOptions];
     updatedOptions[index] = value;
-    setISOptions(updatedOptions);
+    setValue("options", updatedOptions);
   };
 
   const deleteOption = (index) => {
-    const updatedOptions = isoptions.filter((_, i) => i !== index);
-    setISOptions(updatedOptions);
-    setIsActive(true)
+    const updatedOptions = formOptions.filter((_, i) => i !== index);
+    setValue("options", updatedOptions);
   };
+
+  const onSubmit = (data) => {
+    if (!["DROPDOWN", "MULTIPLE_CHOICE"].includes(data.questionType)) {
+      delete data.options
+    }
+
+
+    dispatch(createQuestion(data)).unwrap()
+      .then(() => {
+        toast.success("Question Created Successfully");
+        reset({
+          title: "",
+          questionType: "",
+          options: []
+        });
+      })
+      .catch((error) => {
+        console.error("Error creating question")
+      })
+  }
 
   return (
     <section className="w-full min-h-screen mb-20">
@@ -52,15 +78,16 @@ const page = () => {
           <h2 className="text-2xl">Add Questions</h2>
         </ul>
         <ul className="flex justify-center items-center gap-2">
-          <Link
-            href="/admin/career/questions"
+          <Button
+            type="submit"
+            form="questionForm"
             className="flex justify-center items-center gap-2 rounded bg-black text-white px-4 py-1"
           >
             <Plus />
             <p>Save</p>
-          </Link>
+          </Button>
           <Link
-            href="/admin/career/questions"
+            href="/dashboard/admin/career/questions"
             className="flex justify-center items-center gap-2 rounded bg-black text-white px-4 py-1"
           >
             <ArrowLeft />
@@ -69,62 +96,78 @@ const page = () => {
         </ul>
       </header>
       <main className="w-full flex flex-col gap-4  mt-5">
-        <div className="w-full bg-white flex justify-evenly items-center p-4">
-          <div>
-            <Label>Title</Label>
-            <Input type="text" placeholder="Questions?" />
+        <form id="questionForm" onSubmit={handleSubmit(onSubmit)}>
+          <div className="w-full bg-white flex justify-evenly items-center p-4">
+            <div>
+              <Label>Title</Label>
+              <Input type="text" placeholder="Questions?" {...register("title", { required: true })} />
+            </div>
+            <div className="space-x-2 items-baseline">
+              {/* <Controller
+                name="checked"
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              /> */}
+              <Checkbox />
+              <Label>is required?</Label>
+            </div>
           </div>
-          <div className="space-x-2 items-baseline">
-            <Checkbox />
-            <Label>is required?</Label>
-          </div>
-        </div>
-        <div className="bg-white p-4">
-          <div>
-            <Label>Title</Label>
-            <Select onValueChange={handleSelect} defaultValue={selectedValue}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Question Type" />
-              </SelectTrigger>
-              <SelectContent>
-                {options.map((option) => (
-                  <SelectItem value={option.value} key={option.id}>
-                    {option.value}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {["Dropdown options", "Multiple Choice"].includes(
-              selectedValue
-            ) && (
-                <div>
-                  <span>options</span>
-                  <Button onClick={handleOpen}>Add Options</Button>
-                  {isoptions.map((option, index) => (
-                    <div key={index} className="flex items-center gap-4">
-                      <Input
-                        value={option}
-                        placeholder={`Option ${index + 1}`}
-                        onChange={(e) => updateOption(index, e.target.value)}
-                        className="flex-grow"
-                      />
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => deleteOption(index)}
-                        aria-label="Remove option"
-                      >
-                        <Trash className="h-4 w-4" />
-                      </Button>
+          <div className="bg-white p-4">
+            <div>
+              <Label>QuestionType</Label>
+              <Controller
+                name="questionType"
+                control={control}
+                rules={{ required: "Question type is required" }}
+                render={({ field }) => (
+                  <Select onValueChange={handleSelect} value={field.value}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Question Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {options.map((option) => (
+                        <SelectItem key={option.id} value={option.value}>
+                          {option.value}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {["DROPDOWN", "MULTIPLE_CHOICE"].includes(
+                selectedValue
+              ) && (
+                  <div>
+                    <div className="w-full h-12 flex justify-between items-center">
+                      <span>Options</span>
+                      <Button type="button" onClick={handleOpen}>Add Options</Button>
                     </div>
-                  ))}
-                </div>
-              )}
+                    {formOptions.map((option, index) => (
+                      <div key={index} className="flex items-center gap-4 mt-2">
+                        <Input
+                          value={option}
+                          placeholder={`Option ${index + 1}`}
+                          onChange={(e) => updateOption(index, e.target.value)}
+                          className="flex-grow"
+                        />
+                        <Button type="button" variant="destructive" size="sm" onClick={() => deleteOption(index)}>
+                          <Trash className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+            </div>
           </div>
-        </div>
+        </form>
       </main>
     </section>
   );
 };
 
-export default page;
+export default Page;

@@ -32,7 +32,7 @@ import {
     TableRow
 } from "@/components/ui/table";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -42,197 +42,141 @@ import { Toggle } from "@/components/ui/toggle";
 
 
 
-const data = [
-    {
-        id: "1",
-        Image: 316,
-        Title: "home",
-        Active: "",
-        CreatedAt: "qwerty1",
-        Action: ""
-    },
-    {
-        id: "2",
-        Image: 242,
-        Title: "Trade-in Program",
-        Active: "",
-        CreatedAt: "qwerty2",
-        Action: ""
-    },
-    {
-        id: "3",
-        Image: 837,
-        Title: "Privacy Policy",
-        Active: "",
-        CreatedAt: "qwerty3",
-        Action: ""
-    },
-    {
-        id: "4",
-        Image: 874,
-        Title: "Policy & Warranty",
-        Active: "",
-        CreatedAt: "qwerty4",
-        Action: ""
-    },
-    {
-        id: "5",
-        Image: 721,
-        Title: "Refund Policy",
-        Active: "",
-        CreatedAt: "qwerty",
-        Action: ""
-    },
-    {
-        id: "6",
-        Image: 741,
-        Title: "Refund Policy",
-        Active: "",
-        CreatedAt: "qwerty",
-        Action: ""
-    },
-    {
-        id: "7",
-        Image: 751,
-        Title: "Refund Policy",
-        Active: "",
-        CreatedAt: "qwerty",
-        Action: ""
-    },
-    {
-        id: "8",
-        Image: 761,
-        Title: "Refund Policy",
-        Active: "",
-        CreatedAt: "qwerty",
-        Action: ""
-    },
-    {
-        id: "9",
-        Image: 771,
-        Title: "Refund Policy",
-        Active: "",
-        CreatedAt: "qwerty",
-        Action: ""
-    },
-    {
-        id: "10",
-        Image: 781,
-        Title: "Refund Policy",
-        Active: "",
-        CreatedAt: "qwerty",
-        Action: ""
-    },
-    {
-        id: "11",
-        Image: 781,
-        Title: "Refund Policy",
-        Active: "",
-        CreatedAt: "qwerty",
-        Action: ""
-    },
-    {
-        id: "12",
-        Image: 781,
-        Title: "policy",
-        Active: "",
-        CreatedAt: "qwerty",
-        Action: ""
-    }
-]
+const AlbumTable = () => {
 
+    const [data, setData] = useState([]);
+    // console.log(data);
 
-const columns = [
-    {
-        id: "Select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={value => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        )
-    },
-    {
-        accessorKey: "Image",
-        header: "Image",
-        cell: () => (
-            <div className="capitalize">
-                <img src="#" alt="Image" className="h-8 w-10 object-cover" />
-            </div>
-        )
-    },
-    {
-        accessorKey: "Title",
-        header: "Title",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("Title")}</div>
-        )
-    },
-    {
-        accessorKey: "Active",
-        header: "Active",
-        cell: () => {
-            const [isYes, setIsYes] = useState(true)
-            return (
-                <Toggle
-                    pressed={isYes}
-                    onPressedChange={setIsYes}
-                    className={`!text-white w-5 h-5 ${isYes ? "!bg-green-600" : "!bg-red-400"}`}
-                >
-                    {isYes ? "Yes" : "No"}
-                </Toggle>
+    const columns = [
+        {
+            accessorKey: "id",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={
+                        table.getIsAllPageRowsSelected() ||
+                        (table.getIsSomePageRowsSelected() && "indeterminate")
+                    }
+                    onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
+                    aria-label="Select all"
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={value => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
             )
+        },
+        {
+            accessorKey: "image",
+            header: "Image",
+            cell: (row) => (
+                <div className="capitalize">
+                    <img src={row.getValue("image")} alt="Image" className="h-8 w-10 object-cover" />
+                </div>
+            )
+        },
+        {
+            accessorKey: "title",
+            header: "Title",
+            cell: ({ row }) => {
+                // console.log(row.getValue('title'))
+                return (
+                    < div > {row.getValue("title")}</div >
+                )
+            }
+        },
+        {
+            accessorKey: "link",
+            header: "Link",
+            cell: ({ row }) => {
+                // const [isYes, setIsYes] = useState(true)
+                return (
+                    <div>
+                        <Link href={`${row.getValue('link')}`} target="_blank" rel="noopener noreferrer"><Eye width={20} height={20} /></Link>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: "active",
+            header: "Active",
+            cell: ({ row }) => {
+                const [isActive, setIsActive] = useState(row.getValue("active"));
+                const portfolioId = row.original.id;
+
+
+                const handleToggleActive = async () => {
+                    console.log(portfolioId)
+                    try {
+                        const response = await axios.put(`https://breezend-backend-2.onrender.com/api/portfolio/edit-active`,
+                            {
+                                id: portfolioId,
+                                "active": !isActive
+                            }
+                        );
+                        setIsActive(!isActive);
+                        toast.success(response.data.message);
+                    } catch (error) {
+                        console.error("225", error.response?.data)
+                        toast.error("Failed to update status");
+                    }
+                };
+
+                return (
+                    <button
+                        value={isActive}
+                        onClick={handleToggleActive}
+                        className={`w-10 h-6 rounded-full transition-all ${isActive ? "bg-green-600" : "bg-red-400"
+                            }`}
+                    >
+                        {isActive ? "true" : "false"}
+                    </button>
+                );
+            },
+        },
+        {
+            accessorKey: "created_at",
+            header: "Created at",
+            cell: ({ row }) => (
+                <div className="capitalize">
+                    {row.getValue("created_at")}
+                </div>
+            )
+
+        },
+        {
+            accessorKey: "Action",
+            header: "Action",
+            cell: ({ row }) => {
+                const id = row.original.id
+                return (
+                    <>
+                        {id}
+                        <Link href={`/dashboard/admin/albums/${id}/edit`}><SquarePen /></Link>
+
+                    </>
+                );
+            }
         }
-    },
-    {
-        accessorKey: "CreatedAt",
-        header: "Created at",
-        cell: ({ row }) => (
-            <div className="capitalize">
-                {row.getValue("CreatedAt")}
-            </div>
-        )
 
-    },
-    {
-        accessorKey: "Action",
-        header: "Action",
-        cell: () => (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">
-                        <AlignJustify />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="!min-w-4 absolute -right-2 bg-black pointer-events-none">
-                    <Button className="w-15 h-5 space-x-1">
-                        <SquarePen />
-                        <DropdownMenuSeparator className="text-white" />
-                        <Files />
-                    </Button>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        )
-    }
+    ]
 
-]
+    const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
-
-
-const albumTable = () => {
-
-    const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 })
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('https://breezend-backend-2.onrender.com/api/portfolio/get-all-portfolio');
+                console.log(response.data.message);
+                setData(response.data.allPortfolio)
+            } catch (error) {
+                // console.error("Get Portfolio API Error", error.response.data || "Somethings went wrong");
+            }
+        }
+        fetchData()
+    }, []);
 
     const table = useReactTable({
         data,
@@ -255,17 +199,209 @@ const albumTable = () => {
         table.setPageIndex(pageIndex);
     };
 
+    // Handle delete rows
+    const handleDelete = async (selectedIds) => {
+
+        if (selectedIds.length === 0) {
+            toast.error("No rows are selected for delete");
+            return;
+        };
+        const confirmDelete = async () => {
+            return new Promise((resolve) => {
+                toast(
+                    (t) => (
+                        <div>
+                            <p>Are you sure you want to delete selected portfolios?</p>
+                            <div className="flex gap-2 mt-2">
+                                <button
+                                    onClick={() => {
+                                        toast.dismiss(t.id);
+                                        resolve(true);
+                                    }}
+                                    className="bg-red-500 text-white px-4 py-2 rounded"
+                                >
+                                    Yes
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        toast.dismiss(t.id);
+                                        resolve(false);
+                                    }}
+                                    className="bg-gray-300 px-4 py-2 rounded"
+                                >
+                                    No
+                                </button>
+                            </div>
+                        </div>
+                    ),
+                    { duration: Infinity }
+                );
+            });
+        };
+        const confirmed = await confirmDelete();
+        if (!confirmed) {
+            return;
+        }
+        try {
+            const response = await axios.post(`https://breezend-backend-2.onrender.com/api/portfolio/delete-portfolio`,
+                { id: selectedIds }
+            )
+            console.log("Deleted successfully:", response.data);
+            toast.success("Selected rows deleted successfully!")
+            setData((prevData) => prevData.filter((item) => !selectedIds.includes(item.id)));
+            resetSelection();
+        } catch (error) {
+            console.error("Delete Portfolio API error", error.response.data || "Something wents wrong");
+            toast.error("Failed to delete items.");
+        }
+    }
+
+    //Handle activate rows
+    const handleActive = async (selectedIds, selectedAction) => {
+        if (selectedIds.length === 0) {
+            toast.error("No portfolios are selected")
+            return
+        }
+        const confirmDelete = async () => {
+            return new Promise((resolve) => {
+                toast(
+                    (t) => (
+                        <div>
+                            <p>Are you sure you want to active selected portfolios?</p>
+                            <div className="flex gap-2 mt-2">
+                                <button
+                                    onClick={() => {
+                                        toast.dismiss(t.id);
+                                        resolve(true);
+                                    }}
+                                    className="bg-red-500 text-white px-4 py-2 rounded"
+                                >
+                                    Yes
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        toast.dismiss(t.id);
+                                        resolve(false);
+                                    }}
+                                    className="bg-gray-300 px-4 py-2 rounded"
+                                >
+                                    No
+                                </button>
+                            </div>
+                        </div>
+                    ),
+                    { duration: Infinity }
+                );
+            });
+        };
+        const confirmed = await confirmDelete();
+
+        if (!confirmed) {
+            return;
+        }
+        try {
+
+            const response = await axios.put(`https://breezend-backend-2.onrender.com/api/portfolio/edit-active`,
+                {
+                    id: selectedIds,
+                    "active": true
+                }
+            )
+            console.log("Activated successfully:", response.data.message);
+            toast.success("Selected portfolios activated successfully!");
+            console.log(data)
+            setData(prevData =>
+                prevData.map(item =>
+                    selectedIds.includes(item.id) ? { ...item, active: true } : item
+                )
+            );
+
+            table.resetRowSelection();
+        } catch (error) {
+            toast.error("Failed to Activate items");
+        }
+    }
+
+    //Handle Deactivate portfolios
+    const handleDeactive = async (selectedIds) => {
+        if (selectedIds.length === 0) {
+            toast.error("No portfolio are selected")
+            return
+        }
+        const confirmDelete = async () => {
+            return new Promise((resolve) => {
+                toast(
+                    (t) => (
+                        <div>
+                            <p>Are you sure you want to deactivate selected portfolios?</p>
+                            <div className="flex gap-2 mt-2">
+                                <button
+                                    onClick={() => {
+                                        toast.dismiss(t.id);
+                                        resolve(true);
+                                    }}
+                                    className="bg-red-500 text-white px-4 py-2 rounded"
+                                >
+                                    Yes
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        toast.dismiss(t.id);
+                                        resolve(false);
+                                    }}
+                                    className="bg-gray-300 px-4 py-2 rounded"
+                                >
+                                    No
+                                </button>
+                            </div>
+                        </div>
+                    ),
+                    { duration: Infinity }
+                );
+            });
+        };
+
+        const confirmed = await confirmDelete();
+
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            const response = await axios.put(`https://breezend-backend-2.onrender.com/api/portfolio/edit-active`,
+                {
+                    id: selectedIds,
+                    "active": false
+                }
+            )
+            console.log("Deactivated successfully:", response.data);
+            toast.success("Selected portfolios deactivated successfully!");
+            setData(prevData =>
+                prevData.map(item =>
+                    selectedIds.includes(item.id) ? { ...item, active: false } : item
+                )
+            );
+            table.resetRowSelection();
+        } catch (error) {
+
+            toast.error("Failed to Deactivate Portfolio.");
+        }
+    }
+
     return (
         <>
-            <section className="w-full mt-20 bg-white">
+            <section className="w-full mt-5 bg-white">
 
                 {/* Filter Sorting */}
 
                 <div className="flex justify-between items-center p-4 relative">
                     <div className="flex justify-center items-center gap-4">
-                        <ImBin size={20} />
-                        <ImEye size={20} />
-                        <ImEyeBlocked size={20} />
+                        <ImBin size={20} className="cursor-pointer"
+                            onClick={() => { handleDelete(table.getSelectedRowModel().rows.map(row => row.original.id)) }}
+                        />
+                        <ImEye size={20} onClick={() => { handleActive(table.getSelectedRowModel().rows.map(row => row.original.id)); }} />
+                        <ImEyeBlocked size={20} onClick={() => { handleDeactive(table.getSelectedRowModel().rows.map(row => row.original.id)) }} />
                         <p>({table.getFilteredSelectedRowModel().rows.length})</p>
                     </div>
                     <div className="w-[25%] h-98 flex relative">
@@ -275,9 +411,9 @@ const albumTable = () => {
                         <Input
                             placeholder="Title"
                             className="rounded-none"
-                            value={table.getColumn('Title')?.getFilterValue() ?? ""}
+                            value={table.getColumn('title')?.getFilterValue() ?? ""}
                             onChange={event =>
-                                table.getColumn("Title")?.setFilterValue(event.target.value)
+                                table.getColumn("title")?.setFilterValue(event.target.value)
                             }
                         />
                         <div className="flex justify-center items-center gap-1 absolute right-0">
@@ -296,7 +432,7 @@ const albumTable = () => {
 
                 {/* Table */}
 
-                <div className="overflow-x-auto rounded-lg mt-4">
+                <div className="overflow-x-auto rounded-lg">
                     <Table>
                         <TableHeader>
                             {table.getHeaderGroups().map((headerGroup) => (
@@ -354,7 +490,7 @@ const albumTable = () => {
                                 <SelectValue>{pagination.pageSize}</SelectValue>
                             </SelectTrigger>
                             <SelectContent className="!min-w-[4rem]">
-                                {[5, 10, 15, 20].map((pageSize) => (
+                                {[10, 20, 50, 100].map((pageSize) => (
                                     <SelectItem key={pageSize} value={pageSize} className="!min-w-[4rem]">
                                         {pageSize}
                                     </SelectItem>
@@ -385,4 +521,4 @@ const albumTable = () => {
     )
 }
 
-export default albumTable
+export default AlbumTable

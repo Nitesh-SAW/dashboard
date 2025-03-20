@@ -17,6 +17,7 @@ const SelectedImage = () => {
   const [ismask, setIsMask] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState({});
   const { setValue, getValues, reset } = useFormContext();
+
   const handleForm = (id) => {
     setIsFormVisible((prev) => ({ ...prev, [id]: !prev[id] }));
   };
@@ -28,11 +29,12 @@ const SelectedImage = () => {
 
   const handleDelete = (index, componentName) => {
     dispatch(removeSelectedImage(index));
-    const currentFormData = getValues("component") || {}; // ✅ Form ka current state lo
+
+    const currentFormData = getValues("component") || {}; // Ensure it's an object
 
     if (currentFormData[componentName]) {
       let filteredData = currentFormData[componentName].filter(
-        (item, idx) => idx !== index && Object.keys(item).length !== 0
+        (_, idx) => idx !== index && Object.keys(_).length !== 0
       );
 
       if (filteredData.length === 0) {
@@ -52,7 +54,6 @@ const SelectedImage = () => {
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
-
     if (!destination) return;
 
     dispatch(
@@ -133,10 +134,7 @@ const SelectedImage = () => {
                                 />
                               </li>
 
-                              <li
-                                className="rounded-md p-4 bg-white"
-                                {...provided.dragHandleProps}
-                              >
+                              <li className={`rounded-md p-4 bg-white ${isFormVisible[index] ? "opacity-0" : "opacity-100"}`} {...provided.dragHandleProps} >
                                 <FaArrowsAlt className="h-[20] w-[20] cursor-move" />
                               </li>
 
@@ -164,14 +162,3 @@ const SelectedImage = () => {
 };
 
 export default SelectedImage;
-
-
-
-export const SelectedImagers = () => {
-  return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      Object.key()
-    </DragDropContext>
-  )
-}
-

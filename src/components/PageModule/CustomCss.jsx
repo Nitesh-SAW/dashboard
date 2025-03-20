@@ -4,9 +4,10 @@ import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
-import { Controller, useWatch } from 'react-hook-form'
+import { Controller, useWatch, useFormContext } from 'react-hook-form'
 
-const CustomCss = ({ control, unregister }) => {
+const CustomCss = () => {
+    const { control, unregister } = useFormContext();
     const isMetaTagsOn = useWatch({ control, name: "meta_tags" });
     const islinkscannonicals = useWatch({ control, name: "link_canonicals" });
     const isogtags = useWatch({ control, name: "open_graph" });
@@ -208,7 +209,8 @@ const CustomCss = ({ control, unregister }) => {
                                 name="meta_description"
                                 control={control}
                                 defaultValue=""
-                                render={({ field }) => (<Textarea id="Meta-Description" {...field} />)} />
+                                render={({ field }) => (<Textarea id="Meta-Description" {...field} />)}
+                            />
 
                         </div>
                     </div>
@@ -265,11 +267,28 @@ const CustomCss = ({ control, unregister }) => {
                         </div>
                         <div>
                             <Label htmlFor="picture">Image</Label>
+                            {/* <Controller
+                                name='og_picture'
+                                control={control}
+                                render={({ field }) =>
+                                (<Input
+                                    type="file"
+                                    accept="image/*"
+                                    id="picture"
+                                    onChange={(e) => field.onChange(e.target.files)}
+                                />)}
+                            /> */}
                             <Controller
                                 name='og_picture'
                                 control={control}
-                                defaultValue=""
-                                render={({ field }) => (<Input type="file" id="picture" onChange={(e) => field.onChange(e.target.files)} />)}
+                                render={({ field: { onChange, value, ...field } }) => (
+                                    <Input
+                                        type="file"
+                                        accept="image/*"
+                                        id="picture"
+                                        onChange={(e) => onChange(e.target.files)} // Handle file selection
+                                    />
+                                )}
                             />
 
                             <Label htmlFor="description">Description</Label>
